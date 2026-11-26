@@ -1,0 +1,488 @@
+{
+  "version": 84,
+  "sample_rate": 32000,
+  "environment": "Original v9 procedural wind, canopy, surf and birds restored in sound.js. No v10 weather recordings.",
+  "references": {
+    "02. Desulfosarcina.mp3": "Processed excerpts: bass-dense spectral motion, especially bog and farm.",
+    "04. Monteyoung_v2.mp3": "Processed excerpts: close beating partials, especially both lakes.",
+    "01. Doom.mp3": "Processed excerpts: low 32.7-Hz fundamental and unstable overtones in factory.",
+    "03 - Beware The Friendly Stranger.mp3": "Timbre and spacing reference only. Original new melody and synthesis; no audio sampled."
+  },
+  "assets": {
+    "bog-resonance": {
+      "file": "bog-resonance.ogg",
+      "export_name": "04_Moorsee_Desulfosarcina",
+      "duration": 126.0,
+      "rms_db": -19.91,
+      "peak_db": -5.91,
+      "boundary_delta": 0.009907,
+      "source_edits": [
+        {
+          "source": "16-02.-Desulfosarcina.mp3",
+          "start_seconds": 360,
+          "end_seconds": 498,
+          "playback_rate": 1,
+          "band_hz": [
+            30,
+            1250
+          ]
+        },
+        {
+          "source": "17-04.-Monteyoung_v2.mp3",
+          "start_seconds": 225,
+          "end_seconds": 353.34,
+          "playback_rate": 0.93,
+          "band_hz": [
+            95,
+            2100
+          ]
+        }
+      ],
+      "processing": "Desulfosarcina foreground; slowed Monteyoung haze; long non-melodic swells, no pulse. 12-second overlap loop.",
+      "sha256": "414f64303ae1fd29f2bb0a0f95e8e2e890b8d2d5a36e985469e2be8cebd895c4"
+    },
+    "fen-memory": {
+      "file": "fen-memory.ogg",
+      "export_name": "05_Fensee_Monteyoung",
+      "duration": 120.0,
+      "rms_db": -19.84,
+      "peak_db": -6.68,
+      "boundary_delta": 0.004243,
+      "source_edits": [
+        {
+          "source": "17-04.-Monteyoung_v2.mp3",
+          "start_seconds": 430,
+          "end_seconds": 562,
+          "playback_rate": 1,
+          "band_hz": [
+            80,
+            2600
+          ]
+        },
+        {
+          "source": "16-02.-Desulfosarcina.mp3",
+          "start_seconds": 650,
+          "end_seconds": 776.72,
+          "playback_rate": 0.96,
+          "band_hz": [
+            35,
+            670
+          ]
+        }
+      ],
+      "processing": "Monteyoung foreground; middle-register beating over a distant Desulfosarcina floor; no melody. 12-second overlap loop.",
+      "sha256": "b425767f25d2fe29a21ad4c324a12070ef39e5d56afea64b57cf504968466daf"
+    },
+    "factory-residue": {
+      "file": "factory-residue.ogg",
+      "export_name": "02_Fabrik_Beschaedigtes_Gedaechtnis",
+      "duration": 120.0,
+      "rms_db": -19.83,
+      "peak_db": -7.27,
+      "boundary_delta": 0.002764,
+      "source_edits": [
+        {
+          "source": "18-01.-Doom.mp3",
+          "start_seconds": 68,
+          "end_seconds": 192.08,
+          "playback_rate": 0.94,
+          "band_hz": [
+            28,
+            1800
+          ]
+        },
+        {
+          "source": "14-Chia-vinyl-crackle-sample.mp3",
+          "start_seconds": 160,
+          "end_seconds": 292,
+          "playback_rate": 1,
+          "band_hz": [
+            420,
+            2800
+          ]
+        }
+      ],
+      "processing": "Slowed Doom, restrained saturation, original damaged toy-voice fragments, gated stutters and soft dropouts. 12-second overlap loop.",
+      "sha256": "c4483ee0e3b6f0ba0e49313a1bd0037b151074213bc1645694e9d9e7fe5fbde3"
+    },
+    "factory-fracture": {
+      "file": "factory-fracture.ogg",
+      "export_name": "03_Fabrik_Tiefer_Testgang",
+      "duration": 96.0,
+      "rms_db": -19.78,
+      "peak_db": -8.65,
+      "boundary_delta": 0.010187,
+      "source_edits": [
+        {
+          "source": "18-01.-Doom.mp3",
+          "start_seconds": 120,
+          "end_seconds": 206.4,
+          "playback_rate": 0.8,
+          "band_hz": [
+            28,
+            2400
+          ]
+        },
+        {
+          "source": "11-shortwave060124veryweird.mp3",
+          "start_seconds": 225,
+          "end_seconds": 333,
+          "playback_rate": 1,
+          "band_hz": [
+            450,
+            3100
+          ]
+        }
+      ],
+      "processing": "Slower Doom and broken receiver grains; depth layer replaces part of the base within the fixed factory gain budget. 12-second overlap loop.",
+      "sha256": "43eec775f7d2cef218dfa89c6309256bbe4b2b6afd56c19de2038eed6890716d"
+    },
+    "tower-carrier": {
+      "file": "tower-carrier.ogg",
+      "export_name": "01_Funkturm_Zahlensender",
+      "duration": 108.0,
+      "rms_db": -20.73,
+      "peak_db": -4.17,
+      "boundary_delta": 0.007789,
+      "source_edits": [
+        {
+          "source": "11-shortwave060124veryweird.mp3",
+          "start_seconds": 190,
+          "end_seconds": 310,
+          "playback_rate": 1,
+          "band_hz": [
+            440,
+            2900
+          ]
+        },
+        {
+          "source": "12-SampleSWR2812.mp3",
+          "start_seconds": 985,
+          "end_seconds": 1105,
+          "playback_rate": 1,
+          "band_hz": [
+            240,
+            2300
+          ]
+        },
+        {
+          "source": "Generic FFmpeg/libflite slt synthetic voice",
+          "text": "62094 / 62094 / 17308",
+          "processing": "Separate digits; 1.12x duration; 460–2200 Hz; fictional sequence, no impersonation."
+        }
+      ],
+      "processing": "Repeated five-digit groups, band-limited speech, shortwave fades, carrier and soft transmitter keying. 12-second overlap loop.",
+      "sha256": "1d5d665de91c09945d811bb33c055afbc911f79ea7848ca6bd35e529dc544b61"
+    },
+    "radio-air": {
+      "file": "radio-air.ogg",
+      "export_name": "08_Funkturm_Empfaengerbett",
+      "duration": 73.0,
+      "rms_db": -20.01,
+      "peak_db": -4.2,
+      "boundary_delta": 0.001617,
+      "source_edits": [
+        {
+          "source": "11-shortwave060124veryweird.mp3",
+          "start_seconds": 265,
+          "end_seconds": 350,
+          "playback_rate": 1,
+          "band_hz": [
+            400,
+            2700
+          ]
+        },
+        {
+          "source": "12-SampleSWR2812.mp3",
+          "start_seconds": 1570,
+          "end_seconds": 1655,
+          "playback_rate": 1,
+          "band_hz": [
+            250,
+            2000
+          ]
+        }
+      ],
+      "processing": "Receiver-only tower bed, faded with distance and routed through MUSIC. 12-second overlap loop.",
+      "sha256": "7630bea2440635e57bb0fed21977f52d4eb4cb0fee15491304a871bdab067a5d"
+    },
+    "farm-residue": {
+      "file": "farm-residue.ogg",
+      "export_name": "06_Mastanlage_Leere_Staelle",
+      "duration": 108.0,
+      "rms_db": -19.84,
+      "peak_db": -7.14,
+      "boundary_delta": 0.006246,
+      "source_edits": [
+        {
+          "source": "16-02.-Desulfosarcina.mp3",
+          "start_seconds": 115,
+          "end_seconds": 235,
+          "playback_rate": 1,
+          "band_hz": [
+            42,
+            1700
+          ]
+        },
+        {
+          "source": "14-Chia-vinyl-crackle-sample.mp3",
+          "start_seconds": 270,
+          "end_seconds": 390,
+          "playback_rate": 1,
+          "band_hz": [
+            400,
+            2100
+          ]
+        }
+      ],
+      "processing": "Hollow Desulfosarcina resonance, sparse original tape remnants, quiet metal beating and vinyl grain. 12-second overlap loop.",
+      "sha256": "f2398e1902a452e64edcdd5b8ebb55632b632ff5f708d438f16ec7dd098076e5"
+    },
+    "shore-memory": {
+      "file": "shore-memory.ogg",
+      "export_name": "07_Strandtor_Verlorenes_Signal",
+      "duration": 90.0,
+      "rms_db": -19.82,
+      "peak_db": -7.48,
+      "boundary_delta": 0.030348,
+      "source_edits": [
+        {
+          "source": "17-04.-Monteyoung_v2.mp3",
+          "start_seconds": 70,
+          "end_seconds": 157.72,
+          "playback_rate": 0.86,
+          "band_hz": [
+            130,
+            1900
+          ]
+        },
+        {
+          "source": "14-Chia-vinyl-crackle-sample.mp3",
+          "start_seconds": 120,
+          "end_seconds": 222,
+          "playback_rate": 1,
+          "band_hz": [
+            480,
+            2200
+          ]
+        }
+      ],
+      "processing": "Distant slowed Monteyoung, sparse original tape figure and backwards tails; confined to the shore doorway. 12-second overlap loop.",
+      "sha256": "4850cef7e5816442de69496bd089dd35e1c5755188dd0761c184e57df8705912"
+    },
+    "main-theme": {
+      "file": "main-theme.ogg",
+      "duration": 156,
+      "source": "Unreal_Nova_2000_Main_Theme_v1_GAME.ogg",
+      "processing": "Approved file copied byte-for-byte. Menu and intermittent daytime exploration sequence.",
+      "sha256": "2e5f9bd832b1827def93bc4e72c8a388737b3e81810137d749551680c500041b"
+    },
+    "backroom-shortwave": {
+      "file": "backroom-shortwave.ogg",
+      "duration": 368.66041666666666,
+      "sample_rate": 24000,
+      "channels": 1,
+      "rms_db": -19.16,
+      "peak_db": -3.87,
+      "boundary_delta": 0.00024765392299741507,
+      "sha256": "8567f88bfff3d6ba03fb75866216e85c17a175f9263c760b76d9964b0b8480dd",
+      "source_edits": [
+        {
+          "source": "shortwave060124veryweird(1).mp3",
+          "start_seconds": 0,
+          "end_seconds": 380.66041666666666,
+          "playback_rate": 1,
+          "band_hz": [
+            85,
+            5700
+          ]
+        }
+      ],
+      "recording_relative_to_static_db": -15.48,
+      "processing": "v20: radio static in the foreground; original-speed shortwave recording, including voices and glitches, about 15 dB behind static. Twelve-second overlap and 8 ms de-click; overall RMS close to the previous loop.",
+      "source_sha256": "8b932d4cdc7714fa00d080dc7151a3be3e2817933b36fb551ba1888ba94bc956"
+    },
+    "entity-static": {
+      "file": "entity-static.ogg",
+      "duration": 64.0,
+      "sample_rate": 24000,
+      "channels": 1,
+      "rms_db": -19.14,
+      "peak_db": -4.64,
+      "boundary_delta": 0.00010498772462597117,
+      "sha256": "c5bf47b030b2a1361a4131fa73edd55843b499c3fd066dc6953532bc79a83637",
+      "source": "Original seeded noise synthesis; no speech or broadcast recordings.",
+      "processing": "64-second receiver static loop, 260–5600 Hz, restrained flutter and small crackles. Twelve-second overlap and 8 ms de-click. Gameplay gain is gated by entity glitches and rises as distance falls."
+    },
+    "apartment-station": {
+      "file": "apartment-station.ogg",
+      "duration": 128.0,
+      "sample_rate": 24000,
+      "channels": 1,
+      "rms_db": -19.98,
+      "peak_db": -2.63,
+      "boundary_delta": 2.578533167252317e-05,
+      "sha256": "512d8c878ea25f01ba47df796ca77bd9a41954acc6d003b3a289598c2cdbd804",
+      "source": "Original synthesized 24-note music-box waltz and shortwave noise; generic FFmpeg/libflite slt digits. No sampled broadcast or existing composition.",
+      "number_groups": [
+        [
+          24,
+          "73916"
+        ],
+        [
+          32,
+          "73916"
+        ],
+        [
+          40,
+          "02845"
+        ],
+        [
+          48,
+          "02845"
+        ],
+        [
+          81,
+          "50372"
+        ],
+        [
+          89,
+          "50372"
+        ],
+        [
+          97,
+          "81609"
+        ],
+        [
+          105,
+          "81609"
+        ]
+      ],
+      "playback": "Shared fictional station; on-device switch, distance and walls/floors attenuate; stereo positioning at runtime; WORLD control."
+    },
+    "apartment-4625": {
+      "file": "apartment-4625.ogg",
+      "duration": 115.9,
+      "source": "03_4625.mp3",
+      "processing": "Complete supplied recording; loudnorm I=-19 LUFS, TP=-1.5 dB, LRA=11; 44.1 kHz Vorbis q5. Starts from the beginning and loops.",
+      "sha256": "0b9113543f98838677603b7ea570812be23b4c3c98defa49ce1a03bd16cad09a"
+    },
+    "apartment-catatonia": {
+      "file": "apartment-catatonia.ogg",
+      "duration": 297.6,
+      "source": "08_Catatonia.mp3",
+      "processing": "Complete supplied recording; loudnorm I=-19 LUFS, TP=-1.5 dB, LRA=11; 44.1 kHz Vorbis q5. Starts from the beginning and loops.",
+      "sha256": "a4b424800728df80aa0c8805479189ca97ceb1e51d5d29adbe0e9939ce00185b"
+    },
+    "backroom-ocean": {
+      "file": "backroom-ocean.ogg",
+      "duration": 525.26102,
+      "source": "08. Ocean filled with liqid metal.mp3",
+      "sha256": "db1b5b2d597ae7ad4b37a6a7ac4020ab51e5241d49179da01dea5305b41e02c0",
+      "processing": "Existing approved OGG retained byte-for-byte.",
+      "playback": "Alternating backroom playlist: Ocean, Marmolata, repeat; existing independent static continues."
+    },
+    "backroom-marmolata": {
+      "file": "backroom-marmolata.ogg",
+      "duration": 308.715102,
+      "source": "09_Marmolata(5).mp3",
+      "sha256": "3c2dcbaf31093ed59d6a0b8019f1dc8da2560ec0172059a648f4fb6c49f57898",
+      "processing": "Complete supplied recording at original speed; 44.1 kHz Vorbis q5. No excerpts, gain change or time stretching.",
+      "playback": "Alternating backroom playlist: Ocean, Marmolata, repeat; existing independent static continues.",
+      "source_sha256": "f9fd5b3e8b346629df405fa71d311832365fa1266570df89a9f50f1630afc124"
+    },
+    "forest-melting-point": {
+      "file": "forest-melting-point.ogg",
+      "duration": 180.0,
+      "sample_rate": 44100,
+      "channels": 2,
+      "source": "05. Melting point.mp3",
+      "source_sha256": "c33fb8bc41dceae4769b1a45f4129da6b63f16f2c796635c528a85f40a0e2cd3",
+      "sha256": "31edce39e3990464d6c28f0befac4430395dfde39b42202ecd1c3abef827ddb5",
+      "rms_db": -16.5,
+      "peak_db": -1.6,
+      "processing": "First 180 seconds of supplied recording at original speed; Ogg Vorbis quality 5; final 6 seconds fade out. Runtime MUSIC gain 0.195 (25% lower than v58), fade-in time constant 12 seconds (95% after about 36 seconds). Title -> 180 seconds -> Melting Point -> 300 seconds -> title. No looping."
+    },
+    "radio-ste-005": {
+      "file": "radio-ste-005.ogg",
+      "duration": 212.97632653061225,
+      "sample_rate": 44100,
+      "channels": 2,
+      "rms_db": -24.3,
+      "peak_db": -4.42,
+      "boundary_delta": 3.181608865254759e-10,
+      "sha256": "3be1e2bee5d9bd6332bdcc6871f267b61a63745bad3c035fb6f3208cec47104c",
+      "source": "User-supplied recording: STE-005.mp3",
+      "source_sha256": "1fd825b3abf8efaf84858660ddfdc4184983bdfa06503b18989a315175dcbff8",
+      "source_duration": 212.97632653061225,
+      "gain_db": -2.015,
+      "edge_fade_seconds": 0.016,
+      "playback": "Full recording; streamed stereo loop; frequency-only receiver; distance and pan on WORLD bus."
+    },
+    "radio-ste-006": {
+      "file": "radio-ste-006.ogg",
+      "duration": 530.2073469387755,
+      "sample_rate": 44100,
+      "channels": 2,
+      "rms_db": -25.73,
+      "peak_db": -3.31,
+      "boundary_delta": 3.9233402637783854e-10,
+      "sha256": "316fc31cdbb80ec2f4b6d987023ea28cfd1801bd46738d55a3c15ec3561b29b7",
+      "source": "User-supplied recording: STE-006.mp3",
+      "source_sha256": "ed751874d030f49784b00eef8501d99ff09fca2a1ff452d57b1ca9522a5e6abe",
+      "source_duration": 530.2073469387755,
+      "gain_db": 1.434,
+      "edge_fade_seconds": 0.016,
+      "playback": "Full recording; streamed stereo loop; frequency-only receiver; distance and pan on WORLD bus."
+    },
+    "radio-ste-007": {
+      "file": "radio-ste-007.ogg",
+      "duration": 354.74285714285713,
+      "sample_rate": 44100,
+      "channels": 2,
+      "rms_db": -31.69,
+      "peak_db": -2.64,
+      "boundary_delta": 5.3572507541232994e-11,
+      "sha256": "ef2f74dc2924271a247639e0e19b5124600a6166877ed873a28c366c27329095",
+      "source": "User-supplied recording: STE-007.mp3",
+      "source_sha256": "21ae8f504cc95a190773cda9540db4a267324dd4d0415a3b32c4a0ce11cf7be3",
+      "source_duration": 354.74285714285713,
+      "gain_db": -0.63,
+      "edge_fade_seconds": 0.016,
+      "playback": "Full recording; streamed stereo loop; frequency-only receiver; distance and pan on WORLD bus."
+    },
+    "radio-ste-008": {
+      "file": "radio-ste-008.ogg",
+      "duration": 173.92326530612246,
+      "sample_rate": 44100,
+      "channels": 2,
+      "rms_db": -29.37,
+      "peak_db": -3.75,
+      "boundary_delta": 0.0019920524209737778,
+      "sha256": "feb186a9b5b07c79c13da1a6eca7172a1d734acf870f14df04e48f43e2faae19",
+      "source": "User-supplied recording: STE-008(1).mp3",
+      "source_sha256": "f51c6a408bbf2c9a72ae43b8a76e69e74edaf0cdf02df8523ca90084c8ac6b35",
+      "source_duration": 173.92326530612246,
+      "gain_db": 8.327,
+      "edge_fade_seconds": 0.016,
+      "playback": "Full recording; streamed stereo loop; frequency-only receiver; distance and pan on WORLD bus."
+    },
+    "paikeselinn_theme": {
+      "file": "paikeselinn_theme.ogg",
+      "source": "paikeselinn_theme.ogg (user supplied)",
+      "duration": 226.018367,
+      "sample_rate": 44100,
+      "channels": 2,
+      "processing": "Original supplied Ogg Vorbis file, unchanged. Streamed looping Sunny Town soundtrack on MUSIC.",
+      "sha256": "a96240d6ac2dee5e0809cccc327dad43fe0ca9ba530da87f6bb632aebc3606ff"
+    }
+  },
+  "source_sha256": {
+    "16-02.-Desulfosarcina.mp3": "489f57411525480fd0de4c7147a94ee4812fcd6ab8315752bec85cd14337aa99",
+    "17-04.-Monteyoung_v2.mp3": "1c62cc8dcded1eb6b24dcac1489d1cdee5dcfcb7ba7fb401ebb6a7ec4683ac51",
+    "18-01.-Doom.mp3": "94124eed8c8f9234177d937b6e75afab236d0138e885c9b49f4b06177d852301",
+    "11-shortwave060124veryweird.mp3": "8b932d4cdc7714fa00d080dc7151a3be3e2817933b36fb551ba1888ba94bc956",
+    "12-SampleSWR2812.mp3": "edeea14ce272e406610dada8a6b1517b584d78ea64021f42642faf50e2d4474d",
+    "14-Chia-vinyl-crackle-sample.mp3": "9fa9a33847323aea53b3b687ac2877382603858cb688cf57b51e0ccae92feba6"
+  }
+}
