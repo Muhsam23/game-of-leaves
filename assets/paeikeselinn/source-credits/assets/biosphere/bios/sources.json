@@ -1,0 +1,92 @@
+{
+  "source_page": "https://publish.obsidian.md/disruptively-useful/The+Heat+Strikes/Civil+Resistance/Case+Studies/BIOS-3",
+  "sky_image": "No sky or landscape image appears among the four image embeds on the linked page.",
+  "images": [
+    {
+      "file": "obsidian-bios-shell.png",
+      "url": "https://publish-01.obsidian.md/access/611c761eeb2564191cfd0399244a825b/Archive/Media%20Library/Photos/Pasted%20image%2020241018182442.png",
+      "bytes": 19740177,
+      "dimensions": [
+        4608,
+        3072
+      ],
+      "description": "High resolution cylindrical grow chamber photographed through a round black bolted hatch; reflective walls, overhead lighting, green plants and central walkway. Embedded first by user source; its provenance as actual historical BIOS-3 is not independently established.",
+      "local_path": "/workspace/scratch/f2ce880d8886/bios_reference/obsidian-bios-shell.png"
+    },
+    {
+      "file": "obsidian-git2.png",
+      "url": "https://publish-01.obsidian.md/access/611c761eeb2564191cfd0399244a825b/Archive/Media%20Library/Photos/git2.png",
+      "bytes": 650045,
+      "dimensions": [
+        502,
+        520
+      ],
+      "description": "Cutaway physical scale model of BIOS-3 with four rectangular compartments, planted beds, numbered arrows and dark outer panels.",
+      "local_path": "/workspace/scratch/f2ce880d8886/bios_reference/obsidian-git2.png"
+    },
+    {
+      "file": "obsidian-bios-collect.jpg",
+      "url": "https://publish-01.obsidian.md/access/611c761eeb2564191cfd0399244a825b/Archive/Media%20Library/Photos/bios%20collect%202.jpg",
+      "bytes": 107229,
+      "dimensions": [
+        720,
+        575
+      ],
+      "description": "Black and white historical photograph of two people speaking through a large round bolted hatch; rectangular metal exterior panels, pipe and handrail.",
+      "local_path": "/workspace/scratch/f2ce880d8886/bios_reference/obsidian-bios-collect.jpg"
+    },
+    {
+      "file": "obsidian-bios3.jpg",
+      "url": "https://publish-01.obsidian.md/access/611c761eeb2564191cfd0399244a825b/Archive/Media%20Library/Photos/Bios3.jpg",
+      "bytes": 56587,
+      "dimensions": [
+        300,
+        387
+      ],
+      "description": "Phytotron growing room: crop rows, metal trellis grid, white ceiling, hanging lamp columns.",
+      "local_path": "/workspace/scratch/f2ce880d8886/bios_reference/obsidian-bios3.jpg"
+    },
+    {
+      "file": "bios31.jpg",
+      "url": "https://www.ibp.ru/science/img/bios31.jpg",
+      "dimensions": [
+        300,
+        228
+      ],
+      "description": "Official Institute of Biophysics photo: planted wheat phytotron with researcher, reflective metal walls, white ceiling and upright pipes.",
+      "local_path": "/workspace/scratch/f2ce880d8886/bios_reference/bios31.jpg"
+    },
+    {
+      "file": "bios33.jpg",
+      "url": "https://www.ibp.ru/science/img/bios33.jpg",
+      "dimensions": [
+        300,
+        262
+      ],
+      "description": "Official Institute of Biophysics photo: rectangular BIOS-3 scale model with dark red panels, circular portholes and overhead service piping.",
+      "local_path": "/workspace/scratch/f2ce880d8886/bios_reference/bios33.jpg"
+    },
+    {
+      "file": "ksc-04.jpg",
+      "url": "https://ksc.krasn.ru/upload/iblock/829/829df849e51b6e90498180f7719aa29f.JPG",
+      "bytes": 269854,
+      "dimensions": [
+        1024,
+        682
+      ],
+      "description": "Metal vacuum/physics laboratory apparatus with analogue control cabinets. Article covers multiple labs: do NOT describe this image as BIOS-3.",
+      "local_path": "/workspace/scratch/f2ce880d8886/bios_reference/ksc-04.jpg"
+    },
+    {
+      "file": "ksc-06.jpg",
+      "url": "https://ksc.krasn.ru/upload/iblock/88f/88f6e6ba24f67c399e13deb0f37115f9.JPG",
+      "bytes": 243958,
+      "dimensions": [
+        1024,
+        682
+      ],
+      "description": "2019 visitor group inside BIOS-3; stainless steel wall cabinets, brown rectangular wall framing, large round porthole door, control equipment partly visible.",
+      "local_path": "/workspace/scratch/f2ce880d8886/bios_reference/ksc-06.jpg"
+    }
+  ]
+}

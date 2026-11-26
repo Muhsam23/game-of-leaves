@@ -1,0 +1,5 @@
+Models and textures imported unchanged from the aged Pfeifen_Test_Offline.html (2026-10-03).
+Pipe: https://odnajdy.ru/product/trubka-kuritelnaya-retro-57568/
+Sputnik match label: Jane McDevitt / maraid, https://www.flickr.com/photos/maraid/1732024293
+Reyd tin: RUCIG.RU / Pavel Kiselev, https://rucig.ru/metal
+Surface wear is geometry/vertex colour. Game floor copies are statically batched with hidden interiors omitted.

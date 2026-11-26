@@ -1,0 +1,158 @@
+{
+  "atlas": "historical_suprematist_atlas_1024.png",
+  "atlas_size": [
+    1024,
+    1024
+  ],
+  "quadrant_size": [
+    512,
+    512
+  ],
+  "works": [
+    {
+      "id": "chashnik-red-stripe",
+      "title": "Composition with a Red Stripe",
+      "original_title": "Композиция с красной полосой",
+      "creator": "Ilya Chashnik",
+      "year": "1923–1924",
+      "medium": "Ink and gouache on paper",
+      "filename": "chashnik_red_stripe_1923-1924.png",
+      "capture": "chashnik_red_stripe_preview.jpg",
+      "crop": [
+        264,
+        227,
+        861,
+        827
+      ],
+      "quadrant": "top-left",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Композиция_с_красной_полосой.jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/68/Композиция_с_красной_полосой.jpg",
+      "source_citation": "Rakitin, V. Ilya Chashnik: Artist of a New Era. Moscow, 2000.",
+      "license": "Public domain: PD-Art (PD-old-auto-expired), Public Domain Mark 1.0",
+      "license_basis": "Commons identifies the underlying work and its faithful reproduction as public domain; artist died in 1929 and US publication is before 1931.",
+      "pixel_size": [
+        597,
+        600
+      ],
+      "license_url": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "verified_on": "2026-09-22",
+      "retrieval_method": "Faithful crop of displayed Wikimedia Commons artwork preview captured with browser screenshot; original-file download failed. Webpage furniture excluded. No AI generation, retouching, recoloring, or content synthesis.",
+      "atlas_processing": "Uniform resize preserving aspect ratio, centered in 512×512 quadrant on muted paper-colored padding.",
+      "atlas_image_bounds": [
+        1,
+        0,
+        510,
+        512
+      ],
+      "sha256": "1d0ae14ed4d60464538e930bc2ee384606556f7f23955ef93a5d09c4fe9fd31d"
+    },
+    {
+      "id": "chashnik-composition",
+      "title": "Composition",
+      "original_title": "Композиция",
+      "creator": "Ilya Chashnik",
+      "year": "1925–1926",
+      "medium": "Ink on paper",
+      "filename": "chashnik_composition_1925-1926.png",
+      "capture": "chashnik_composition_preview.jpg",
+      "crop": [
+        264,
+        227,
+        841,
+        826
+      ],
+      "quadrant": "top-right",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Чашник_Композиция.jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/9e/Чашник_Композиция.jpg",
+      "source_citation": "Rakitin, V. Ilya Chashnik: Artist of a New Era. Moscow, 2000.",
+      "license": "Public domain: PD-Art (PD-old-auto-expired), Public Domain Mark 1.0",
+      "license_basis": "Commons identifies the underlying work and its faithful reproduction as public domain; artist died in 1929 and US publication is before 1931.",
+      "pixel_size": [
+        577,
+        599
+      ],
+      "license_url": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "verified_on": "2026-09-22",
+      "retrieval_method": "Faithful crop of displayed Wikimedia Commons artwork preview captured with browser screenshot; original-file download failed. Webpage furniture excluded. No AI generation, retouching, recoloring, or content synthesis.",
+      "atlas_processing": "Uniform resize preserving aspect ratio, centered in 512×512 quadrant on muted paper-colored padding.",
+      "atlas_image_bounds": [
+        521,
+        0,
+        1014,
+        512
+      ],
+      "sha256": "d591a95236527f370743fc52d623fc407c0f980ae9cba901ef506cbc97945cd0"
+    },
+    {
+      "id": "rozanova-tretyakov",
+      "title": "Suprematism",
+      "original_title": "Супрематизм",
+      "creator": "Olga Rozanova",
+      "year": "1916",
+      "medium": "Oil on canvas",
+      "collection": "Tretyakov Gallery, accession 10964",
+      "filename": "rozanova_suprematism_1916_tretyakov.png",
+      "capture": "rozanova_painting_preview.jpg",
+      "crop": null,
+      "quadrant": "bottom-left",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Suprematism_(Rozanova,_1916)_1.jpeg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/b/bd/Suprematism_%28Rozanova%2C_1916%29_1.jpeg",
+      "source_citation": "Encyclopedia of the Russian Avant-Garde, volume II. Moscow, 2013. ISBN 978-5-902801-11-5.",
+      "license": "Public domain: PD-Art (PD-old-100-expired), Public Domain Mark 1.0",
+      "license_basis": "Commons identifies the underlying work as public domain in life-plus-100 jurisdictions and in the US from early publication; the faithful reproduction is also marked public domain.",
+      "pixel_size": [
+        571,
+        600
+      ],
+      "license_url": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "verified_on": "2026-09-22",
+      "retrieval_method": "Faithful crop of displayed Wikimedia Commons artwork preview captured with browser screenshot; original-file download failed. Webpage furniture excluded. No AI generation, retouching, recoloring, or content synthesis.",
+      "atlas_processing": "Uniform resize preserving aspect ratio, centered in 512×512 quadrant on muted paper-colored padding.",
+      "atlas_image_bounds": [
+        12,
+        512,
+        499,
+        1024
+      ],
+      "sha256": "9d68b6951fe3b329eddb73d44f7e7e50ed0e156e0d2f808bb3ac5a24dd73cd2e"
+    },
+    {
+      "id": "rozanova-kostroma",
+      "title": "Suprematism",
+      "original_title": "Супрематизм",
+      "creator": "Olga Rozanova",
+      "year": "1916",
+      "medium": "Oil on canvas",
+      "collection": "Kostroma Historical and Architectural Museum-Reserve, accession НВД-13",
+      "filename": "rozanova_suprematism_1916_kostroma.png",
+      "capture": "rozanova_kostroma_source_page.jpg",
+      "crop": [
+        264,
+        227,
+        726,
+        826
+      ],
+      "quadrant": "bottom-right",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Suprematism_(Rozanova,_1916_(KM)).jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/24/Suprematism_%28Rozanova%2C_1916_%28KM%29%29.jpg",
+      "source_citation": "Commons source photograph: http://petroart.ru/art/r/rozanova/img/12.jpg",
+      "license": "Public domain: PD-Art (PD-old-100-expired), Public Domain Mark 1.0",
+      "license_basis": "Commons identifies the underlying work as public domain in life-plus-100 jurisdictions and in the US from early publication; the faithful reproduction is also marked public domain.",
+      "pixel_size": [
+        462,
+        599
+      ],
+      "license_url": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "verified_on": "2026-09-22",
+      "retrieval_method": "Faithful crop of displayed Wikimedia Commons artwork preview captured with browser screenshot; original-file download failed. Webpage furniture excluded. No AI generation, retouching, recoloring, or content synthesis.",
+      "atlas_processing": "Uniform resize preserving aspect ratio, centered in 512×512 quadrant on muted paper-colored padding.",
+      "atlas_image_bounds": [
+        570,
+        512,
+        965,
+        1024
+      ],
+      "sha256": "5ac760f7cef3008dfb6d81b00e28d30ec6e649da3c25657012519e44637ff7c2"
+    }
+  ]
+}

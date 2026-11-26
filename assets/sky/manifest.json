@@ -1,0 +1,31 @@
+{
+  "source": "assets/sky-source/rannamets-cumulus-360-source.png",
+  "source_sha256": "b56aabb2c5343c9ae9bed708d49e121486f9b29546355d82dcdb2ab6b20fc440",
+  "source_projection": "equirectangular-360",
+  "cube_projection": "gnomonic-directional",
+  "threejs_face_order": [
+    "px.webp",
+    "nx.webp",
+    "py.webp",
+    "ny.webp",
+    "pz.webp",
+    "nz.webp"
+  ],
+  "face_size": [
+    512,
+    512
+  ],
+  "encoding": "sRGB",
+  "lossless": true,
+  "mipmaps": false,
+  "source_horizon_fraction": 0.82,
+  "horizon_rgb": [
+    159,
+    167,
+    166
+  ],
+  "verified_edge_groups": 6120,
+  "verified_corner_groups": 8,
+  "maximum_decoded_edge_channel_delta": 0,
+  "maximum_decoded_corner_channel_delta": 0
+}

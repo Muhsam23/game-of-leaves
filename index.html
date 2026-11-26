@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Unreal Nova 2000</title><!-- NOVA_OFFLINE_TITLE --><script src="station/plane-voice.inline.js?v=103"></script><script src="station/plane-voice-espeak.inline.js?v=103"></script><script src="station/plane-radio.js?v=103"></script><script src="sound.js?v=103"></script><link rel="stylesheet" href="game.css?v=103"></head>
+<body class="menu-open title-screen">
+<canvas id="world" aria-label="First-person coastal forest"></canvas>
+<div id="maskApproach" aria-hidden="true"><svg viewBox="0 0 768 1024" preserveAspectRatio="xMidYMid meet"><defs><mask id="insideCutout" maskUnits="userSpaceOnUse" x="0" y="0" width="768" height="1024"><path d="M384 7C165 7 23 96 5 251L0 592C39 768 188 918 331 979Q340 1014 382 1024L444 1018C592 983 731 821 768 680V262C750 91 608 7 384 7Z" fill="white"/><path d="M74 378C94 324 153 287 214 287C269 285 306 310 324 352C342 397 340 437 312 476L286 503Q277 477 219 478Q159 477 145 516L111 500C82 469 73 427 74 378Z M526 330C552 285 596 252 630 250C672 253 702 286 724 321L758 359C772 421 749 478 705 511L678 508Q660 481 620 492L581 510C548 479 518 436 520 386Z" fill="black"/></mask></defs><image data-mask-photo="interior" x="0" y="0" width="768" height="1024" mask="url(#insideCutout)"/></svg></div>
+<div id="maskOverlay" aria-hidden="true"><svg viewBox="0 0 1200 800" preserveAspectRatio="none"><defs><pattern id="innerRubber" patternUnits="userSpaceOnUse" width="1200" height="800"><image data-mask-photo="interior" x="-274.016" y="-121.081" width="1814.173" height="4428.108" preserveAspectRatio="none"/></pattern><radialGradient id="maskRim" gradientUnits="userSpaceOnUse" cx="600" cy="377" r="583" gradientTransform="translate(0 377) scale(1 .6037736) translate(0 -377)"><stop offset=".68" stop-color="#20231b" stop-opacity="0"/><stop offset=".9" stop-color="#191c16" stop-opacity=".13"/><stop offset="1" stop-color="#0e120d" stop-opacity=".68"/></radialGradient></defs><path d="M0 0H1200V800H0Z M17 377a583 352 0 1 0 1166 0a583 352 0 1 0-1166 0Z" fill="url(#innerRubber)" fill-rule="evenodd"/><path d="M0 0H1200V800H0Z M17 377a583 352 0 1 0 1166 0a583 352 0 1 0-1166 0Z" fill="#0c100c" opacity=".76" fill-rule="evenodd"/><ellipse cx="600" cy="377" rx="583" ry="352" fill="url(#maskRim)" stroke="#373a2e" stroke-opacity=".5" stroke-width="5"/></svg></div>
+
+<span id="maskHint" hidden></span><div id="houseLoading" role="status" hidden>Laden …</div>
+
+<section id="endingActions" hidden aria-label="Abspann-Steuerung"><button id="endingContinue">FORTSETZEN</button><button id="endingReplay">NOCH EINMAL</button><button id="endingRestart">NEUES SPIEL</button><button id="endingMenu">ZUM MENÜ</button></section>
+<button id="endingAudioRetry" hidden>TON STARTEN</button>
+<div id="vignette" aria-hidden="true"></div>
+<div id="vermesserFx" aria-hidden="true"></div><div id="roomLoading" aria-hidden="true">lädt …</div>
+<header id="hud"><div class="wordmark">UNREAL <span>NOVA</span> <b>2000</b><small>NÕVA · ESTONIA</small></div><div class="hud-right"><span id="flightHeight"></span><button id="flySpectatorBtn" aria-pressed="false">FOLLOW</button><button id="spectatorBtn" aria-pressed="false">SPECTATOR</button><span id="area">COASTAL FOREST</span><button id="inventoryBtn" aria-label="Inventar öffnen">FELDTASCHE</button><button id="menuBtn" aria-label="Open pause menu">MENU</button></div></header>
+<div id="reticle" aria-hidden="true"><i></i><i></i></div>
+<footer id="bottom"><span id="discovered">FIELD NOTES &nbsp; 0 / 57</span><span id="compass">N</span></footer>
+<div id="notice" role="status"></div>
+<div id="documentHint" hidden></div>
+<div id="towerHint" hidden>E · Absteigen</div>
+<nav id="fieldEquipment" aria-label="Ausrüstung"><button id="mapButton" title="Karte · K" aria-label="Karte · K"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2Zm6-2v16m6-14v16"/></svg></button><button id="cameraButton" title="Kamera · V" aria-label="Kamera · V"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h5l2-3h4l2 3h5v13H3Z"/><circle cx="12" cy="13" r="4"/></svg></button><button id="photosButton" title="Fotos · J" aria-label="Fotos · J"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h18v18H3ZM3 17l5-6 5 5 3-3 5 6"/><circle cx="15" cy="8" r="2"/></svg></button></nav>
+<div id="cameraViewfinder" hidden aria-label="Kamerasucher"><div class="finder-frame"></div><p>KAMERA · <span id="photoCount">0</span> AUFNAHMEN</p><div class="camera-actions"><button id="cameraShutter">Aufnahme · Leertaste</button><button id="cameraPhotos">Fotos · J</button><button id="cameraClose">Wegstecken · V</button></div></div>
+<section id="fieldMap" class="equipment-panel map-panel" hidden role="dialog" aria-modal="true" aria-labelledby="mapTitle">
+<header class="equipment-heading"><div><p class="equipment-kicker">FELDAUSRÜSTUNG</p><h2 id="mapTitle">Vermessungskarte</h2></div><button id="closeMap">Schließen · K / Esc</button></header>
+<div class="map-layout"><div id="mapViewport" tabindex="0" aria-label="Kartenblatt, bei Vergrößerung scrollbar"><svg id="fieldMapDrawing" viewBox="0 0 1240 960" role="img" aria-label="Topographische Karte des Spielgeländes mit eigenem Standort"><image id="fieldMapImage" width="1240" height="960"/><g id="mapPosition"><circle r="9" fill="none" stroke="#943c2d" stroke-width="2"/><g id="mapHeading"><path d="M0 -19 L-5 -8 L5 -8 Z" fill="#943c2d"/></g><circle r="2.5" fill="#943c2d"/></g></svg></div>
+<aside class="map-compass"><p>FELDKOMPASS</p><svg viewBox="0 0 100 100" role="img" aria-label="Kompassnadel zeigt Norden relativ zur Blickrichtung"><circle cx="50" cy="50" r="46" fill="#d9d0b1" stroke="#494837" stroke-width="2"/><path d="M50 5v8M95 50h-8M50 95v-8M5 50h8" stroke="#494837"/><text x="50" y="24" text-anchor="middle" font-size="12" fill="#494837">BLICK</text><g id="compassNeedle"><path d="M50 16L56 50L50 84L44 50Z" fill="#4c5146"/><path d="M50 16L56 50H44Z" fill="#953e30"/><text x="50" y="10" font-size="9" text-anchor="middle" fill="#953e30">N</text></g><circle cx="50" cy="50" r="3" fill="#d8cbb0"/></svg><output id="mapBearing">000°</output><p>Blickrichtung<br>0° Nord · 90° Ost</p><button id="mapZoom">Vergrößern +</button></aside></div><p id="mapLocation" class="equipment-footnote"></p>
+</section>
+<section id="photoAlbum" class="equipment-panel photo-panel" hidden role="dialog" aria-modal="true" aria-labelledby="photosTitle"><header class="equipment-heading"><div><p class="equipment-kicker">FELDKAMERA</p><h2 id="photosTitle">Aufnahmen</h2></div><button id="closePhotos">Schließen · J / Esc</button></header><p id="photoEmpty">Noch keine Aufnahmen. Kamera mit V hervorholen, mit der Leertaste fotografieren.</p><div class="photo-layout"><div id="photoList" aria-label="Gespeicherte Aufnahmen"></div><figure id="photoDetail" hidden><img id="photoPreview" alt=""><figcaption id="photoCaption"></figcaption><div class="photo-actions"><a id="photoDownload" download>PNG speichern</a><button id="photoDelete">Aufnahme löschen</button></div></figure></div><p class="equipment-footnote">Aufnahmen bleiben in diesem Browser. Mit „PNG speichern“ auf das Gerät herunterladen.</p></section>
+<section id="menu" class="screen" aria-label="Game menu">
+<div class="menu-panel">
+<nav id="menuMain" aria-label="Hauptmenü">
+<button id="start" class="primary" disabled>Play</button>
+<button id="newGame" class="secondary" disabled>Neues Spiel starten</button>
+<button id="controlsMenuButton" class="secondary" aria-controls="controlsMenu" aria-expanded="false">Steuerung und Maus</button>
+<button id="debugMenuButton" class="secondary" aria-controls="debugMenu" aria-expanded="false">Debug</button>
+<button id="quitGame" class="secondary">Spiel beenden</button>
+</nav>
+<section id="controlsMenu" class="menu-subpage" hidden aria-labelledby="controlsMenuTitle">
+<button id="controlsMenuBack" class="menu-back">Zurück</button><h2 id="controlsMenuTitle">Steuerung und Maus</h2>
+<div class="settings"><button id="quality" aria-label="Toggle render resolution">PICTURE: CLASSIC</button><button id="sound" aria-pressed="true">SOUND: ON</button></div><button id="crosshairToggle" class="secondary" aria-pressed="true">FADENKREUZ: AN · 0</button><div class="mouse-settings"><label for="mouseSensitivity">MAUS-EMPFINDLICHKEIT <output id="mouseSensitivityValue" for="mouseSensitivity">75%</output></label><input id="mouseSensitivity" type="range" min="25" max="200" step="5" value="75"><label for="mouseSmoothing">MAUS-GLÄTTUNG <output id="mouseSmoothingValue" for="mouseSmoothing">20%</output></label><input id="mouseSmoothing" type="range" min="0" max="100" step="5" value="20" aria-describedby="mouseSmoothingHint"><p id="mouseSmoothingHint">0%: direkte Bewegung · höhere Werte: weichere Bewegung</p></div><div class="audio-settings"><button id="titleMusic" type="button" aria-pressed="false">PLAY TITLE THEME</button><label for="worldVolume">WIND / WORLD <output id="worldVolumeValue" for="worldVolume">100%</output></label><input id="worldVolume" type="range" min="0" max="100" value="100"><label for="musicVolume">MUSIC <output id="musicVolumeValue" for="musicVolume">35%</output></label><input id="musicVolume" type="range" min="0" max="100" value="35"><p id="audioStatus" role="status"></p></div><p id="instructions" class="instructions">WASD / Pfeiltasten: gehen · Maus: umsehen<br>Q / Umschalt: laufen · E: lesen / untersuchen / sprechen / Radiosender wechseln<br>Leertaste: springen · bei gezückter Kamera: Aufnahme<br>V: Kamera · J: Fotos / PNG speichern<br>K: Karte und Kompass<br>G: Schriftstück oder Fund einpacken · I: Feldtasche und gesammelte Texte<br>Funkturm: Leiter berühren · W / S hoch / herunter · A / D seitwärts<br>Oben: Leiter ansehen und E zum Absteigen<br>Esc: schließen / pausieren<br>E: Gasmaske am Tisch aufsetzen · M: Maske auf / ab<br>Nach dem Abnehmen in der Feldtasche: I → Gasmaske → Benutzen<br>F: eingesammelte Taschenlampe ein / aus · P to free-fly<br>T for animal camera / return · ← / → change animal<br>N: Figurenkamera / zurück · ← / →: Figur wechseln<br>0: Fadenkreuz ein / aus · 1: eingesammeltes Fernglas<br>Freiflug: Leertaste hoch · Strg / C herunter<br>Klicken und ziehen, falls die Maus nicht eingefangen werden kann.</p><p class="instructions"><a href="MASK_CREDITS.txt" target="_blank" rel="noreferrer">Gasmaske · Fotos und Quellen</a> · <a href="PAEIKESELINN_CREDITS.md" target="_blank" rel="noreferrer">Päikeselinn · Modell- und Bildquellen</a> · <a href="WILDLIFE_CREDITS.md" target="_blank" rel="noreferrer">Wildlife photo credits</a></p><details class="instructions"><summary>Bildquellen · Tokamak</summary><p>Maschinendetails: Alexander Romannikov und Fusion research Centre team, T-15MD (2015–2017), <a href="https://commons.wikimedia.org/wiki/File:T-15MD_Toroidal_winding_and_poloidal_field_coils.jpg" target="_blank" rel="noreferrer">Foto</a>, <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a>. Schaltpulte: RIA Novosti archive, Bild #151315 / Prihodko (1989), <a href="https://commons.wikimedia.org/wiki/File:RIAN_archive_151315_Kurchatov_Atomic_Energy_Institute.jpg" target="_blank" rel="noreferrer">Foto</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noreferrer">CC BY-SA 3.0</a>. Ausschnitte, Wiederholung und Farbtönung als Texturen; die bearbeiteten Schaltpult-Texturen bleiben CC BY-SA 3.0.</p></details><details class="instructions"><summary>Bildquellen · Großrechner und Efeu</summary><p>BESM-6: <a href="https://commons.wikimedia.org/wiki/File:BESM-6_stoika_n.jpg" target="_blank" rel="noreferrer">Radiolok, Rechenschrank</a> und <a href="https://commons.wikimedia.org/wiki/File:Console_BESM-6_CU.jpg" target="_blank" rel="noreferrer">Kristopher Doern, Bedienpult</a>, jeweils <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>. Efeublatt: <a href="https://commons.wikimedia.org/wiki/File:Efeu_Hedera_Helix.jpg" target="_blank" rel="noreferrer">NobbiP</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noreferrer">CC BY-SA 3.0</a>. Ausschnitte, Freistellung des Blattes und Farbtönung; bearbeitete Texturen unter der jeweiligen gleichen Lizenz.</p></details><details class="instructions"><summary>Bildquellen · Ebereschenfrüchte</summary><p>George Chernilevsky, <a href="https://commons.wikimedia.org/wiki/File:Sorbus_aucuparia_2022_G1.jpg" target="_blank" rel="noreferrer">Sorbus aucuparia 2022 G1</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>. Unverändertes Foto; Beerenoberflächen durch UV-Ausschnitte, Beleuchtung und leichte Farbtönung auf 3D-Früchte übertragen. Die angepasste Texturdarstellung bleibt CC BY-SA 4.0.</p></details><details class="instructions"><summary>Bildquellen · Poolobjekte</summary><p>Wasserball: Norvy, freie Verwendung. Schwimmring: LToman, CC BY-SA 4.0. Schwimmflügel: Thomas Ricker, CC BY 2.0.</p><p><a href="POOL_PROPS_CREDITS.md" target="_blank" rel="noreferrer">Fotos, Quellen und Lizenzen</a></p><p>Spielzeuge aus Spielzeuglabor v2: <a href="TOY_CREDITS.md" target="_blank" rel="noreferrer">Fotovorlagen und Modellquellen</a>.</p></details><details class="instructions"><summary>Bildquellen · Baumrinden</summary><p>Artspezifische Rindenfotos aus dem Waldlabor. Fotoausschnitte und daraus abgeleitetes Rindenrelief; die jeweiligen Bildlizenzen bleiben bestehen.</p><p>Waldkiefer: <a href="https://commons.wikimedia.org/wiki/File:Pinus_sylvestris_-_Stamm_mit_Lepraria_incana.jpg" target="_blank" rel="noreferrer">Sciencia58</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>.</p><p>Fichte: <a href="https://commons.wikimedia.org/wiki/File:Picea_abies_in_Araches-la-Frasse_(3).jpg" target="_blank" rel="noreferrer">Tournasol7 (Krzysztof Golik)</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a>.</p><p>Hängebirke: <a href="https://commons.wikimedia.org/wiki/File:Birch_trunk_in_Norrkila_2.jpg" target="_blank" rel="noreferrer">W.carter</a> · <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noreferrer">CC0 1.0</a>.</p><p>Moorbirke: <a href="https://commons.wikimedia.org/wiki/File:Betula_pubescens_tree_bark_and_lenticels._Spier%27s_Old_School_Grounds,_Beith,_North_Ayrshire.jpg" target="_blank" rel="noreferrer">Rosser1954 (Roger Griffith)</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a>.</p><p>Espe: <a href="https://commons.wikimedia.org/wiki/File:20140207Populus_tremula1.jpg" target="_blank" rel="noreferrer">AnRo0002</a> · <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noreferrer">CC0 1.0</a>.</p><p>Salweide: <a href="https://commons.wikimedia.org/wiki/File:(ms)_Salix_caprea_14.jpg" target="_blank" rel="noreferrer">Hladac</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>.</p><p>Eberesche: <a href="https://commons.wikimedia.org/wiki/File:Sorbus_aucuparia_in_Araches-la-Frasse_(4).jpg" target="_blank" rel="noreferrer">Tournasol7 (Krzysztof Golik)</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a>.</p></details>
+</section>
+<section id="debugMenu" class="menu-subpage" hidden aria-labelledby="debugMenuTitle">
+<button id="debugMenuBack" class="menu-back">Zurück</button><h2 id="debugMenuTitle">Debug</h2>
+<div class="performance-settings">
+<h3>Leistung</h3>
+<label for="perfResolution">RENDERAUFLÖSUNG <output id="perfResolutionValue">100%</output></label><input id="perfResolution" type="range" min="50" max="100" step="5" value="100">
+<label for="perfDistance">SICHTWEITE <output id="perfDistanceValue">100%</output></label><input id="perfDistance" type="range" min="40" max="100" step="5" value="100">
+<label for="perfDensity">PFLANZENDICHTE <output id="perfDensityValue">100%</output></label><input id="perfDensity" type="range" min="25" max="100" step="5" value="100">
+<label for="perfShadows">SCHATTEN <output id="perfShadowsValue">Standard</output></label><input id="perfShadows" type="range" min="0" max="2" step="1" value="2">
+<p class="instructions">Niedrigere Werte entlasten den Rechner. Pflanzen in deiner Nähe und Sammelobjekte bleiben erhalten. Einstellungen werden gespeichert.</p>
+<div class="settings"><button id="perfLow">WENIGER LAST</button><button id="perfReset">STANDARD</button></div><p id="perfStats" role="status"></p>
+</div>
+<button id="debugMaskRoom" class="minor" disabled>ZUM MASKENRAUM · ERDGESCHOSS</button>
+<button id="debugNight" class="minor" disabled>AUF NACHT UMSCHALTEN</button><button id="debugPaeikeselinn" class="minor" disabled>NACH PÄIKESELINN · SUNNYTOWN</button><button id="debugHouseRoof" class="minor" disabled>ZUM APARTMENT-BACKROOM-DACH</button><button id="debugStairs" class="minor" disabled>TREPPE ZUR WIESE</button><button id="debugField" class="minor" disabled>WIESE MIT HAUS</button><button id="debugFaceTree" class="minor" disabled>ZUM GESICHTSBAUM</button><button id="flySpectateStart" class="secondary" hidden disabled>OBSERVE THE VERMESSER · FLY SPECTATOR</button><button id="flyStart" class="secondary" disabled>EXPLORE IN SPECTATOR MODE</button><div class="animal-options"><label for="npcTarget">FIGURENKAMERA</label><select id="npcTarget" aria-label="Figur auswählen"></select><button id="inaSpectateStart" class="secondary" aria-pressed="false" disabled>FIGUR BEOBACHTEN · N</button></div><div class="animal-options"><label for="animalTarget">ANIMAL CAMERA</label><select id="animalTarget"><option value="0">Roe deer 1</option><option value="1">Roe deer 2</option><option value="2">Roe deer 3</option><option value="3">Brown bear</option><option value="4">Red fox</option></select><button id="animalSpectateStart" class="secondary" disabled>OBSERVE ANIMAL</button></div><div class="view-options"><span>START AT</span><button data-view="forest">Forest</button><button data-view="ruin">Factory</button><button data-view="farm">Pig farm</button><button data-view="biosphere">BIOSPHÄRE</button><button data-view="biosphereBridge">BRÜCKE · 400</button><button data-view="tower">Tower</button><button data-view="shore">Shore</button><button data-view="lighthouse">Lighthouse</button><button data-view="bridge" class="active">Bridge</button><button data-view="sawmill">Sawmill</button><button data-view="housing">Apartments</button><button data-view="roof">Dach</button><button data-view="bog">Bog</button><button data-view="fen">Fen</button><button data-view="paeikeselinnField">MESSFELD · 6,8</button></div>
+</section>
+<p id="loadStatus" role="status">Loading title theme…</p>
+</div>
+</section>
+<div id="paeikeselinnFade" aria-hidden="true"></div>
+<section id="gameOver" class="screen game-over-screen" hidden role="dialog" aria-modal="true" aria-labelledby="gameOverTitle" lang="de"><div class="game-over-panel"><h2 id="gameOverTitle">GAME OVER</h2><button id="restartGame" class="primary">NEU BEGINNEN</button></div></section>
+<section id="observation" class="observation" hidden role="dialog" aria-modal="true" aria-labelledby="speciesName" lang="de">
+<button id="closeObservation" aria-label="Pflanzeninfo schließen">×</button>
+<div class="eyebrow">FELDNOTIZ <span id="speciesNumber"></span></div>
+<h2 id="speciesName"></h2><i id="speciesLatin"></i><p id="speciesFamily" class="plant-family"></p>
+<div class="plant-grid"><figure class="plant-photo"><img id="speciesPhoto" alt="" decoding="async"><p id="speciesPhotoError" hidden>Das Foto konnte nicht geladen werden.</p><figcaption><span id="speciesCredit"></span> · <a id="speciesSource" target="_blank" rel="noreferrer">Fotoquelle und Lizenz</a></figcaption></figure>
+<div class="plant-facts"><section><h3>Bestimmungsmerkmale</h3><p id="speciesDescription"></p></section><section><h3>Verwechslungsmöglichkeiten</h3><p id="speciesConfusion"></p></section><section><h3>Standort und Ökologie</h3><p id="speciesHabitat"></p></section><section><h3>Giftigkeit</h3><p id="speciesToxicity"></p></section><section><h3>Verwendung</h3><p id="speciesUse"></p></section><section class="plant-evidence"><h3>Nachweis</h3><p id="speciesEvidence"></p></section></div></div>
+<button id="backToWorld" class="primary">ZURÜCK IN DIE LANDSCHAFT</button></section>
+<section id="mushroomObservation" class="observation mushroom-card" hidden role="dialog" aria-modal="true" aria-labelledby="mushroomName" lang="de">
+<button id="closeMushroom" aria-label="Pilzinfo schließen">×</button><h2 id="mushroomName"></h2><i id="mushroomLatin"></i>
+<div class="plant-grid"><figure class="plant-photo"><img id="mushroomPhoto" alt="" decoding="async"><p id="mushroomPhotoError" hidden>Das Foto konnte nicht geladen werden.</p><figcaption><span id="mushroomCredit"></span> · <a id="mushroomPhotoSource" target="_blank" rel="noreferrer">Foto</a> · <a id="mushroomPhotoLicense" target="_blank" rel="noreferrer">Lizenz</a></figcaption></figure>
+<div class="plant-facts"><section><h3>Verwendung</h3><p id="mushroomUse"></p></section><section><h3>Geruch</h3><p id="mushroomSmell"></p></section><section><h3>Optische Beschreibung</h3><p id="mushroomAppearance"></p></section><section><h3>Ökologie</h3><p id="mushroomEcology"></p></section><section><h3>Giftigkeit</h3><p id="mushroomToxicity"></p></section></div></div>
+<p class="mushroom-attribution">Gekürzt und angepasst nach <a id="mushroomSource" target="_blank" rel="noreferrer">Wikipedia und seinen Autoren</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a></p>
+</section>
+<section id="inaDialogue" class="ina-dialogue" hidden role="dialog" aria-modal="true" aria-label="Gespräch" lang="de">
+<div id="inaReply" aria-live="polite" aria-atomic="true"></div>
+<form id="inaQuestionForm"><input id="inaQuestion" type="text" maxlength="240" placeholder="Deine Frage …" aria-label="Deine Frage" autocomplete="off"><button id="inaAsk" type="submit">Fragen</button></form>
+<div class="ina-actions"><button id="inaMore" type="button">Weiter</button><button id="inaLeave" type="button">Schließen</button></div>
+</section>
+<section id="inventory" class="inventory" hidden role="dialog" aria-modal="true" aria-labelledby="inventoryTitle" lang="de">
+<div class="inventory-heading"><div><p class="eyebrow">GESAMMELTES</p><h2 id="inventoryTitle">Feldtasche</h2></div><button id="closeInventory" aria-label="Inventar schließen">×</button></div>
+<div class="bag-equipment"><button id="bagMap">K · Karte und Kompass</button><button id="bagPhotos">J · Kameraaufnahmen</button><button id="bagFlashlight" hidden aria-pressed="false">L · Taschenlampe aus</button></div><div class="inventory-tabs" aria-label="Inhalt der Feldtasche"><button id="inventoryForageTab" aria-pressed="true">Gesammeltes</button><button id="inventoryDocumentsTab" aria-pressed="false">Schriftstücke · 0 / 30</button></div>
+<div id="inventoryForage" class="inventory-grid"><div><div id="inventoryList" aria-label="Gesammelte Gegenstände"></div><p id="inventoryEmpty">Die Tasche ist leer.<br>Pilze und Heidelbeeren kannst du draußen mit G sammeln.</p></div>
+<article id="inventoryDetail" hidden><h3 id="itemName"></h3><i id="itemLatin"></i><img id="itemPhoto" class="inventory-photo" alt="" decoding="async"><p id="itemDescription"></p><div class="inventory-actions"><button id="inspectItem">PILZINFO</button><button id="collectItem">SAMMELN</button><button id="eatItem">ESSEN</button><button id="useItem" hidden>BENUTZEN · M</button></div></article></div>
+<div id="inventoryDocuments" hidden><p id="documentsEmpty">Noch keine Schriftstücke eingepackt. Sieh ein Fundstück aus der Nähe an: E liest, G packt es ein.</p><div id="documentsList"></div><p id="documentsSaved">Gesammelte Texte bleiben in diesem Browser erhalten.</p></div>
+<p id="inventoryFeedback" role="status" aria-live="polite"></p><p class="inventory-note"><a href="MUSHROOMS.md" target="_blank" rel="noreferrer">Literatur & Modellgrundlagen</a></p><button id="backFromInventory" class="primary">ZURÜCK INS SPIEL</button>
+</section>
+<section id="documentReader" class="document-reader" hidden role="dialog" aria-modal="true" aria-labelledby="documentTitle" lang="de">
+<div class="document-sheet"><p id="documentSource" class="document-source"></p><p id="documentMeta" class="document-meta"></p><h2 id="documentTitle"></h2><div id="documentBody" class="document-body" tabindex="0" aria-label="Text des Schriftstücks"></div></div>
+<div class="document-tools"><nav id="documentPaging" aria-label="Blättern"><button id="documentPrev" aria-label="Vorheriges Blatt">←</button><span id="documentPage" aria-live="polite"></span><button id="documentNext" aria-label="Nächstes Blatt">→</button></nav><p id="documentFeedback" role="status" aria-live="polite"></p><div class="document-actions"><button id="documentCollect">G · Einpacken</button><button id="documentClose">Schließen · E / Esc</button></div></div></section>
+<div id="touchControls"><div id="joystick" aria-label="Movement joystick"><span id="stick"></span></div><div id="flightControls"><button id="flyUp" aria-label="Fly up">↑</button><button id="flyDown" aria-label="Fly down">↓</button></div><div id="inaControls"><button id="npcPrevious" aria-label="Vorherige Figur">←</button><button id="inaReturn" type="button" aria-label="Return from Ina camera" title="Zurück ins Spiel">↩</button><button id="npcNext" aria-label="Nächste Figur">→</button></div><div id="animalControls"><button id="animalPrevious" aria-label="Previous animal">←</button><button id="animalReturn" aria-label="Return to walking">↩</button><button id="animalNext" aria-label="Next animal">→</button></div><button id="touchCollect" hidden aria-label="Pilz oder Heidelbeeren sammeln"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v10h14V10M3 7h18M12 2v12m-4-4 4 4 4-4"/></svg></button><button id="touchExamine" aria-label="Examine, speak or switch radio"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/></svg></button><button id="touchBag" aria-label="Inventar öffnen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14v13H5zM8 8V5a4 4 0 0 1 8 0v3"/></svg></button><button id="touchMap" aria-label="Karte · K"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2Zm6-2v16m6-14v16"/></svg></button><button id="touchFlashlight" hidden aria-label="Taschenlampe ein oder aus" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 11 5-5 4 4-5 5Zm4 4-4 4-3-3 4-4m8-7 3-3m0 7h4M12 3V0"/></svg></button><button id="touchCamera" aria-label="Kamera · V"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h5l2-3h4l2 3h5v13H3Z"/><circle cx="12" cy="13" r="4"/></svg></button><button id="touchPause" aria-label="Spiel pausieren"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4v16M16 4v16"/></svg></button></div>
+<noscript>This prototype needs JavaScript and WebGL.</noscript>
+<script type="application/x-nova-script" data-nova-src="three.min.js"></script>
+<script type="application/x-nova-script" data-nova-src="flora-data.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="terrain.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="factory.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="wall-model.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="wall-voice.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="backrooms.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="landmarks.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="radio-tower.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="coast.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="day-apartment.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="soviet-props.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="apartment-pickups.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="apartment-toy-models.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="apartment-toys.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="settlements.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="bark-sources.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="bark.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="flora.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="flybrain.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="field-guide.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="vermesser.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="psilocybin.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="interference.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="mushroom-guide.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="visions.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="foraging.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="animals.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="hares.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="wildlife.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="encounters.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="ina-model.js?v=103"></script><script type="application/x-nova-script" data-nova-src="ina-head.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="ina-corpus.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="ina-markov.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="ina.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="nova-documents.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="lore.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="field-kit.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="karin-model.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="karin-model-classic.js?v=103"></script><script type="application/x-nova-script" data-nova-src="karin-body.js?v=103"></script><script type="application/x-nova-script" data-nova-src="karin-head.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="karin-corpus.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="karin-markov.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="predator.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="kopffuessler.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="apartment-events.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="flashlight.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="eye-rooms.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="eye-room-adapter.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="network-entity.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="wisp.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="night-entities.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="house-photo-materials.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="house-portals.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="house-encounters.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="pool-props.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="night-house.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="ending-car.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="ending-world.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="escape-ending.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="biosphere-worldgen.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="biosphere-flora-data.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="biosphere-photoflora.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="biosphere.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="jump.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="paeikeselinn-data.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="missingno-core.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="paeikeselinn-population.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="paeikeselinn-scenery.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="paeikeselinn-walkways.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="paeikeselinn-statues.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="missingno-optics.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="missingno-psilo.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="missingno-visual.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="missingno.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="paeikeselinn-world.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="paeikeselinn.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="performance.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="mask-state.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="reality-machines.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="mask-model.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="mask-apartment-machine.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="mask-memory.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="mask-world.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="mask-effects.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="mask-audio.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="mask-game.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="render-warmup.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="forest-motes.js?v=103"></script>
+<script type="application/x-nova-script" data-nova-src="face-tree.js?v=103"></script><script type="application/x-nova-script" data-nova-src="game.js?v=103"></script>
+<script src="boot.js?v=103"></script>
+</body></html>

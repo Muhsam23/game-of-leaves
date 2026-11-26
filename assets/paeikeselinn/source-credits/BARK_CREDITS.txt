@@ -1,0 +1,74 @@
+UNREAL NOVA 2000 · WALDLABOR v1, Revision 2
+Rindenfotos / Bark photo credits
+
+These photographs are separately licensed assets. Derivatives of CC BY-SA photos retain the corresponding CC BY-SA license. These image licenses do not relicense unrelated code or other original assets.
+
+Waldkiefer / Pinus sylvestris
+Pinus sylvestris - Stamm mit Lepraria incana.jpg
+Author: Sciencia58
+License: CC BY-SA 4.0 · https://creativecommons.org/licenses/by-sa/4.0/
+Source: https://commons.wikimedia.org/wiki/File:Pinus_sylvestris_-_Stamm_mit_Lepraria_incana.jpg
+Original image: https://upload.wikimedia.org/wikipedia/commons/d/d0/Pinus_sylvestris_-_Stamm_mit_Lepraria_incana.jpg
+Distributed file: assets/bark/pinus-sylvestris-r2.jpg
+Source crop pixels: [326, 2381]
+Modifications: EXIF orientation and continuous vertical crop; JPEG encoding, height limited to 4096 px. Runtime 512x2048 strip with mild lateral exposure equalization and edge blending. Nonperiodic broad overlapping photographic strips, stable per tree; no uniform vertical tile interval. Luminance bump relief. No generated imagery.
+
+Fichte / Picea abies
+Picea abies in Araches-la-Frasse (3).jpg
+Author: Tournasol7 (Krzysztof Golik)
+License: CC BY 4.0 · https://creativecommons.org/licenses/by/4.0/
+Source: https://commons.wikimedia.org/wiki/File:Picea_abies_in_Araches-la-Frasse_(3).jpg
+Original image: https://upload.wikimedia.org/wikipedia/commons/0/0b/Picea_abies_in_Araches-la-Frasse_%283%29.jpg
+Distributed file: assets/bark/picea-abies-r2.jpg
+Source crop pixels: [773, 4221]
+Modifications: EXIF orientation and continuous vertical crop; JPEG encoding, height limited to 4096 px. Runtime 512x2048 strip with mild lateral exposure equalization and edge blending. Nonperiodic broad overlapping photographic strips, stable per tree; no uniform vertical tile interval. Luminance bump relief. No generated imagery.
+
+Hängebirke / Betula pendula
+Birch trunk in Norrkila 2.jpg
+Author: W.carter
+License: CC0 1.0 · https://creativecommons.org/publicdomain/zero/1.0/
+Source: https://commons.wikimedia.org/wiki/File:Birch_trunk_in_Norrkila_2.jpg
+Original image: https://upload.wikimedia.org/wikipedia/commons/0/00/Birch_trunk_in_Norrkila_2.jpg
+Distributed file: assets/bark/betula-pendula-r2.jpg
+Source crop pixels: [293, 2546]
+Modifications: EXIF orientation and continuous vertical crop; JPEG encoding, height limited to 4096 px. Runtime 512x2048 strip with mild lateral exposure equalization and edge blending. Nonperiodic broad overlapping photographic strips, stable per tree; no uniform vertical tile interval. Luminance bump relief. No generated imagery.
+
+Moorbirke / Betula pubescens
+Betula pubescens tree bark and lenticels. Spier's Old School Grounds, Beith, North Ayrshire.jpg
+Author: Rosser1954 (Roger Griffith)
+License: CC BY 4.0 · https://creativecommons.org/licenses/by/4.0/
+Source: https://commons.wikimedia.org/wiki/File:Betula_pubescens_tree_bark_and_lenticels._Spier%27s_Old_School_Grounds,_Beith,_North_Ayrshire.jpg
+Original image: https://upload.wikimedia.org/wikipedia/commons/e/ec/Betula_pubescens_tree_bark_and_lenticels._Spier%27s_Old_School_Grounds%2C_Beith%2C_North_Ayrshire.jpg
+Distributed file: assets/bark/betula-pubescens-r2.jpg
+Source crop pixels: [856, 2821]
+Modifications: EXIF orientation and continuous vertical crop; JPEG encoding, height limited to 4096 px. Runtime 512x2048 strip with mild lateral exposure equalization and edge blending. Nonperiodic broad overlapping photographic strips, stable per tree; no uniform vertical tile interval. Luminance bump relief. No generated imagery.
+
+Espe / Populus tremula
+20140207Populus tremula1.jpg
+Author: AnRo0002
+License: CC0 1.0 · https://creativecommons.org/publicdomain/zero/1.0/
+Source: https://commons.wikimedia.org/wiki/File:20140207Populus_tremula1.jpg
+Original image: https://upload.wikimedia.org/wikipedia/commons/5/56/20140207Populus_tremula1.jpg
+Distributed file: assets/bark/populus-tremula-r2.jpg
+Source crop pixels: [327, 2406]
+Modifications: EXIF orientation and continuous vertical crop; JPEG encoding, height limited to 4096 px. Runtime 512x2048 strip with mild lateral exposure equalization and edge blending. Nonperiodic broad overlapping photographic strips, stable per tree; no uniform vertical tile interval. Luminance bump relief. No generated imagery.
+
+Salweide / Salix caprea
+(ms) Salix caprea 14.jpg
+Author: Hladac
+License: CC BY-SA 4.0 · https://creativecommons.org/licenses/by-sa/4.0/
+Source: https://commons.wikimedia.org/wiki/File:(ms)_Salix_caprea_14.jpg
+Original image: https://upload.wikimedia.org/wikipedia/commons/6/6d/%28ms%29_Salix_caprea_14.jpg
+Distributed file: assets/bark/salix-caprea-r2.jpg
+Source crop pixels: [538, 1228]
+Modifications: EXIF orientation and continuous vertical crop; JPEG encoding, height limited to 4096 px. Runtime 512x2048 strip with mild lateral exposure equalization and edge blending. Nonperiodic broad overlapping photographic strips, stable per tree; no uniform vertical tile interval. Luminance bump relief. No generated imagery.
+
+Eberesche / Sorbus aucuparia
+Sorbus aucuparia in Araches-la-Frasse (4).jpg
+Author: Tournasol7 (Krzysztof Golik)
+License: CC BY 4.0 · https://creativecommons.org/licenses/by/4.0/
+Source: https://commons.wikimedia.org/wiki/File:Sorbus_aucuparia_in_Araches-la-Frasse_(4).jpg
+Original image: https://upload.wikimedia.org/wikipedia/commons/b/b6/Sorbus_aucuparia_in_Araches-la-Frasse_%284%29.jpg
+Distributed file: assets/bark/sorbus-aucuparia-r2.jpg
+Source crop pixels: [576, 2736]
+Modifications: EXIF orientation and continuous vertical crop; JPEG encoding, height limited to 4096 px. Runtime 512x2048 strip with mild lateral exposure equalization and edge blending. Nonperiodic broad overlapping photographic strips, stable per tree; no uniform vertical tile interval. Luminance bump relief. No generated imagery.

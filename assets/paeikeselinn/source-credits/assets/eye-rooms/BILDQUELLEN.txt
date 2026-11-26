@@ -1,0 +1,21 @@
+Unveränderte Bildquellen in diesem Testpaket
+
+1. Zaunweg und Haus: assets/barn.jpg
+https://emymin.net/assets/images/2024-06-10/barn.jpg
+Motiv aus einem Topcon-Autorefraktometer. Die klarere rechteckige Abbildung desselben Motivs wurde gegenüber dem unschärferen, kreisförmig maskierten Foto aus dem früheren Gespräch bevorzugt.
+Frühere Bildreferenz: https://i.pinimg.com/originals/e1/42/65/e142658d8d4d5aac2031464241f11a74.jpg
+
+2. Feld und Haus: assets/field.jpg
+https://emymin.net/assets/images/2024-06-10/field.jpg
+Dieses verbreitete Motiv ist Bryce Wilners 2017 entstandene zeichnerische Rekonstruktion eines Autorefraktometerbildes, kein unverändertes Gerätefoto. Es wird hier als vorhandene Bildquelle verwendet und nicht neu generiert.
+Urheberseite: https://autorefractor.brycewilner.com/
+Originaldatei des Urhebers: https://autorefractor.brycewilner.com/01-assets/autorefractor-barn.jpg
+
+Recherche zur Herkunft beider Motive:
+https://emymin.net/blog/2024/06/10/you-have-seen-this-before
+
+Die gelieferten Bilddateien wurden nicht retuschiert. Der Renderer liest ihre Pixel zur Laufzeit als Fototextur bzw. als Bildtextur und entnimmt daraus den endlos wiederholbaren Boden. Die generierten Raum-Konzeptbilder der vorherigen Testfassung sind nicht enthalten.
+
+Dieses Paket enthält keine behauptete Freigabe oder offene Lizenz für die Bildmotive. Bildrechte werden durch dieses Testpaket nicht übertragen.
+
+Three.js r128: MIT-Lizenz, Copyright 2010-2021 Three.js Authors; Lizenzhinweis in vendor/three.min.js.

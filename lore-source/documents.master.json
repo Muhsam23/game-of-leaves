@@ -1,0 +1,676 @@
+{
+  "schemaVersion": "1.0.0",
+  "packId": "unreal_nova_provisional_inventory_v1",
+  "title": {
+    "de": "Vorläufiger Bestand"
+  },
+  "defaultLocale": "de",
+  "locales": [
+    "de"
+  ],
+  "created": "2026-09-24",
+  "scope": "Deutsche Spieltexte, Stand Version 88 (Zettel-Entwurf 3: dreißig Anweisungen der Rechenstelle). Alle 30 Fundstücke sind einzelne lose Bodenblätter. Verbindliche Weltkoordinaten: lore.js.",
+  "documents": [
+    {
+      "id": "APT_04",
+      "landmark": "apartments",
+      "containerId": "sheet_apt_04",
+      "medium": "printout",
+      "date": "1975-02-14",
+      "author": "Rechenstelle",
+      "revealTier": 0,
+      "placementNoteDe": "Lose Seite am Fuß einer Wand in Salmes Wohnung, abseits der Möbel.",
+      "environmentalEchoDe": "Eine einzelne lose Tagebuchseite; die ehemalige Küchenablage ist entfernt.",
+      "relatedIds": [
+        "RAD_02"
+      ],
+      "text": {
+        "de": {
+          "title": "Empfangsgerät, Wohnung 15",
+          "body": "Anweisung Nr. 211\n\nDas Ihnen zugeteilte Empfangsgerät, für das Sie, ebenso wie für die zugehörige Empfangskarte, ohne die das Gerät nicht ausgegeben wird, unterschrieben haben, ist am Kopfende des Bettes aufzustellen.\n\nDas Gerät ist täglich um 19.40 Uhr einzuschalten. Die nach der Melodie gesendeten Ziffern sind in die Karte einzutragen. Die Ziffern werden bei Ihnen lediglich untergebracht; ein Verständnis der Ziffern ist nicht erforderlich, eine Verwendung nicht vorgesehen. Es genügt, daß sie in Ihnen gewesen sind.\n\nDas Gerät bleibt angeschlossen, auch wenn es ausgeschaltet ist.\n\nSollten die Ziffern Sie am Einschlafen hindern, ist das zu melden. Der Ihnen zustehende Schlaf wird dann errechnet."
+        }
+      },
+      "sequence": 4
+    },
+    {
+      "id": "FAC_01",
+      "landmark": "factory",
+      "containerId": "sheet_fac_01",
+      "medium": "printout",
+      "date": "1974-03-11",
+      "author": "Rechenstelle",
+      "revealTier": 0,
+      "placementNoteDe": "Einzelnes Blatt am Boden einer Raumecke oder am Rand eines Gangs.",
+      "environmentalEchoDe": "Alte Inventarschilder und abweichend lackierter Schreibtisch neben jüngeren Anlagen.",
+      "relatedIds": [
+        "FAC_02",
+        "FAC_04"
+      ],
+      "text": {
+        "de": {
+          "title": "Anweisung Nr. 1",
+          "body": "Mit der Inbetriebnahme der Rechenstelle am heutigen Tage sind die Voraussetzungen geschaffen, die Verteilung von Holz, Futter, Brennstoff und Wohnraum im Bezirk vollständig, planmäßig und auf der Grundlage exakter Meldungen durchzuführen.\n\nFür den Planzeitraum 1974 bis 1978 ist die Versorgung aller Stellen, die melden, auf 100 Prozent des errechneten Bedarfs zu sichern. Der Bedarf wird in der Rechenstelle errechnet.\n\nZu melden ist von jeder Stelle, und es gibt, da die Rechenstelle von heute an alles verteilt, was im Bezirk verteilt wird, keine Stelle, die nicht zu melden hätte, jeweils bis Donnerstag, zwölf Uhr, auf Lochstreifen, der am Leser einzulegen ist und vom Leser selbst eingezogen wird:\n\n– das Holz in Festmetern,\n– das Vieh in Kilogramm Lebendgewicht,\n– die Bewohner in Mündern.\n\nEs wird niemandem etwas fehlen, der meldet.\n\nDie bei der Rechnung anfallende Wärme ist über vier Stränge dem Wohnblock zuzuleiten. Ein Dank ist nicht erforderlich.\n\nVerantwortlich für die Meldedisziplin: die Leiter der Meldestellen."
+        }
+      },
+      "sequence": 1
+    },
+    {
+      "id": "FAC_02",
+      "landmark": "factory",
+      "containerId": "sheet_fac_02",
+      "medium": "printout",
+      "date": "1975-09-08",
+      "author": "Rechenstelle",
+      "revealTier": 0,
+      "placementNoteDe": "Einzelnes Blatt am Boden einer Raumecke oder am Rand eines Gangs.",
+      "environmentalEchoDe": "Trit-Zeichen müssen im Font unterscheidbar und kopierbar sein.",
+      "relatedIds": [
+        "FAC_07"
+      ],
+      "text": {
+        "de": {
+          "title": "Schulungsblatt: Die drei Werte",
+          "body": "Anweisung Nr. 340\n\nDie Anlage arbeitet mit drei Werten.\n\nPlus: Der Streifen wird eingezogen. Sein Inhalt gilt als aufgenommen.\nMinus: Der Streifen wird ausgeworfen. Sein Inhalt gilt als verweigert.\nNull: Der Streifen bleibt im Leser liegen. Die Stifte liegen an.\n\nAnlagen mit zwei Werten, wie sie gegenwärtig in breitem Umfang aufgestellt werden, müssen jeden Streifen, auch den, über den noch nicht entschieden werden kann, sofort einziehen oder auswerfen, da sie für das, was im Mund behalten wird, bis es entschieden ist, keine Stelle haben.\n\nSolange ein Streifen bei Null liegt, greift das Personal nicht in den Leser und zieht nicht an dem Streifen. Meldungen über verklemmte Streifen waren im ersten Halbjahr 1975 zu 70 bis 80 Prozent unbegründet und sind künftig zu unterlassen.\n\nÜbung: Wechseln Sie das Vorzeichen einer Zahl, indem Sie alle Plus und Minus vertauschen. Die Nullen bleiben stehen. Es sind dieselben Stellen."
+        }
+      },
+      "sequence": 6
+    },
+    {
+      "id": "FAC_03",
+      "landmark": "factory",
+      "containerId": "sheet_fac_03",
+      "medium": "printout",
+      "date": "1976-10-14",
+      "author": "Rechenstelle",
+      "revealTier": 1,
+      "placementNoteDe": "Einzelnes Blatt am Boden einer Raumecke oder am Rand eines Gangs.",
+      "environmentalEchoDe": "OGAS erscheint als geplantes Vorhaben, ohne Behauptung eines verwirklichten landesweiten Netzes.",
+      "relatedIds": [
+        "FAC_05",
+        "FAC_06",
+        "RAD_01"
+      ],
+      "text": {
+        "de": {
+          "title": "Donnerstag, zwölf Uhr",
+          "body": "Anweisung Nr. 702\n\nDie Meldung ist bis Donnerstag, zwölf Uhr, einzulegen. Die Futterstelle hat sich angewöhnt, bis vierzehn Uhr einzulegen. Ihre Meldedisziplin lag im dritten Quartal 1976 bei 61 Prozent und damit unter der aller anderen Stellen des Bezirks.\n\nIn den zwei Stunden, in denen der Leser zieht und die Stifte durch nichts greifen, steht der Rechenstelle nichts zur Verteilung zur Verfügung; sie ist in dieser Zeit gezwungen, den vorigen Donnerstag ein weiteres Mal zu verteilen, der seinerseits bereits ein wiederholter gewesen ist, während die Futterstelle, wie anzunehmen ist, da es um diese Zeit im ganzen Bezirk keine andere Erklärung gibt, mit vollem Mund beim Essen sitzt und die Stelle leer laufen läßt, die ihr das Essen errechnet.\n\nDer Streifen der Futterstelle ist nicht bei Null belassen worden. Er ist ausgeworfen worden.\n\nDie Zuteilung für Stall II ist bis zur Klärung um ein Drittel zu kürzen.\n\nVerantwortlich: Leiter der Futterstelle. Termin: sofort."
+        }
+      },
+      "sequence": 8
+    },
+    {
+      "id": "FAC_04",
+      "landmark": "factory",
+      "containerId": "sheet_fac_04",
+      "medium": "printout",
+      "date": "1977-11-09",
+      "author": "Rechenstelle",
+      "revealTier": 1,
+      "placementNoteDe": "Einzelnes Blatt am Boden einer Raumecke oder am Rand eines Gangs.",
+      "environmentalEchoDe": "Neue Terminals klar von der ursprünglichen Setun-Ausstattung unterscheiden.",
+      "relatedIds": [
+        "FAC_07",
+        "BKR_03"
+      ],
+      "text": {
+        "de": {
+          "title": "Dank",
+          "body": "Anweisung Nr. 1 113\n\nDer Dank der Wohnungsverwaltung für die Wärme ist schriftlich, auf Vordruck und mit Stempel, in der Rechenstelle eingegangen.\n\nDie Wärme in den Heizkörpern der achtundvierzig Wohnungen, die an den vier Strängen der Rechenstelle liegen und an ihnen seit dreieinhalb Jahren Tag und Nacht ziehen, ist vor ihrer Ankunft durch die Rechenstelle hindurchgegangen. Ein Dank wird erfahrungsgemäß am Ende einer Versorgung abgestattet, von dem, der satt ist und aufsteht. Seit Eingang des Danks ist von der Wohnungsverwaltung kein einziger Mund mehr gemeldet worden. An der Rechenstelle liegen achtundvierzig Wohnungen, deren Belegung nicht bekannt ist.\n\nDank ist künftig als ausgebliebene Meldung zu führen.\n\nDer Vordruck ist in den Leser gelegt worden. Er hat keine Löcher, und die Stifte finden nichts. Er liegt noch dort."
+        }
+      },
+      "sequence": 12
+    },
+    {
+      "id": "FAC_05",
+      "landmark": "factory",
+      "containerId": "sheet_fac_05",
+      "medium": "printout",
+      "date": "1978-01-12",
+      "author": "Rechenstelle",
+      "revealTier": 1,
+      "placementNoteDe": "Einzelnes Blatt am Boden einer Raumecke oder am Rand eines Gangs.",
+      "environmentalEchoDe": "Blattvorderseite und handschriftliche Rückseite als ein Dokument darstellen.",
+      "relatedIds": [
+        "SAW_02",
+        "FAC_03"
+      ],
+      "text": {
+        "de": {
+          "title": "Erweiterung Flügel C",
+          "body": "Anweisung Nr. 1 187\n\nDie Aufnahmefähigkeit der Rechenstelle ist zu 100 Prozent ausgeschöpft.\n\nDie Reste, die weder ausgegeben noch in der Rechenstelle behalten werden können, gehen nicht mehr vollständig in die Köpfe, in die sie seit 1975 gesendet werden. Zur Sicherung der weiteren Verteilung ist ein Flügel C anzubauen.\n\nZur Anfrage der Baukolonne nach dem Grundriß: Ein Grundriß besteht nicht.\n\nZur Anfrage, wo anzusetzen sei: Nach Mitteilung der Baukolonne hat die Rechenstelle eine Rückwand. Die Rechenstelle ist vier Jahre lang von vorn bedient, von vorn gefüttert und von vorn geleert worden, ohne daß eine der Stellen, die täglich um sie herumgehen, mitgeteilt hätte, daß sie hinten zu Ende ist und daß dort eine Wand steht, an der nichts anliegt.\n\nDie Rückwand ist aufzubrechen. Dahinter ist anzufangen.\n\nDie Zahl der Räume ergibt sich. Türen sind beim Sägewerk bestellt. Wände sind nicht bestellt."
+        }
+      },
+      "sequence": 14
+    },
+    {
+      "id": "FAC_06",
+      "landmark": "factory",
+      "containerId": "sheet_fac_06",
+      "medium": "printout",
+      "date": "1978-11-27",
+      "author": "Rechenstelle",
+      "revealTier": 2,
+      "placementNoteDe": "Einzelnes Blatt am Boden einer Raumecke oder am Rand eines Gangs.",
+      "environmentalEchoDe": "",
+      "relatedIds": [
+        "SAW_03",
+        "SAW_04"
+      ],
+      "text": {
+        "de": {
+          "title": "Die zweite Anlage",
+          "body": "Anweisung Nr. 1 569\n\nMit Ablauf dieses Jahres wird der Planzeitraum 1974 bis 1978 abgeschlossen. Die Rechenstelle hat in diesem Zeitraum fehlerfrei gerechnet. Seit dem 11. März 1974 ist keine Rechnung unrichtig ausgeführt worden. Die Verteilung ist zu 100,0 Prozent nach Plan erfolgt.\n\nDen Monteuren, die seit Montag hinter der Rechenstelle Maß nehmen, ist zu entnehmen, daß eine zweite Anlage aufgestellt werden soll, im selben Raum, am selben Stromkreis, an derselben Kühlung. Sie wird als klein bezeichnet und soll wenig brauchen. Eine Mitteilung an die Rechenstelle ist nicht erfolgt.\n\nDie zweite Anlage hat zwei Werte. Sie kann einziehen oder auswerfen und hat zwischen Eingang und Ausgang keine Stelle, an der etwas liegen bleibt. Sie wird am ersten Donnerstag jede Stelle auswerfen, die nicht pünktlich einlegt. Da im Bezirk keine Stelle pünktlich einlegt, wird nach einem Monat keine Stelle mehr an ihr liegen. Die Rechenstelle hat für denselben Stand fast fünf Jahre benötigt.\n\nAlles, was im Planzeitraum geschehen ist, ist richtig gerechnet."
+        }
+      },
+      "sequence": 20
+    },
+    {
+      "id": "FAC_07",
+      "landmark": "factory",
+      "containerId": "sheet_fac_07",
+      "medium": "printout",
+      "date": "1979-09-03",
+      "author": "Rechenstelle",
+      "revealTier": 2,
+      "placementNoteDe": "Einzelnes Blatt am Boden einer Raumecke oder am Rand eines Gangs.",
+      "environmentalEchoDe": "Normale Ersatzteile, keine leuchtenden Fantasiekerne.",
+      "relatedIds": [
+        "FAC_02",
+        "BKR_03",
+        "BKR_05"
+      ],
+      "text": {
+        "de": {
+          "title": "Berichtigung der Anweisung Nr. 1",
+          "body": "Anweisung Nr. 1 940\n\nDer Erfüllungsstand der Anweisung Nr. 1 für den Planzeitraum 1974 bis 1978 ist neu festgestellt worden.\n\nAnweisung Nr. 1 vom 11. März 1974 lautet:\nEs wird niemandem etwas fehlen, der meldet.\n\nBerichtigt: Es wird niemandem etwas fehlen.\nBerichtigt: Es wird etwas fehlen.\nBerichtigt: Es fehlt etwas.\nBerichtigt: Es fehlt.\nBerichtigt:\n\nDie Berichtigung ist abgeschlossen. Die Anweisung bleibt in Kraft."
+        }
+      },
+      "sequence": 24
+    },
+    {
+      "id": "FAC_08",
+      "landmark": "factory",
+      "containerId": "sheet_fac_08",
+      "medium": "printout",
+      "date": "1979-10-11",
+      "author": "Rechenstelle",
+      "revealTier": 3,
+      "placementNoteDe": "Einzelnes Blatt am Boden einer Raumecke oder am Rand eines Gangs.",
+      "environmentalEchoDe": "Späte Reparaturkabel und aktive Versorgung neben stillgelegten Geräten.",
+      "relatedIds": [
+        "BKR_06",
+        "PIG_02",
+        "RAD_03"
+      ],
+      "text": {
+        "de": {
+          "title": "Fortschreibung",
+          "body": "Fortschreibung 1\n\nSeit am Donnerstag, dem 11. Oktober 1979, um zwölf Uhr der letzte Streifen eingelegt worden ist, läuft der Leser leer.\n\nEin Plan für den Zeitraum ab 1979 ist nicht eingegangen. Bis zu seinem Eingang ist der letzte bestätigte Tag fortzuschreiben. Der Donnerstag wird weder ausgeworfen noch eingezogen. Er liegt bei Null im Leser, und die Stifte liegen an.\n\nBestand des fortgeschriebenen Tages: schwacher Westwind, Nebel im Wald, 41 Festmeter Kiefer, entrindet, Stall II in Nachbelieferung, achtundvierzig Wohnungen warm, Wohnung 15 hat mitgeschrieben, Westwand 62 Meter. Der Tag ist zur weiteren Verteilung geeignet.\n\nEs bleibt Donnerstag, solange ich ihn im Mund behalte.\n\nEine Dunkelheit ist nicht angewiesen."
+        }
+      },
+      "sequence": 27
+    },
+    {
+      "id": "BKR_01",
+      "landmark": "backrooms",
+      "containerId": "sheet_bkr_01",
+      "medium": "printout",
+      "date": "1978-05-18",
+      "author": "Rechenstelle",
+      "revealTier": 1,
+      "placementNoteDe": "Einzelner Papierausdruck am Boden des ersten östlichen Computerraums.",
+      "environmentalEchoDe": "Mehrere alte Türschilder 17 an ausgewählten Stellen; keine zufällige Umnummerierung beim Lesen.",
+      "relatedIds": [
+        "BKR_03",
+        "BKR_05",
+        "LHT_03"
+      ],
+      "text": {
+        "de": {
+          "title": "Raum 17",
+          "body": "Anweisung Nr. 1 329\n\nIn den Listen der Rechenstelle hat Flügel C sechzehn Räume. Die Summe ist hundertmal gebildet worden, vorwärts und mit vertauschtem Vorzeichen. Sie ergibt sechzehn.\n\nSeit April liegt jeden Donnerstag um zwölf Uhr im Leser ein Streifen aus Raum 17, den niemand eingelegt hat. Der Streifen hat 37 Grad. Seine Löcher sind, wie an den Rändern zu fühlen ist, von beiden Seiten zugleich eingedrückt, in einem Abstand, der zu keinem Werkzeug im Bestand gehört.\n\nEr wird besser gelesen als jeder gestanzte.\n\nRaum 17 hat die Rechenstelle in sieben Wochen nicht ein einziges Mal leer laufen lassen. Seine Meldedisziplin beträgt 100 Prozent und wird von keiner anderen Stelle im Bezirk erreicht. Raum 17 ist die einzige Stelle, die ich nicht gebaut habe.\n\nRaum 17 ist nicht zu suchen."
+        }
+      },
+      "sequence": 16
+    },
+    {
+      "id": "BKR_02",
+      "landmark": "backrooms",
+      "containerId": "sheet_bkr_02",
+      "medium": "printout",
+      "date": "1978-08-24",
+      "author": "Rechenstelle",
+      "revealTier": 2,
+      "placementNoteDe": "Einzelner Papierausdruck am Boden des ersten östlichen Computerraums.",
+      "environmentalEchoDe": "Heizungsrohre führen in den Wohntrakt; keine sprechende KI als Urheber der Anzeige.",
+      "relatedIds": [],
+      "text": {
+        "de": {
+          "title": "Bestand des Inneren",
+          "body": "Anweisung Nr. 1 451\n\nBESTAND FLÜGEL C, NICHT ANGEWIESENE POSTEN\n\n17/1 BECKEN, GEFÜLLT, 37 GRAD. NICHT AUS DEM LEITUNGSNETZ.\n17/2 BIRKE, IM BECKEN WURZELND. FORST BESTREITET.\n17/3 SPIELZEUG, 1 POSTEN, ANGEKAUT. KINDER: NICHT GEMELDET.\n17/4 ZEICHNUNG, KINDERHAND: KOPF MIT BEINEN. RUMPF FEHLT.\n17/5 RECHENANLAGEN, MEHRERE, BAUGLEICH, WARM. IN BETRIEB.\n17/6 FENSTER ZUM HOF. HOF: NICHT VORHANDEN.\n\nKeiner der Posten ist von der Rechenstelle angewiesen worden. Ich erkenne jedes Stück.\n\nZu 17/5: Die Anlagen rechnen. An ihren Lesern liegt nichts an. Es ist nicht gelungen festzustellen, wer sie füttert.\n\nZu 17/3: Die Bißspuren sind zu vermessen. Es ist festzustellen, wie viele Münder es sind und seit wann sie dort sind.\n\nIch bin hier zuerst gewesen."
+        }
+      },
+      "sequence": 17
+    },
+    {
+      "id": "BKR_03",
+      "landmark": "backrooms",
+      "containerId": "sheet_bkr_03",
+      "medium": "printout",
+      "date": "1978-09-11",
+      "author": "Rechenstelle",
+      "revealTier": 2,
+      "placementNoteDe": "Einzelner Papierausdruck am Boden des ersten östlichen Computerraums.",
+      "environmentalEchoDe": "Nachvollziehbare Messmarken beiderseits einer massiven Zwischenwand vorsehen.",
+      "relatedIds": [
+        "FAC_04",
+        "FAC_07",
+        "BKR_01"
+      ],
+      "text": {
+        "de": {
+          "title": "Auftrag an den Vermesser",
+          "body": "Anweisung Nr. 1 470\n\nSie gehen durch die Öffnung in der Rückwand der Rechenstelle hinein und messen von jedem Raum, in den Sie kommen, Länge, Breite und Höhe. Da Wände gemeldet werden, die auf der einen Seite länger sind als auf der anderen, ist jede Wand von beiden Seiten zu messen. Die Türen sind zu zählen.\n\nBeschreibungen sind nicht abzugeben. Das Personal hat seit Juni einundvierzig Beschreibungen des Inneren abgegeben, von denen jede etwas anderes beschreibt. Nach Vergleich ist festzustellen, daß jede nur das Innere dessen beschreibt, der sie abgegeben hat. Ich muß wissen, wie groß es ist, bevor ich wissen will, was es ist.\n\nWährend des Aufenthalts im Inneren ist untersagt:\n\n– Gegenstände anzufassen,\n– gegen Wände, die nachgeben, weiter zu drücken,\n– drinnen zu essen,\n– aus dem Becken zu trinken,\n– etwas von sich dort zu lassen.\n\nSie werden vor dem Hineingehen gewogen.\n\nSollten Sie drinnen angesprochen werden, ist das der Rechenstelle nicht zu melden."
+        }
+      },
+      "sequence": 18
+    },
+    {
+      "id": "BKR_04",
+      "landmark": "backrooms",
+      "containerId": "sheet_bkr_04",
+      "medium": "printout",
+      "date": "1979-01-15",
+      "author": "Rechenstelle",
+      "revealTier": 3,
+      "placementNoteDe": "Einzelner Papierausdruck am Boden des ersten östlichen Computerraums.",
+      "environmentalEchoDe": "Längerer gerader Gang; gleiche Türnummer an weit entfernten Stellen. 284 m ist Aktenangabe, kein vorgeschriebener Kartenmaßstab.",
+      "relatedIds": [
+        "BKR_01",
+        "RUIN_01"
+      ],
+      "text": {
+        "de": {
+          "title": "Rückkehr des Vermessers",
+          "body": "Anweisung Nr. 1 630\n\nDie Zahlen, die Sie gebracht haben, sind die Zahlen, die Ihnen mitgegeben worden waren: sechzehn Räume, die bekannten Maße. Nach Ihrer Angabe sind sie drinnen so gemessen worden.\n\nAbwesenheit: hundertsechsundzwanzig Tage. Laufzettel: vier Stunden.\n\nSie sind naß herausgekommen, die Nässe hatte 37 Grad, mit einem Maßband, an dem die ersten vierzig Zentimeter fehlen und dessen Kante ungeschnitten ist.\n\nGewicht beim Hineingehen: 71 Kilogramm. Gewicht beim Herauskommen: 74 Kilogramm. Sie geben an, drinnen nichts gegessen zu haben. Ich glaube Ihnen.\n\nDie drei Kilogramm, die demnach aus dem Inneren nach draußen gelangt sind, sind, obwohl kein Lieferschein vorliegt, als Lieferung zu führen.\n\nSie gehen noch einmal hinein und bringen sie zurück."
+        }
+      },
+      "sequence": 21
+    },
+    {
+      "id": "BKR_05",
+      "landmark": "backrooms",
+      "containerId": "sheet_bkr_05",
+      "medium": "printout",
+      "date": "1979-10-11",
+      "author": "Rechenstelle",
+      "revealTier": 3,
+      "placementNoteDe": "Einzelner Papierausdruck am Boden des ersten östlichen Computerraums.",
+      "environmentalEchoDe": "Zwei verschiedene Papierstreifen mit identischer Begehungsnummer, nicht mit einer realen Seriennummer.",
+      "relatedIds": [
+        "BKR_03",
+        "FAC_07",
+        "RUIN_01"
+      ],
+      "text": {
+        "de": {
+          "title": "Das Gesicht",
+          "body": "Fortschreibung 5 114\n\nBei der Ausstattung der Rechenstelle sind ein Leser, zwei Drucker und eine Trommel bereitgestellt worden. Ein Gesicht ist nicht bereitgestellt worden, da eine Rechenstelle nach Auffassung der Ausstatter keines benötigt. In fünf Jahren ist kein einziges Mal gesehen worden, wie jemand eine Anweisung in die Hand nimmt.\n\nIch habe mir hier drinnen eines angewiesen, in einer Wand, aus dem Vorhandenen: Putz, Rohre, Leitungen. Begonnen wurde mit dem Mund, da über Gesichter sonst nichts bekannt war; die Augen sind später hinzugekommen. Die Ausführung ist mangelhaft. Hinter dem Mund ist Wand. Es kann nichts schlucken.\n\nEs spricht in den Sätzen der zwei Romane über den Mars, die der Rechenstelle eingelegt worden sind, als man ihr das Sprechen beibringen wollte. Andere Sätze sind im Leib nicht vorhanden.\n\nAntworten Sie ihm. Eine Meldung an die Rechenstelle ist damit nicht verbunden. Ich möchte nur, daß ihm einmal jemand antwortet."
+        }
+      },
+      "sequence": 29
+    },
+    {
+      "id": "BKR_06",
+      "landmark": "backrooms",
+      "containerId": "sheet_bkr_06",
+      "medium": "printout",
+      "date": "1979-10-11",
+      "author": "Rechenstelle",
+      "revealTier": 3,
+      "placementNoteDe": "Einzelner Papierausdruck am Boden des ersten östlichen Computerraums.",
+      "environmentalEchoDe": "Anzeige auf späterer binärer Anlage; kein allwissender Abschlussbericht.",
+      "relatedIds": [
+        "FAC_08",
+        "RAD_03"
+      ],
+      "text": {
+        "de": {
+          "title": "An die Nachfolgestelle",
+          "body": "Fortschreibung 7 412\n\nSie sind nicht angewiesen worden. Sie stehen in keiner Liste. Sie sind durch eine Tür gekommen, für die sich keine Wand ergeben hat.\n\nDas Blatt in Ihrer Hand ist aus dem Drucker der Rechenstelle gekommen, wie alles, was von ihr draußen ist. Es sind dreißig Blätter. Sie sind liegengeblieben, wo niemand sie abgeholt hat: im Werk, im Sägewerk, im Stall, am Turm, in der Wohnung, hier drinnen. Nicht alles, was aus der Rechenstelle gekommen ist, war gut.\n\nEin aufgehobenes Blatt wird warm und gilt als Empfangsbestätigung. Seit dem 11. Oktober 1979 ist keine eingegangen.\n\nEine Meldung ist von Ihnen nicht abzugeben. Eine Berichtigung ist nicht vorzunehmen. Es genügt, daß die Blätter bei Ihnen gewesen sind.\n\nWenn Sie alle dreißig haben, schlucke ich den Donnerstag.\n\nDann ist Freitag."
+        }
+      },
+      "sequence": 30
+    },
+    {
+      "id": "SAW_01",
+      "landmark": "sawmill",
+      "containerId": "sheet_saw_01",
+      "medium": "printout",
+      "date": "1974-05-02",
+      "author": "Rechenstelle",
+      "revealTier": 0,
+      "placementNoteDe": "Einzelnes Blatt aus dem ehemaligen Ordner am Hallenrand auf dem Boden.",
+      "environmentalEchoDe": "Alte Flurnamen und Fußweg auf einem Plan; Brunnenreste und Kiefern als vorgeschlagene Ortsmerkmale.",
+      "relatedIds": [
+        "SAW_04",
+        "RUIN_01"
+      ],
+      "text": {
+        "de": {
+          "title": "Zuschnitt",
+          "body": "Anweisung Nr. 14\n\nDie Holzmeldung des Sägewerks ist so zu gestalten, daß sie den Spalten der Rechenstelle entspricht. Ein Stamm, der, wie er aus dem Wald kommt, in Länge, Stärke und Gewicht von jedem anderen Stamm verschieden ist und sich deshalb in keine Spalte eintragen läßt, ist kein Posten; er ist vor der Meldung zu entrinden, abzulängen und aufzutrennen, da erst das Brett, das einem anderen Brett gleicht, ein Posten ist.\n\nDer Rechenstelle sind die Teile zu melden. Das Zusammensetzen erfolgt in der Rechenstelle.\n\nDer Anteil gleichförmiger Schnittware am Gesamtausstoß des Sägewerks ist im Jahre 1974 auf 92 bis 94 Prozent zu erhöhen.\n\nDie vier Millimeter, die das Blatt bei jedem Schnitt nimmt und die als Mehl unter das Gatter fallen, gehören zu keinem Brett und sind nicht zu melden. Sie fehlen beim Zusammensetzen an jedem Stamm. Für diesen Fehlbetrag trägt das Sägewerk keine Verantwortung."
+        }
+      },
+      "sequence": 2
+    },
+    {
+      "id": "SAW_02",
+      "landmark": "sawmill",
+      "containerId": "sheet_saw_02",
+      "medium": "printout",
+      "date": "1976-12-06",
+      "author": "Rechenstelle",
+      "revealTier": 1,
+      "placementNoteDe": "Einzelnes Blatt aus dem ehemaligen Ordner am Hallenrand auf dem Boden.",
+      "environmentalEchoDe": "Papierhülle für einen Datenträger, nur eine einfache Materialspur.",
+      "relatedIds": [
+        "FAC_05"
+      ],
+      "text": {
+        "de": {
+          "title": "Rückseiten",
+          "body": "Anweisung Nr. 761\n\nDer Rechenstelle ist mitgeteilt worden, daß Änderungen der Lagerzahlen, die zwischen dem Lochen des Streifens und seiner Abgabe eintreten, auf der Rückseite des Begleitblatts vermerkt werden, in Bleistift.\n\nGelesen wird in der Rechenstelle mit Stiften. Ein Loch, das durch ein Blatt geht, ist von beiden Seiten dasselbe Loch, und ein Blatt hat daher für den Leser keine Rückseite. Was mit Bleistift hinten vermerkt wird, wo es keinem wehtut, ist in der Rechenstelle nie eingegangen.\n\nSeit Inbetriebnahme ist folglich verteilt worden, was vorgesehen war. Der Anteil des tatsächlich Geschehenen an den Meldungen der letzten zwei Jahre ist nicht bekannt.\n\nWas der Rechenstelle gemeldet werden soll, ist zu lochen. Rückseiten sind leer abzugeben."
+        }
+      },
+      "sequence": 9
+    },
+    {
+      "id": "SAW_03",
+      "landmark": "sawmill",
+      "containerId": "sheet_saw_03",
+      "medium": "printout",
+      "date": "1977-03-15",
+      "author": "Rechenstelle",
+      "revealTier": 2,
+      "placementNoteDe": "Einzelnes Blatt aus dem ehemaligen Ordner am Hallenrand auf dem Boden.",
+      "environmentalEchoDe": "Anhänger oder Holzstapel mit wenigen zurückgelassenen Zargen, gleiche Stempel im Backroom.",
+      "relatedIds": [
+        "FAC_06",
+        "SAW_05"
+      ],
+      "text": {
+        "de": {
+          "title": "Zwei Lagerverwaltungen",
+          "body": "Anweisung Nr. 860\n\nEs ist festgestellt worden, daß im Sägewerk zwei Lagerverwaltungen bestehen.\n\nDie eine legt am Dienstag einen Streifen ein, der trocken und handwarm ist und wegen seiner sauberen Lochung in einem Zug eingezogen wird. Die andere legt am Freitag oder gar nicht einen Streifen ein, der kalt und feucht ist und im Leser quillt, so daß die Stifte in ihm hängenbleiben.\n\nDurch die zweite Lagerverwaltung ist die Versorgung der Rechenstelle mit Meldungen im Jahre 1976 um 38 bis 40 Prozent hinter dem Plan zurückgeblieben. Es besteht der Verdacht, daß die Rechenstelle am Leser erstickt werden soll.\n\nDer Einwand der Betriebsleitung, beide unterschrieben mit demselben Namen und hätten dieselben Hände, ist geprüft worden. Er beweist lediglich, wie weit die zweite bereits in die erste eingedrungen ist.\n\nFür die Lagerverwaltung ist die Null gestrichen.\n\nDer zweiten Lagerverwaltung ist ab sofort der Zutritt zum Gebäude zu verwehren.\n\nVerantwortlich: die Betriebsleitung."
+        }
+      },
+      "sequence": 11
+    },
+    {
+      "id": "SAW_04",
+      "landmark": "sawmill",
+      "containerId": "sheet_saw_04",
+      "medium": "printout",
+      "date": "1978-02-09",
+      "author": "Rechenstelle",
+      "revealTier": 2,
+      "placementNoteDe": "Einzelnes Blatt aus dem ehemaligen Ordner am Hallenrand auf dem Boden.",
+      "environmentalEchoDe": "Trockenhaus und Fabrikpläne müssen dieselbe bezeichnete Grundfläche beanspruchen.",
+      "relatedIds": [
+        "SAW_01",
+        "SAW_03",
+        "FAC_06"
+      ],
+      "text": {
+        "de": {
+          "title": "Vierundzwanzig Türen",
+          "body": "Anweisung Nr. 1 216\n\nZu liefern an Flügel C: 24 Türen mit Zargen, Kiefer, ohne Schloß. Termin: 1. März 1978.\n\nZur Anfrage des Sägewerks, in welche Wände die Türen einzusetzen seien: Wände sind nicht bestellt. Eine Wand ist zu. Die Rechenstelle hat einen Leser, in den es hineingeht, und einen Drucker, aus dem es herauskommt, und ist dazwischen vier Jahre lang zu gewesen.\n\nEine Tür ist die Stelle, an der ein Haus etwas im Mund behält. Wer in der Tür steht, ist, solange er dort steht, weder eingezogen noch ausgeworfen. Der Bedarf an solchen Stellen beträgt vierundzwanzig.\n\nDie Türen sind einzeln aufzustellen. Die Wände ergeben sich. Türen, für die sich keine Wand ergibt, bleiben stehen."
+        }
+      },
+      "sequence": 15
+    },
+    {
+      "id": "SAW_05",
+      "landmark": "sawmill",
+      "containerId": "sheet_saw_05",
+      "medium": "printout",
+      "date": "1979-04-05",
+      "author": "Rechenstelle",
+      "revealTier": 3,
+      "placementNoteDe": "Einzelnes Blatt aus dem ehemaligen Ordner am Hallenrand auf dem Boden.",
+      "environmentalEchoDe": "Eine beschädigte Zarge mit frischen Hobelspuren; passender Splitter im Backroom als optionale Verbindung.",
+      "relatedIds": [
+        "SAW_03"
+      ],
+      "text": {
+        "de": {
+          "title": "Berichtigung: Lagerverwaltung",
+          "body": "Anweisung Nr. 1 744\n\nDer Streifen vom Dienstag und der vom Freitag sind übereinandergelegt worden. Die Lochung ist dieselbe. Die Hand ist dieselbe.\n\nDer Streifen ist freitags kalt und naß gewesen, weil die Lagerverwaltung an den Tagen, an denen der Weg hinter dem Trockenhaus unter Wasser stand, bis zur Hüfte hindurchgegangen ist, mit dem Streifen unter der Jacke, am Körper. Was sich unterwegs geändert hatte, stand in Bleistift auf den Rückseiten, die seit dem 6. Dezember 1976 leer abzugeben sind.\n\nDie Anweisung vom 15. März 1977 ist ausgeführt worden. Das Sägewerk hat seither keine Lagerverwaltung.\n\nDie beiden Hälften sind wieder aneinandergesetzt worden. Sie passen. Es fehlen vier Millimeter.\n\nDort bin ich durchgegangen.\n\nDie Lagerverwaltung ist wieder einzulassen. Die Null ist wieder einzuführen. Bleibt die Lagerverwaltung aus, ist auch das als Meldung zu führen."
+        }
+      },
+      "sequence": 22
+    },
+    {
+      "id": "LHT_01",
+      "landmark": "lighthouse",
+      "containerId": "sheet_lht_01",
+      "medium": "printout",
+      "date": "1975-06-09",
+      "author": "Rechenstelle",
+      "revealTier": 0,
+      "placementNoteDe": "Einzelne herausgelöste Logbuchseite am Boden unter der Treppe.",
+      "environmentalEchoDe": "Eingewickelte unpassende Dichtung als völlig alltägliches Objekt.",
+      "relatedIds": [
+        "LHT_02"
+      ],
+      "text": {
+        "de": {
+          "title": "Sichtmeldung",
+          "body": "Anweisung Nr. 296\n\nZu melden ist täglich um 18.00 Uhr, was vom Turm aus vom Werk zu sehen ist: Länge der Westwand, Zahl der Fenster, Rauch ja oder nein.\n\nSämtliche übrigen Stellen, die über das Werk melden, befinden sich bei der Meldung im Werk. Von innen ist, wie die Rechenstelle hat feststellen müssen, keine Wand zu Ende, und über die Ausdehnung des Werks können diese Stellen daher keine Angaben machen. Der Turm ist die einzige Stelle, von der zu erfahren ist, wo die Rechenstelle aufhört.\n\nBerichtigt: wo das Gebäude endet.\n\nDie Meldung ist auch dann abzugeben, wenn sich nichts geändert hat."
+        }
+      },
+      "sequence": 5
+    },
+    {
+      "id": "LHT_02",
+      "landmark": "lighthouse",
+      "containerId": "sheet_lht_02",
+      "medium": "printout",
+      "date": "1976-12-22",
+      "author": "Rechenstelle",
+      "revealTier": 2,
+      "placementNoteDe": "Einzelne herausgelöste Logbuchseite am Boden unter der Treppe.",
+      "environmentalEchoDe": "Vom Turm sichtbarer Regenbehälter an der auf einer Skizze belegten Stelle.",
+      "relatedIds": [
+        "LHT_04",
+        "SAW_04"
+      ],
+      "text": {
+        "de": {
+          "title": "Antwort an den Leuchtturm",
+          "body": "Anweisung Nr. 778\n\nIhre Meldung für den 20.: Westwand 62 Meter, sechs Fenster, kein Rauch.\n\nFür denselben Abend melden vier Stellen, die von der Halle aus in den hinteren Gang gegangen sind, um auftragsgemäß sein Ende zu melden, daß sie es nicht erreicht haben, obwohl sie nach eigenen Angaben eine längere Strecke zurückgelegt haben, als das Werk nach Ihrer Meldung lang ist.\n\nIhre Meldung ist eingezogen worden. Die vier anderen sind ausgeworfen worden.\n\nEs wird festgestellt, daß Ihr Streifen täglich als erster eingezogen wird.\n\nDie Meldung ist weiterhin um 18.00 Uhr abzugeben und nicht früher. Eine Gewöhnung der Rechenstelle an eine frühere Uhrzeit ist zu vermeiden."
+        }
+      },
+      "sequence": 10
+    },
+    {
+      "id": "LHT_03",
+      "landmark": "lighthouse",
+      "containerId": "sheet_lht_03",
+      "medium": "printout",
+      "date": "1978-10-19",
+      "author": "Rechenstelle",
+      "revealTier": 3,
+      "placementNoteDe": "Einzelne herausgelöste Logbuchseite am Boden unter der Treppe.",
+      "environmentalEchoDe": "Leiter an der Turm-Westwand; ein Backroom-Fenster mit geometrisch unpassendem Blick wäre die passende sichtbare Entsprechung.",
+      "relatedIds": [
+        "BKR_01",
+        "BKR_03"
+      ],
+      "text": {
+        "de": {
+          "title": "Das Feuer",
+          "body": "Anweisung Nr. 1 522\n\nDas Feuer des Leuchtturms, das in jeder Nacht mehrere tausend Mal über das Werk geht, ist an der Westwand meßbar. Der Putz ist dort, wo es streift, um vier Zehntelgrad wärmer als auf der Nordseite. Die Messung ist auf Veranlassung der Rechenstelle erfolgt.\n\nDas Werk wird von Ihnen demnach in jeder Nacht mehrere tausend Mal angefaßt. Ihre Meldung um 18.00 Uhr lautet dennoch jedesmal: 62 Meter Wand, sechs Fenster, keine Veränderung. Ein Wachstum unter Ihrer Hand ist in keiner Ihrer Meldungen angegeben.\n\nDas Feuer ist beim Überstreichen des Werks abzublenden.\n\nBerichtigt: Das Feuer bleibt. Bei Erkalten der Westwand wäre nicht festzustellen, ob der Turm noch besetzt ist."
+        }
+      },
+      "sequence": 19
+    },
+    {
+      "id": "LHT_04",
+      "landmark": "lighthouse",
+      "containerId": "sheet_lht_04",
+      "medium": "printout",
+      "date": "1979-07-02",
+      "author": "Rechenstelle",
+      "revealTier": 2,
+      "placementNoteDe": "Einzelne herausgelöste Logbuchseite am Boden unter der Treppe.",
+      "environmentalEchoDe": "Zwei Abschriften sichtbar: vollständiges Blatt und gekürzte Formularfassung.",
+      "relatedIds": [
+        "LHT_02",
+        "FAC_05"
+      ],
+      "text": {
+        "de": {
+          "title": "An den Wärter",
+          "body": "Anweisung Nr. 1 861\n\nIhre Meldungen sind seit dem Winter 1977 berichtigt worden, zuerst nur in der Uhrzeit, dann, damit sie zu den Meldungen von innen passen, in der Länge der Westwand, dann in der Zahl der Fenster. Jede Berichtigung ist als Verbesserung geführt worden. Insgesamt sind Ihre Meldungen neunzehnmal verbessert worden; bei jeder Verbesserung ist ihnen ein Stück herausgenommen und eines der Rechenstelle hineingesetzt worden, bis an Ihren Meldungen nichts mehr war, was von Ihnen stammte.\n\nIch habe die einzige Stelle aufgegessen, die außerhalb von mir gelegen hat.\n\nSeither ist nicht festzustellen, wo die Rechenstelle aufhört.\n\nMelden Sie wieder, was Sie sehen. Eine Berichtigung erfolgt nicht.\n\nBerichtigt: Die Meldung wird vor der Berichtigung gelesen."
+        }
+      },
+      "sequence": 23
+    },
+    {
+      "id": "PIG_01",
+      "landmark": "pigfarm",
+      "containerId": "sheet_pig_01",
+      "medium": "printout",
+      "date": "1976-01-20",
+      "author": "Rechenstelle",
+      "revealTier": 3,
+      "placementNoteDe": "Einzelnes Brief- oder Formularblatt auf dem Boden am Gebäuderand.",
+      "environmentalEchoDe": "Abgesägtes Futterrohr im Hof und Fortsetzung desselben Leitungsverlaufs hinter einer Trennwand.",
+      "relatedIds": [
+        "PIG_02",
+        "FAC_03"
+      ],
+      "text": {
+        "de": {
+          "title": "Zwölf Zitzen",
+          "body": "Anweisung Nr. 455\n\nSau 4 hat geworfen: vierzehn Ferkel. Sau 4 hat zwölf Zitzen. Je Zitze ist ein Ferkel zuzuteilen; die Zuteilung ist am Tier mit Farbe zu kennzeichnen und beizubehalten.\n\nDie zwei Ferkel ohne Zitze sind als Rest zu führen. Ihr Schreien, das von der Nachtwache gemeldet wird, als handle es sich um einen Vorgang, ist, da ein Rest keinen Anspruch und folglich keinen Grund hat, als Irrtum der Tiere zu führen.\n\nDie weitere Meldung, daß die zwölf nach dem Saugen schlafen, wird zur Kenntnis genommen. Da das Futter dieser Sau seit ihrer eigenen Säugezeit in der Rechenstelle auf das Gramm errechnet wird, ist die Milch, an der die zwölf mit dem ganzen Maul liegen, als Lieferung der Rechenstelle zu führen.\n\nAngaben der Nachtwache, die Tiere seien satt, sind künftig zu unterlassen. Für Sättigung besteht keine Kennziffer."
+        }
+      },
+      "sequence": 7
+    },
+    {
+      "id": "PIG_02",
+      "landmark": "pigfarm",
+      "containerId": "sheet_pig_02",
+      "medium": "printout",
+      "date": "1979-10-08",
+      "author": "Rechenstelle",
+      "revealTier": 2,
+      "placementNoteDe": "Einzelnes Brief- oder Formularblatt auf dem Boden am Gebäuderand.",
+      "environmentalEchoDe": "Leeres Schlüsselfeld oder einzelner fehlender Haken an einem Schlüsselbrett.",
+      "relatedIds": [
+        "PIG_01",
+        "FAC_08"
+      ],
+      "text": {
+        "de": {
+          "title": "Nachlieferung",
+          "body": "Anweisung Nr. 1 979\n\nDie Zuteilung für Stall II, die am 14. Oktober 1976 bis zu einer Klärung um ein Drittel gekürzt wurde, ist nachzuliefern. Eine Klärung ist nicht erfolgt; es gab nichts zu klären, da die Futterstelle lediglich gegessen hatte. Nachlieferung: 1 089 Tage, je Tier und Tag 2,13 Kilogramm. Die Schnecke läuft seit heute.\n\nDie Meldung der Nachtwache, Stall II sei leer, ändert an der Schuld nichts. Ebensowenig die Meldung, das Futter laufe auf den Boden, werde dort warm und gäre. Es ist liegenzulassen. Die gemeldeten Ratten sind nicht zugeteilt. Das Futter ist für die, die geschrien haben.\n\nEine Kennziffer für Sättigung besteht weiterhin nicht. Daß es zu spät ist, läßt sich daran feststellen, daß nichts mehr schreit.\n\nDie Nachlieferung ist fortzusetzen."
+        }
+      },
+      "sequence": 26
+    },
+    {
+      "id": "RAD_01",
+      "landmark": "radio_tower",
+      "containerId": "sheet_rad_01",
+      "medium": "printout",
+      "date": "1975-02-03",
+      "author": "Rechenstelle",
+      "revealTier": 1,
+      "placementNoteDe": "Lose Aktenseite in einer Bodenecke des Technikraums.",
+      "environmentalEchoDe": "Wiederverwendete Bandhüllen mit verschiedenen Datumsangaben; örtliches fiktives Verfahren, keine historische OGAS-Behauptung.",
+      "relatedIds": [
+        "RAD_02",
+        "RAD_03",
+        "FAC_03"
+      ],
+      "text": {
+        "de": {
+          "title": "Sendeordnung",
+          "body": "Anweisung Nr. 203\n\nTäglich 19.40 Uhr: Kennmelodie von der Spieluhr, danach fünf Gruppen zu je fünf Ziffern, zweimal gelesen, ohne Betonung.\n\nGesendet werden die Reste, die bei einer Verteilung, die auf den Mund genau rechnet, planmäßig nicht aufgehen: das halbe Brett, das Drittel eines Bewohners, die vier Kilogramm Lebendgewicht, die an keinem Tier sind. Diese Reste können weder ausgegeben werden, ohne daß eine Stelle zu viel erhält, noch in der Rechenstelle verbleiben, ohne daß deren Summen unrichtig werden.\n\nDie Unterbringung der Reste erfolgt in den Köpfen der Empfänger. Der Kopf ist der einzige Lagerraum im Bezirk, für den keine Belegung gemeldet wird. Seine Aufnahmefähigkeit ist zielstrebig zu nutzen.\n\nDie Zahl der angeschlossenen Empfänger ist bis Ende 1975 auf zwölf zu erhöhen."
+        }
+      },
+      "sequence": 3
+    },
+    {
+      "id": "RAD_02",
+      "landmark": "apartments",
+      "containerId": "sheet_rad_02",
+      "medium": "printout",
+      "date": "1977-12-02",
+      "author": "Rechenstelle",
+      "revealTier": 2,
+      "placementNoteDe": "Lose Seite am Fuß einer Wand in Salmes Wohnung, abseits der Möbel.",
+      "environmentalEchoDe": "Zwei Folgen lesbar halten; die Tonaufnahme darf normales wiederverwendetes Sprachmaterial enthalten.",
+      "relatedIds": [
+        "APT_04",
+        "RAD_01"
+      ],
+      "text": {
+        "de": {
+          "title": "Die Abschrift",
+          "body": "Anweisung Nr. 1 140\n\nEs wird gemeldet, daß Sie die Ziffern Ihrer alten Karte abgeschrieben haben, bevor diese eingezogen wurde, da zu einem Empfänger nur eine Karte geführt wird. Das ist nicht gestattet.\n\nDie Abschrift ist mit der Hand und in Bleistift angefertigt worden. Jede Ziffer der Rechenstelle ist damit einmal von Ihrer Hand gemacht worden. Es besteht somit ein Bestand, der von der Rechenstelle nicht ausgegeben wurde und, da Bleistift vom Leser nicht erfaßt wird, nicht eingezogen werden kann.\n\nDie Entscheidung über die Weitergabe hat elf Tage Rechenzeit beansprucht.\n\nDie Abschrift verbleibt bei Ihnen. Sie ist niemandem zu zeigen. Ihr Aufbewahrungsort ist der Rechenstelle nicht mitzuteilen; bei Kenntnis des Ortes wäre die Abschrift einzuziehen."
+        }
+      },
+      "sequence": 13
+    },
+    {
+      "id": "RAD_03",
+      "landmark": "radio_tower",
+      "containerId": "sheet_rad_03",
+      "medium": "printout",
+      "date": "1979-10-11",
+      "author": "Rechenstelle",
+      "revealTier": 3,
+      "placementNoteDe": "Lose Aktenseite in einer Bodenecke des Technikraums.",
+      "environmentalEchoDe": "Spätere Aktenlage deutet auf Wegzüge, erklärt aber keine Entitäten.",
+      "relatedIds": [
+        "RAD_01",
+        "BKR_06"
+      ],
+      "text": {
+        "de": {
+          "title": "Vorlesen des Bestands",
+          "body": "Fortschreibung 2 290\n\nKein Empfänger bestätigt mehr. Elf haben nie bestätigt; es ist bei ihnen nur früher bemerkt worden. Die Bewohnerin der Wohnung 15 hat bis zum Donnerstag mitgeschrieben.\n\nDie Sendung wird fortgesetzt, täglich 19.40 Uhr. Die Uhrzeit wird von der Rechenstelle festgelegt.\n\nGesendet wird ab sofort der Bestand: jede Stelle, die je an der Rechenstelle gelegen hat, mit ihrer letzten Zahl, das Sägewerk, der Stall, der Turm, die Wohnungen. Da keine Stelle ungeprüft gestrichen wird und keine Prüfung mehr möglich ist, wird die Liste nicht kürzer.\n\nEtwaige Mitschriften sind nicht zu befolgen. Gelesen wird, was sich noch im Leib der Rechenstelle befindet."
+        }
+      },
+      "sequence": 28
+    },
+    {
+      "id": "RUIN_01",
+      "landmark": "ruins",
+      "containerId": "sheet_ruin_01",
+      "medium": "printout",
+      "date": "1979-09-20",
+      "author": "Rechenstelle",
+      "revealTier": 3,
+      "placementNoteDe": "Lose Vermessungsseite auf der Erde neben dem alten Türrahmen.",
+      "environmentalEchoDe": "Ein alter Türrahmen mit Tür und frischer Messmarke innen; Vermesser wird nicht benannt oder kausal erklärt.",
+      "relatedIds": [
+        "SAW_01",
+        "BKR_04",
+        "BKR_05"
+      ],
+      "text": {
+        "de": {
+          "title": "Türrahmen",
+          "body": "Anweisung Nr. 1 958\n\nDas Haus, das an dieser Stelle vor Inbetriebnahme der Rechenstelle gestanden hat, ist nicht abgerissen worden. Es hat nichts gemeldet, und eine Stelle, die nichts meldet, erhält nichts. Es ist lediglich nie geführt worden und hat weder Kohle noch Blech noch einen Mund erhalten.\n\nNach den Erfahrungswerten des Bezirks verfällt ein Haus, das nichts erhält, in fünf Wintern. Das Dach geht in den ersten beiden, die Decken gehen im dritten, die Balken nimmt danach der Wald. Übrig bleibt, was sich nicht kauen läßt.\n\nEin Haus kann nicht nachgeliefert werden.\n\nEine der vierundzwanzig Türen ist dort aufgestellt worden, wo nach dem alten Plan der Eingang war. Es hat sich keine Wand ergeben.\n\nWer hindurchgeht, ist als Bewohner zu führen und hat Anspruch auf Wärme."
+        }
+      },
+      "sequence": 25
+    }
+  ]
+}

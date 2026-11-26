@@ -1,0 +1,23 @@
+[
+  {
+    "file": "grass-reference.webp",
+    "provided_source": "tried-my-hand-at-some-dreamcore-photos-v0-oikb3r8m6w2f1.webp",
+    "sha256": "627028c5aca0ce35d4f9a0dc25c5b141bed8bb51378b25f7f9fa5f9387d715ac",
+    "use": "Grass surface sampled by house-photo-materials.js",
+    "rights": "User-provided reference; no additional license asserted"
+  },
+  {
+    "file": "sky-reference.jpg",
+    "provided_source": "b894e5f845f417f40483b249d8265409.jpg",
+    "sha256": "f6becab04e34f35329a7e7c949cb6e338f869b7d0b5cf21647aa9a6aa5199b9a",
+    "use": "Median RGB in crop [75,8,200,48]: #1d439b; uniform background, no sky image rendered",
+    "rights": "User-provided reference; no additional license asserted"
+  },
+  {
+    "file": "skrunda-reference.jpg",
+    "provided_source": "Skrunda_soviet_tower.jpg",
+    "sha256": "48d556029820423bd28ce0e63df306805d0603b4e6aff071617d2e20010c2df9",
+    "use": "Masonry and window samples; solid cylindrical tower modeled after the photograph",
+    "rights": "User-provided reference; no additional license asserted"
+  }
+]

@@ -1,0 +1,25 @@
+Unreal Nova 2000 — prototype 03
+
+An independent visual prototype inspired by late-1990s 3D games. Not affiliated with Epic Games.
+
+The coastal sky cubemap, moss, wood, rust, sand, floor, bark and concrete textures, and the fern and heather cutouts were reused from the user-provided Rannamets 0.2 project.
+Wind, canopy, surf, footsteps and birds use the original v9 Rannamets Sound synthesis and mix. Version 11 retains the approved menu song unchanged. Landmark soundscapes use processed excerpts of the user-supplied Desulfosarcina, Monteyoung_v2 and Doom recordings, shortwave recordings and quiet vinyl texture. The number-station voice is generic synthetic speech produced with FFmpeg/libflite, with fictional sequences. New tape melodies refer to the mood of Boards of Canada without sampling or transcribing that piece. Exact sources and edits are documented in assets/audio/README.md and assets/audio/manifest.json.
+Scots pine and birch branch textures were generated for this prototype.
+Version 73 tree bark: seven species-specific photographs and corrected materials imported from Unreal Nova 2000 Waldlabor revision 3. Authors, source photographs, crop details, CC BY / CC BY-SA / CC0 licenses and adaptation notices are retained in BARK_CREDITS.txt, bark-sources.json and the game menu.
+Version 72 rowan fruit skins: George Chernilevsky, "Sorbus aucuparia 2022 G1", CC BY-SA 4.0. The unchanged Wikimedia photograph is applied to individual 3D berries using circular UV regions, lighting and slight color variation. Source, download and license: ROWAN_CREDITS.md; https://commons.wikimedia.org/wiki/File:Sorbus_aucuparia_2022_G1.jpg ; https://creativecommons.org/licenses/by-sa/4.0/ .
+The complete 96-species catalog, habitat descriptions and plant texture cutouts are reused from Rannamets 0.2. Species-specific reference credits and source links are retained in flora-sources.json. New growth-form geometry and clustered placement are implemented in flora.js and terrain.js. Species shapes are illustrative; the game is not a validated identification key.
+
+Three.js revision 128
+Copyright © 2010–2021 three.js authors. MIT License.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Version 24 wildlife: original models and photo atlases from Unreal_Nova_Tiere_v1.
+Full individual attribution, selected licenses and change notices: WILDLIFE_CREDITS.md.
+
+Version 52: The ending sequence, car, character rig animation, camera cuts and original 05_Interlude.mp3 are reused from the approved Unreal Nova 2000 Abspann Test v5. The film remains without title or credit cards. The original recording is packaged without edits as assets/audio/ending-interlude.mp3.
+Stechapfel description: Royal Horticultural Society, https://www.rhs.org.uk/plants/5355/datura-stramonium/details and NC State Extension, https://plants.ces.ncsu.edu/plants/datura-stramonium/ (checked 27 September 2026). Its illustration is the existing generated v41 plant image; night vision is a fictional game mechanic.
+
+Version 53: Stechapfel usage paragraph paraphrased from Wikipedia contributors, “Gemeiner Stechapfel”, Verwendung: https://de.wikipedia.org/wiki/Gemeiner_Stechapfel (checked 27 September 2026), CC BY-SA 4.0, https://creativecommons.org/licenses/by-sa/4.0/. Animal and NPC apparitions reuse the existing game models and textures; all original asset credits still apply.

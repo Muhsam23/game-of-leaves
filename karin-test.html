@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Waldfigur 02 · Unreal Nova 2000</title>
+<meta name="description" content="Isolierte Testumgebung für eine neue Waldfigur mit lokalem Markov-Dialog.">
+<link rel="stylesheet" href="karin-test.css">
+</head>
+<body>
+<canvas id="world" aria-label="Interaktive 3D-Testumgebung im Wald"></canvas><div class="shade"></div>
+<header><strong>UNREAL NOVA 2000</strong><span>WALDFIGUR 02 / TESTUMGEBUNG</span></header>
+<div class="status"><span><i></i>LOKALE SIMULATION</span><br>LOW-POLY / 1998</div>
+<div id="prompt" hidden>E · ANSPRECHEN</div>
+<div class="toolbar">
+ <button id="enterForest" class="wide">IN DEN WALD</button>
+ <button id="observe" aria-pressed="true">O · BEOBACHTEN</button>
+ <button id="talk">E · SPRECHEN</button>
+ <small id="walkHint" hidden>WASD · GEHEN &nbsp; Q / SHIFT · LAUFEN &nbsp; ZIEHEN · BLICK</small>
+</div>
+<aside id="lab" class="lab">
+ <div class="title">FIGURENSTUDIE / POSE</div>
+ <div class="row"><button data-pose="idle" aria-pressed="false">RUHE</button><button data-pose="walk" aria-pressed="false">GEHEN</button><button data-pose="talk" aria-pressed="false">SPRECHEN</button><button data-pose="listen" aria-pressed="false">HÖREN</button></div>
+ <p>T schließt dieses Feld. O wechselt zwischen Beobachtung und freier Bewegung. Die Figur wandert ohne gewählte Pose selbstständig.</p>
+</aside>
+<section id="dialogue" class="panel" hidden aria-modal="true" role="dialog" aria-labelledby="dialogueTitle">
+ <div class="eyebrow"><span>FRAU IM WALD</span><span id="topic">AKTENVERMERK / 001</span></div>
+ <h2 id="dialogueTitle">Sie spricht sehr leise.</h2>
+ <div id="reply" class="reply" lang="de" aria-live="polite"></div>
+ <form id="questionForm"><input id="question" maxlength="240" autocomplete="off" placeholder="Etwas fragen …" aria-label="Frage an die Frau"><button>FRAGEN</button></form>
+ <div class="actions"><button id="more">E · WEITER</button><button id="leave">SCHLIESSEN</button></div>
+</section>
+<script src="three.min.js"></script>
+<script src="karin-model-classic.js"></script>
+<script src="karin-body.js"></script>
+<script src="karin-head.js"></script><script src="karin-corpus.js"></script><script src="karin-markov.js"></script><script src="karin-test.js"></script>
+</body>
+</html>
