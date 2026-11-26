@@ -1,0 +1,32 @@
+[
+  {
+    "id": "night-taiga",
+    "source": "Taiga talk - 5_11_2018 - Finnish Forest.mp3",
+    "source_sha256": "0459dd2d2b17975ba70ae72d940effbd6a5bc0006461e920e23664709caef84e",
+    "file_sha256": "e970c5a6da0e117f599486b7ec2eded52cf61df8e56762e4ac2b5bfaecda3046",
+    "source_seconds": 782.587052154195,
+    "loop_seconds": 774.587052154195,
+    "overlap_seconds": 8,
+    "encoding": "Vorbis q4, stereo 44100 Hz",
+    "processing": "Circular raised-cosine crossfade; all source samples retained in sequence or overlap; no normalization",
+    "join_sample_deltas": [
+      0.00012595742009580135,
+      0.0009219727944582701
+    ]
+  },
+  {
+    "id": "night-shore",
+    "source": "Stony Shore - 26_10_2019 - by Uniluoto Mole.mp3",
+    "source_sha256": "32bab28d5017ce79536f9b8b94f3b2bd744ed970f58a77f8ea32ebd617b4996c",
+    "file_sha256": "dcef51506d04c94b2362a366e5aca9408a04820ab626ba92c399c43977e3878b",
+    "source_seconds": 630.4264399092971,
+    "loop_seconds": 622.4264399092971,
+    "overlap_seconds": 8,
+    "encoding": "Vorbis q4, stereo 44100 Hz",
+    "processing": "Circular raised-cosine crossfade; all source samples retained in sequence or overlap; no normalization",
+    "join_sample_deltas": [
+      0.008152593858540058,
+      0.017996639013290405
+    ]
+  }
+]

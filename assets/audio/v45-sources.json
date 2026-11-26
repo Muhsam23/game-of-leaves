@@ -1,0 +1,30 @@
+[
+  {
+    "id": "night-taiga",
+    "source": "Taiga talk - 5_11_2018 - Finnish Forest.mp3",
+    "source_sha256": "0459dd2d2b17975ba70ae72d940effbd6a5bc0006461e920e23664709caef84e",
+    "encoding": "Vorbis quality 4, stereo, original sample rate; full recording, no gain or content changes",
+    "bytes": 10913220
+  },
+  {
+    "id": "night-catatonia",
+    "source": "08_Catatonia(4).mp3",
+    "source_sha256": "601ee7a0375548110cd7a1f28b279748e90f7932d92281500a3f8489b64e372f",
+    "encoding": "Vorbis quality 4, stereo, original sample rate; full recording, no gain or content changes",
+    "bytes": 3906890
+  },
+  {
+    "id": "night-shore",
+    "source": "Stony Shore - 26_10_2019 - by Uniluoto Mole.mp3",
+    "source_sha256": "32bab28d5017ce79536f9b8b94f3b2bd744ed970f58a77f8ea32ebd617b4996c",
+    "encoding": "Vorbis quality 4, stereo, original sample rate; full recording, no gain or content changes",
+    "bytes": 9645165
+  },
+  {
+    "id": "backroom-black-hole",
+    "source": "The Black Hole - 22_9_2018 - Tahkoluoto Finland.mp3",
+    "source_sha256": "f6aa4d63eb5f42855bef848d9d2d1919633e0bde73db1d588aadf65558d7e32d",
+    "encoding": "Vorbis quality 4, stereo, original sample rate; full recording, no gain or content changes",
+    "bytes": 8019385
+  }
+]

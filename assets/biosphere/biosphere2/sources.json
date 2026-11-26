@@ -1,0 +1,29 @@
+{
+  "gallery": "https://archive.bio.ed.ac.uk/jdeacon/biosphere/biophoto.htm",
+  "photos": [
+    {
+      "file": "biotower.jpg",
+      "url": "https://archive.bio.ed.ac.uk/jdeacon/biosphere/biotower.jpg"
+    },
+    {
+      "file": "biovisit.jpg",
+      "url": "https://archive.bio.ed.ac.uk/jdeacon/biosphere/biovisit.jpg"
+    },
+    {
+      "file": "controls.jpg",
+      "url": "https://archive.bio.ed.ac.uk/jdeacon/biosphere/controls.jpg"
+    },
+    {
+      "file": "biodome.jpg",
+      "url": "https://archive.bio.ed.ac.uk/jdeacon/biosphere/biodome.jpg"
+    },
+    {
+      "file": "bioglas3.jpg",
+      "url": "https://archive.bio.ed.ac.uk/jdeacon/biosphere/bioglas3.jpg"
+    },
+    {
+      "file": "bioglas2.jpg",
+      "url": "https://archive.bio.ed.ac.uk/jdeacon/biosphere/bioglas2.jpg"
+    }
+  ]
+}

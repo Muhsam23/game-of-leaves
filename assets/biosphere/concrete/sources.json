@@ -1,0 +1,22 @@
+[
+  {
+    "file": "facade.jpg",
+    "title": "Grey Concrete Wall",
+    "author": "Tim Mossholder",
+    "source": "https://www.pexels.com/photo/grey-concrete-wall-2969398/",
+    "image": "https://images.pexels.com/photos/2969398/pexels-photo-2969398.jpeg?cs=srgb&dl=pexels-timmossholder-2969398.jpg&fm=jpg",
+    "license": "Pexels License",
+    "license_url": "https://www.pexels.com/license/",
+    "processing": "Resized to 2048 px maximum, preserving aspect ratio; no generated details."
+  },
+  {
+    "file": "spalled.jpg",
+    "title": "Concrete Wall 006",
+    "photography": "Charlotte Baglioni",
+    "processing": "Dario Barresi",
+    "source": "https://polyhaven.com/a/concrete_wall_006",
+    "image": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/concrete_wall_006/concrete_wall_006_diff_2k.jpg",
+    "license": "CC0",
+    "license_url": "https://polyhaven.com/license"
+  }
+]

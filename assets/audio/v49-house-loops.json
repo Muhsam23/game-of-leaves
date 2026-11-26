@@ -1,0 +1,32 @@
+[
+  {
+    "id": "night-plattenbau",
+    "source": "07_Plattenbau.mp3",
+    "source_sha256": "9b809eb41fa7360570e626a2791c6c7539a0a7677ea402ebf5e819c0e5c3b4ef",
+    "file_sha256": "767d3d7d7c5d6ea16eb64e708435475f9bb042b833fdbe05b3588310e7c9e477",
+    "source_seconds": 486.4,
+    "loop_seconds": 478.4,
+    "overlap_seconds": 8,
+    "encoding": "Vorbis q4, stereo 44100 Hz",
+    "processing": "Circular raised-cosine crossfade; all source samples retained in sequence or overlap; no normalization",
+    "join_sample_deltas": [
+      0.02645978331565857,
+      0.02013237029314041
+    ]
+  },
+  {
+    "id": "night-roof-interlude",
+    "source": "05_Interlude(1).mp3",
+    "source_sha256": "7cba51babffdb9942bac47d26e32488b26ec422b13a6d729983272b5ec14642f",
+    "file_sha256": "e5a9a443c3f21a1f82dfbdf0ffbbea5b4d8b6b8107548c76fb5362f5a6b9846d",
+    "source_seconds": 165.3655328798186,
+    "loop_seconds": 157.3655328798186,
+    "overlap_seconds": 8,
+    "encoding": "Vorbis q4, stereo 44100 Hz",
+    "processing": "Circular raised-cosine crossfade; all source samples retained in sequence or overlap; no normalization",
+    "join_sample_deltas": [
+      0.006557886488735676,
+      0.003606251673772931
+    ]
+  }
+]
