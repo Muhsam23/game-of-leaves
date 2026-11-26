@@ -13,7 +13,7 @@ const forestMeltingId='forest-melting-point',forestMeltingGain=.195,forestMeltin
 const recordedRadioIds=['radio-ste-005','radio-ste-006','radio-ste-007','radio-ste-008'];
 const streamedTracks=new Set([...slowTracks,'backroom-black-hole',forestMeltingId,...recordedRadioIds]);
 const natureTracks=new Set(['night-taiga','night-shore']);
-// v94: the recorded Vermesser scream (made by the player's author); the synth is only a fallback.
+// v94: the recorded Vermesser scream (made by the player's author); since v104 the only one.
 const screamPath='assets/audio/vermesser-scream.mp3';let screamBuf=null,screamVoice=null;
 const natureLevel=3.2*.35; // Preserve v45's default listening level on the WORLD bus.
 let backroomTracks=backroomPlaylists.main,backroomTrack=0,backroomWanted=0,backroomZone=null;
@@ -550,74 +550,27 @@ function update(state,dt){
       o.connect(f); f.connect(g); g.connect(worldBus); o.start(t0); o.stop(t0+0.42);
     }
   }
-// v93: the Vermesser's scream, more unsettling. First a rattling breath is drawn in; then
-// the deep distorted voice rises, with a second throat a tritone above that never settles,
-// a metallic ring modulation and a thin whistle riding on top. At the end the voice breaks,
-// drops away and collapses into a slow death rattle that echoes back from the halls.
-// Loaded only once a Vermesser has noticed the player (no download at start).
-let screamLoading=false;
+// v104: only the recorded scream remains; the old synth scream is gone. If a hunt starts
+// before the file is decoded, the scream waits and plays as soon as it is ready.
+// Loaded only once a Vermesser is near (no download at start).
+let screamLoading=false,screamPending=null;
+function playScream(level){
+ // One scream at a time (about 23 s): a hunt that starts meanwhile lets it run on.
+ if(screamVoice||!screamBuf)return;const t=ac.currentTime;
+ const source=src(screamBuf,false),gain=ac.createGain();gain.gain.value=clamp(level,0,1)*.8;source.connect(gain);gain.connect(sfxBus);source.start(t);
+ const voice=screamVoice={source,gain};source.onended=()=>{try{gain.disconnect();}catch(e){}if(screamVoice===voice)screamVoice=null;};
+}
 function prepareScream(){
  if(!ready||screamBuf||screamLoading)return;screamLoading=true;
- fetch(window.NOVA_ASSET_DATA?.[screamPath]||screamPath).then(r=>{if(!r.ok)throw new Error('scream unavailable');return r.arrayBuffer();}).then(b=>ac.decodeAudioData(b)).then(b=>{screamBuf=b;}).catch(()=>{screamLoading=false;});
+ fetch(window.NOVA_ASSET_DATA?.[screamPath]||screamPath).then(r=>{if(!r.ok)throw new Error('scream unavailable');return r.arrayBuffer();}).then(b=>ac.decodeAudioData(b)).then(b=>{
+  screamBuf=b;const p=screamPending;screamPending=null;
+  if(p&&ac.currentTime-p.at<6&&enabled&&!hidden&&mode==='world'&&sfxBus)playScream(p.level);
+ }).catch(()=>{screamLoading=false;screamPending=null;});
 }
 function scream(level=1){
  if(!ready||!enabled||hidden||mode!=='world'||!sfxBus)return;
- prepareScream();
- if(screamBuf){
-  // One scream at a time (about 23 s): a hunt that starts meanwhile lets it run on.
-  if(screamVoice)return;const t=ac.currentTime;
-  const source=src(screamBuf,false),gain=ac.createGain();gain.gain.value=clamp(level,0,1)*.8;source.connect(gain);gain.connect(sfxBus);source.start(t);
-  const voice=screamVoice={source,gain};source.onended=()=>{try{gain.disconnect();}catch(e){}if(screamVoice===voice)screamVoice=null;};
-  return;
- }
- const now=ac.currentTime,t=now+.6,length=3.8+Math.random()*1.1,end=t+length,tail=end+1.3,stop=tail+.1,base=80+Math.random()*18;
- const out=ac.createGain(),pre=ac.createGain(),shaper=ac.createWaveShaper(),curve=new Float32Array(2048),timers=[];
- for(let i=0;i<curve.length;i++){const x=i/(curve.length-1)*2-1;curve[i]=Math.tanh(x*7)*(.92+.08*Math.sign(Math.sin(x*47)));}
- shaper.curve=curve;shaper.oversample='4x';pre.gain.value=3.2;pre.connect(shaper);
- // Vocal fry chops the voice; at the end it slows down into a rattle.
- const fry=ac.createGain();fry.gain.value=.62;fry.connect(pre);
- const fryLfo=ac.createOscillator(),fryDepth=ac.createGain();fryLfo.type='square';fryLfo.frequency.setValueAtTime(30,t);fryLfo.frequency.linearRampToValueAtTime(23,end);fryLfo.frequency.linearRampToValueAtTime(7,tail);
- fryDepth.gain.setValueAtTime(.38,t);fryDepth.gain.setValueAtTime(.38,end);fryDepth.gain.linearRampToValueAtTime(.6,tail);fryLfo.connect(fryDepth);fryDepth.connect(fry.gain);fryLfo.start(t);fryLfo.stop(stop);
- const formants=[[520,4,1],[880,5,.8],[2450,7,.35]].map(([f,q,g])=>{const b=ac.createBiquadFilter(),gain=ac.createGain();b.type='bandpass';b.frequency.value=f;b.Q.value=q;gain.gain.value=g;b.connect(gain);gain.connect(fry);return b;});
- const body=ac.createBiquadFilter();body.type='lowpass';body.frequency.value=420;const bodyGain=ac.createGain();bodyGain.gain.value=.55;body.connect(bodyGain);bodyGain.connect(fry);
- // Ring modulation: a metallic, not-quite-human edge that grows towards the end.
- const ring=ac.createGain(),carrier=ac.createOscillator(),ringOut=ac.createGain();ring.gain.value=0;carrier.frequency.value=53+Math.random()*14;carrier.connect(ring.gain);
- ringOut.gain.setValueAtTime(.15,t);ringOut.gain.linearRampToValueAtTime(.55,end);ring.connect(ringOut);ringOut.connect(pre);carrier.start(t);carrier.stop(stop);
- // Rises, holds, then the voice breaks and sinks away.
- const contour=(param,k)=>{param.setValueAtTime(base*.78*k,t);param.exponentialRampToValueAtTime(base*1.45*k,t+.5);param.exponentialRampToValueAtTime(base*1.62*k,t+length*.62);param.exponentialRampToValueAtTime(base*1.35*k,end-.35);param.exponentialRampToValueAtTime(base*.5*k,end);param.exponentialRampToValueAtTime(base*.33*k,tail);};
- const drift=ac.createOscillator();drift.frequency.value=.7;drift.start(t);drift.stop(stop);
- const voices=[['sawtooth',-11,1,.7,.35],['sawtooth',8,1,.7,.35],['square',0,.5,.45,1.1],['sawtooth',0,1.414,.32,0]];
- for(const [type,detune,k,gain,rest]of voices){
-  const o=ac.createOscillator(),g=ac.createGain();o.type=type;o.detune.value=detune;contour(o.frequency,k);
-  g.gain.setValueAtTime(gain,t);g.gain.setValueAtTime(gain,end-.2);g.gain.linearRampToValueAtTime(gain*rest+.0001,tail);
-  const vib=ac.createOscillator(),vd=ac.createGain(),dd=ac.createGain();vib.frequency.value=4.5+Math.random()*1.5;vd.gain.value=base*.035*k;vib.connect(vd);vd.connect(o.frequency);
-  dd.gain.value=base*.03*k;drift.connect(dd);dd.connect(o.frequency);
-  // The tritone throat wanders against the others and never settles.
-  if(k>1.4){const w=ac.createOscillator(),wd=ac.createGain();w.frequency.value=.23;wd.gain.value=35;w.connect(wd);wd.connect(o.detune);w.start(t);w.stop(stop);}
-  o.connect(g);for(const b of formants)g.connect(b);g.connect(body);g.connect(ring);o.start(t);o.stop(stop);vib.start(t);vib.stop(stop);
- }
- // A thin whistle high above the voice, as if something else were screaming with it.
- const whistle=ac.createOscillator(),wv=ac.createOscillator(),wvd=ac.createGain(),wg=ac.createGain();whistle.type='sine';contour(whistle.frequency,19);
- wv.frequency.value=8.7;wvd.gain.value=55;wv.connect(wvd);wvd.connect(whistle.frequency);
- wg.gain.setValueAtTime(0,t);wg.gain.linearRampToValueAtTime(.045,t+length*.5);wg.gain.linearRampToValueAtTime(.08,end-.35);wg.gain.linearRampToValueAtTime(0,end);
- whistle.connect(wg);wg.connect(out);whistle.start(t);whistle.stop(end+.05);wv.start(t);wv.stop(end+.05);
- // The rattling breath drawn in before it.
- const inhale=src(noiseBuf,false),ib=ac.createBiquadFilter(),ig=ac.createGain(),chop=ac.createGain(),il=ac.createOscillator(),ild=ac.createGain();
- ib.type='bandpass';ib.Q.value=2.2;ib.frequency.setValueAtTime(350,now);ib.frequency.exponentialRampToValueAtTime(1600,t);
- chop.gain.value=.5;il.type='square';il.frequency.setValueAtTime(13,now);il.frequency.linearRampToValueAtTime(24,t);ild.gain.value=.5;il.connect(ild);ild.connect(chop.gain);
- ig.gain.setValueAtTime(0,now);ig.gain.linearRampToValueAtTime(.5,t-.08);ig.gain.linearRampToValueAtTime(0,t+.03);
- inhale.connect(ib);ib.connect(chop);chop.connect(ig);ig.connect(pre);inhale.start(now);inhale.stop(t+.06);il.start(now);il.stop(t+.06);
- const n=src(noiseBuf,false),nf=ac.createBiquadFilter(),ng=ac.createGain();nf.type='bandpass';nf.frequency.value=1300;nf.Q.value=.7;ng.gain.value=.28;n.connect(nf);nf.connect(ng);ng.connect(pre);n.start(t);n.stop(end+.1);
- const low=ac.createBiquadFilter();low.type='lowpass';low.frequency.value=2800;shaper.connect(low);low.connect(out);
- const v=clamp(level,0,1)*.42;
- out.gain.setValueAtTime(v*.55,now);out.gain.setValueAtTime(v*.7,t);out.gain.linearRampToValueAtTime(v,t+length*.6);out.gain.setValueAtTime(v,t+length*.66);out.gain.linearRampToValueAtTime(v*.55,end);out.gain.exponentialRampToValueAtTime(.0001,tail);
- out.connect(sfxBus);
- // A dark echo from the halls around, taken after the envelope so it fades with the voice.
- if(ac.createDelay){const d1=ac.createDelay(1),d2=ac.createDelay(1),fb=ac.createGain(),wet=ac.createGain(),wet2=ac.createGain(),dark=ac.createBiquadFilter();
-  d1.delayTime.value=.29;d2.delayTime.value=.47;fb.gain.value=.38;wet.gain.value=.34;wet2.gain.value=.2;dark.type='lowpass';dark.frequency.value=1100;
-  out.connect(d1);d1.connect(dark);dark.connect(fb);fb.connect(d1);dark.connect(wet);wet.connect(sfxBus);out.connect(d2);d2.connect(wet2);wet2.connect(sfxBus);
-  timers.push(d1,d2,wet,wet2);}
- setTimeout(()=>{try{out.disconnect();for(const x of timers)x.disconnect();}catch(e){}},(tail-now+3)*1000);
+ if(screamBuf){playScream(level);return;}
+ screamPending={level,at:ac.currentTime};prepareScream();
 }
 function startReception(){
  // Hiss, whistle and hum are mixed after the clipping stage so each keeps its own colour.

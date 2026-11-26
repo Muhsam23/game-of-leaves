@@ -37,7 +37,7 @@ function create(THREE,scene,settlements,karinTexture,environment={}){
   for(const p of candidates){const path=navigator.findRoute(actor,p,solid);if(path.length){goal=p;route=path;return;}}
   goal=null;searchDelay=3;
  }
- const generator=new window.NovaKarinMarkov.WaldegraveMarkov(window.NovaKarinCorpus,0x4b415249);let near=false,dialogue=false,time=0;
+ const generator=new window.NovaKarinMarkov.WaldegraveMarkov(window.NovaKarinCorpus);let near=false,dialogue=false,time=0;
  const speech=document.createElement('div');speech.id='karinSpeech';speech.hidden=true;speech.innerHTML='<p></p><small>E · weiter &nbsp; Esc · schließen</small>';document.body.appendChild(speech);
  function reset(){bottle.shots=0;binocular.owned=false;binocular.zoom=false;bottleRoot.visible=binoRoot.visible=true;dialogue=false;speech.hidden=true;near=false;resetKarin();}
  let lastText='';

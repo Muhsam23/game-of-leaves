@@ -26,7 +26,7 @@ for(let i=0;i<115;i++){const a=random()*Math.PI*2,r=4+random()*35,x=Math.sin(a)*
 for(const [x,z,s] of [[-3,-2,.7],[3,2,.45],[-4,4,.55],[4,-4,.6]]){const rock=new THREE.Mesh(new THREE.DodecahedronGeometry(s,0),new THREE.MeshLambertMaterial({color:0x596058,flatShading:true}));rock.position.set(x,groundY(x,z)+s*.35,z);rock.scale.y=.55;rock.castShadow=true;rock.receiveShadow=true;scene.add(rock);}
 
 const player={x:0,z:6,yaw:Math.PI,pitch:-.04},keys=new Set();let mode='observe',drag=false,lastX=0,lastY=0,elapsed=0,npcTime=0,dialogue=false,manualPose=null;
-const generator=new window.NovaKarinMarkov.WaldegraveMarkov(window.NovaKarinCorpus,0x4b574147);let wander={angle:0,target:1.9,rest:0};
+const generator=new window.NovaKarinMarkov.WaldegraveMarkov(window.NovaKarinCorpus);let wander={angle:0,target:1.9,rest:0};
 function resize(){const w=innerWidth,h=innerHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}addEventListener('resize',resize);resize();
 function lookDirection(){return new THREE.Vector3(Math.sin(player.yaw)*Math.cos(player.pitch),Math.sin(player.pitch),Math.cos(player.yaw)*Math.cos(player.pitch));}
 function nearNpc(){const dx=model.group.position.x-player.x,dz=model.group.position.z-player.z,d=Math.hypot(dx,dz);if(d>3.5)return false;const dir=lookDirection(),to=new THREE.Vector3(dx,1.1-playerEye(),dz).normalize();return dir.dot(to)>.72;}

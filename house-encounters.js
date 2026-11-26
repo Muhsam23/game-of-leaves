@@ -207,6 +207,8 @@ function create(THREE,{vermesserSkin,karinTexture,onCatch,onScream,onAlert,speak
    pair(source.group,group);group.name=r.kind==='karin'?'Karin':'Der Vermesser';root.add(group);entries.set(r.id,{r,source,group,pairs});
   }
   for(const r of actors(s))add(r);
+  // v104: a Vermesser in this room loads the recorded scream now, so it is ready when he sees the player.
+  if(actors(s).some(r=>r.kind!=='karin'))onAlert?.();
   const view={s,root,get entries(){return[...entries.values()];},sync(){
    // A hunter may walk in (or out) while this room is shown.
    for(const r of actors(s))if(!entries.has(r.id))add(r);
