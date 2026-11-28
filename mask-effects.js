@@ -422,7 +422,7 @@ window.NovaMaskEffect=(()=>{
   function render(renderer,world,base,s,spaces,dt=0,o={}){
    if(!checked){checked=true;if(!renderer.capabilities.isWebGL2){depthType=THREE.UnsignedShortType;attachDepth(8,8);floatType=renderer.extensions.has('OES_texture_half_float')?THREE.HalfFloatType:THREE.UnsignedByteType;composites.forEach(c=>c.dispose());composites=[new THREE.WebGLRenderTarget(8,8,compositeOpts()),new THREE.WebGLRenderTarget(8,8,compositeOpts())];F.dispose();F=new THREE.WebGLRenderTarget(8,8,compositeOpts());}}
    if(++tick%40===1){prepare(world);prepare(spaces.replacement);}
-   const calm=s.calm||0,mem=spaces.memory||null,inMem=!!(mem&&s.memWorld),bau=spaces.bau||null,inBau=!inMem&&!!(bau&&o.indoor&&s.bauWorld),pic=o.indoor?spaces.picture:null;
+   const calm=s.calm||0,mem=spaces.memory||null,inMem=!!(mem&&s.memWorld),bau=spaces.bau||null,inBau=!inMem&&!!(bau&&s.bauWorld),pic=o.indoor?spaces.picture:null;
    U.uMaskPull.value=s.pull*.55*(1-calm);U.uMaskSplit.value=s.flat*.3;U.uMaskStretch.value=s.stretch||0;U.uMaskCurl.value=o.indoor?0:s.curl||0;U.uMaskFlow.value=s.flow||0;U.uMaskTime.value=s.time;U.uMaskOrigin.value.copy(base.position);
    base.getWorldDirection(direction);direction.y=0;direction.normalize();right.crossVectors(direction,base.up).normalize();U.uMaskRight.value.copy(right);U.uMaskForward.value.copy(direction);
    {const c=Math.cos(s.driftYaw||0),n=Math.sin(s.driftYaw||0),F=U.uMaskFoldF.value,R=U.uMaskFoldR.value;F.set(direction.x*c+direction.z*n,0,direction.z*c-direction.x*n);R.crossVectors(F,base.up).normalize();}

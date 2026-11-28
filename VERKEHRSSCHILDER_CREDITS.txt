@@ -1,0 +1,50 @@
+Im Spiel (ab v107) stehen die Schilder in der Backroom-Wohnung an Stellen, wo früher Betten standen.
+Die drei Loodi-Pfeile (Valga, Tõrva, Viljandi) sind NICHT im Spiel, weil ihre Nutzungsrechte
+ungeklärt sind; ihr Eintrag unten bleibt nur zur Dokumentation stehen.
+
+Sowjetische Verkehrsschilder – Bildquellen
+==========================================
+
+Alle Schildtexturen (Quellcode/assets/signs) sind aus diesen Fotografien ausgeschnitten und
+perspektivisch entzerrt (Quellcode/tools/make_sign_textures.py). Für jeden Ausschnitt gilt die
+Lizenz des Fotos. Schwarzweiß-Aufnahmen wurden eingefärbt: Helligkeit und Korn stammen aus dem
+Foto, die Farben (Blau, Weiß, Schwarz) wurden aus den Farbfotos dieser Sammlung gemessen. Die
+Farbgebung der eingefärbten Schilder ist eine Annahme, nicht belegt.
+
+Farbfotos
+- Halten und Parken verboten · Tallinn, 2016 · Dmitry G · Public Domain
+  https://commons.wikimedia.org/wiki/File:USSR_road_sign_in_Tallinn.JPG
+  (auch Betonmast und Rückseiten der Schilder)
+- Achtung Kinder + СТОП-Tafel · Pawlowsk, 2023 · Anastasiya Lvova · CC BY-SA 4.0
+  https://commons.wikimedia.org/wiki/File:Павловск,_улица_Лермонтова,_знаки.jpg
+  (auch Messstelle für Weiß und Schwarz)
+- Fußweg · Dūkštas, 2014 · VietovesLt · CC BY 3.0
+  https://commons.wikimedia.org/wiki/File:Dūkštas,_Lithuania_-_panoramio_(25).jpg
+- Wegweiser Kārsava / Rugāji · Salnava, 2012 · Aleksandrs Timofejev (Namensangabe der Quelle) · CC BY 3.0
+  https://commons.wikimedia.org/wiki/File:Раритет^_Старый_советский_дорожный_указатель_-_panoramio.jpg
+  (auch Messstelle für Blau, gemittelt mit Tallinn)
+- Taxistand P ТАКСИ + Taxitafel · Moskau, 1964 · Thomas Taylor Hammond, University of Virginia · CC BY-SA 4.0
+  https://commons.wikimedia.org/wiki/File:Hammond_Slides_Moscow_People_01.jpg
+- Mehrere Kurven · bei Nowy Afon, 1964 · Jacques Dupakiers · CC BY 2.0
+  https://commons.wikimedia.org/wiki/File:399_-_near_New_Athos.jpg
+
+Schwarzweiß-Fotos, eingefärbt
+- Bushaltestelle + Tankstelle · Loo bei Sotschi, 1968 · Vyacheslav Argenberg · CC BY 4.0
+  https://commons.wikimedia.org/wiki/File:СССР,_1968,_Лоо,_Остановка_Лазурная,_Loo,_Sochi,_Soviet_Union.jpg
+  (auch der schwarz-weiß gestreifte Pfosten)
+- Parkplatz + Zusatztafel · Tartu, 1978 · Ants Kern · CC BY-SA 4.0
+  https://commons.wikimedia.org/wiki/File:Tartu_Tähesõit_1978,_Ants_Kern_18.tif
+- Entfernungstafel Riga / Tallinn · Bezirk Pasvalys, 1989 · Kusurija · CC BY-SA 3.0
+  https://commons.wikimedia.org/wiki/File:BaltskáCesta02.jpg
+- Wegweiser Valga, Tõrva, Viljandi · Loodi, um 1965 · Fotograf unbekannt, Sammlung Olev Bendi,
+  Viljandi Muuseum (VM VMF 518:257 F 9814)
+  https://www.muis.ee/museaalView/939229
+  ACHTUNG: Nutzungsrechte laut Museum unbestimmt („Kasutusõigused määramata“).
+  Vor einer Übernahme ins Spiel klären oder diese drei Pfeile weglassen.
+
+Nicht verwendet
+- Lkw-Verbot, Leningrad 1977 (Michael Neubert, CC BY 2.0): zu unscharf und zu schräg fotografiert.
+- P-Schild, Riga 1941: zu klein im Bild.
+
+Raum: Tapete, Teppich, Decke und Deckenlampen stammen aus dem Korridorfoto des Spiels
+(assets/night-house/corridor-original.webp, house-photo-materials.js aus v106).

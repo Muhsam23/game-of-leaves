@@ -27,8 +27,9 @@ function plan(s){
 // in that direction (through the opening the player took) before he wanders again.
 const STALK={sight:30,speed:5.6,turn:7,hesitate:2,doubt:1.5,catch:.85,blink:.4,searchRun:7,searchTime:16};
 const ROAM={speed:1.6,turn:2.4,pause:[1,4],lead:.65};
-// v105: two figures from the entity test station walk the apartment backrooms as well. Each is
-// met at most once per game (see rollFigures). Same room logic as the Vermesser, own pace.
+// v105: two figures from the entity test station walk the apartment backrooms as well. Same room
+// logic as the Vermesser, own pace. v107: they can appear again and again (see rollFigures), at
+// most FIGURE_CAP of each kind at a time.
 // The Zitterer screams like the Vermesser; the Anzugmann brings an aggressive white noise.
 const KINDS={
  vermesser:{...STALK,roam:1.6,roamTurn:2.4,accel:3,scream:true},
@@ -42,17 +43,20 @@ const smooth01=(a,b,x)=>{const t=Math.max(0,Math.min(1,(x-a)/(b-a)));return t*t*
 // Chance per newly entered room. Anzugmann: rises with the time spent in the apartment
 // backrooms (2 % at first, 35 % after ten minutes). Zitterer: more likely overall, rising with
 // the depth (rooms away from the entrance): 13 % one room in, 41 % five rooms in, at most 60 %.
+// v107: since they now come again and again, lower than in v105/v106 (35 % / 60 %):
+// Anzugmann 2 % rising to 25 % after ten minutes, Zitterer 10 % one room in, 30 % five rooms in, at most 35 %.
+const FIGURE_CAP=2;
 function figureChance(kind,minutes,depth){
  if(!depth)return 0;
- if(kind==='suit')return .02+.33*smooth01(0,10,minutes);
- if(kind==='flicker')return Math.min(.6,.06+.07*depth);
+ if(kind==='suit')return .02+.23*smooth01(0,10,minutes);
+ if(kind==='flicker')return Math.min(.35,.05+.05*depth);
  return 0;
 }
 function create(THREE,{vermesserSkin,karinTexture,onCatch,onScream,onAlert,speak,closeSpeech,isSpeechOpen,random=Math.random}={}){
  const N=()=>window.NovaNightHouse,templates={},records=new Map(),views=new Set();let dialogueId=null,layouts=new WeakMap(),cursor=0,playerRoom=null,karinMet=null,karinGone=false;
  // v105: time spent in the apartment backrooms (all visits of this game), the room the last
  // roll was made for, and which figures have already appeared.
- let insideTime=0,rolledRoom=null;const spawned=new Set();
+ let insideTime=0,rolledRoom=null,figureCount=0;const spawned=new Set();
  const P=r=>KINDS[r.kind]||KINDS.vermesser;
  // v101: once the player has spoken with a backroom Karin, no Karin appears again; the one he
  // spoke with stays until he leaves her room.
@@ -249,7 +253,7 @@ function create(THREE,{vermesserSkin,karinTexture,onCatch,onScream,onAlert,speak
  function mount(s,parent){
   const root=new THREE.Group();root.name='Apartment corridor encounters';parent.add(root);const entries=new Map();
   function add(r){
-   const source=template(r.kind),group=source.group.clone(true),pairs=[];
+   const source=r.model||template(r.kind),group=source.group.clone(true),pairs=[];
    function pair(a,b){if(a!==source.group)pairs.push([a,b]);b.userData={...b.userData,sharedRoom:true,houseEncounter:r.id};b.castShadow=false;a.children.forEach((o,i)=>pair(o,b.children[i]));}
    pair(source.group,group);group.name=FIGURE_NAMES[r.kind]||'Der Vermesser';root.add(group);entries.set(r.id,{r,source,group,pairs});
   }
@@ -257,7 +261,7 @@ function create(THREE,{vermesserSkin,karinTexture,onCatch,onScream,onAlert,speak
   // v104: a Vermesser in this room loads the recorded scream now, so it is ready when he sees the player.
   // v105: the Zitterer uses the same scream.
   if(actors(s).some(r=>P(r).scream&&r.kind!=='karin'))onAlert?.();
-  const view={s,root,get entries(){return[...entries.values()];},sync(){
+  const view={s,root,get entries(){return[...entries.values()];},drop(id){const e=entries.get(id);if(e){root.remove(e.group);entries.delete(id);}},sync(){
    // A hunter may walk in (or out) while this room is shown.
    for(const r of actors(s))if(!entries.has(r.id))add(r);
    for(const {r,source,group,pairs}of entries.values()){
@@ -309,7 +313,7 @@ function create(THREE,{vermesserSkin,karinTexture,onCatch,onScream,onAlert,speak
  }
  // v105: the test-station models walk on +z and animate themselves (face, scribbles).
  function animate(s,r,dt,player){
-  const t=template(r.kind),m=t.model,g=m.group,distance=Math.hypot(r.x-player.x,r.z-player.z);
+  const t=r.model||template(r.kind),m=t.model,g=m.group,distance=Math.hypot(r.x-player.x,r.z-player.z);
   const top=N().ceilingAt(s,r.x,r.z),fit=Math.max(.3,Math.min(1,(Math.min(2.45,(top??r.y+2.9)-r.y)-.12)/t.height));
   g.position.set(r.x,r.y+.005,r.z);g.rotation.y=r.yaw+Math.PI;g.scale.setScalar(fit);
   r.hide=(r.hide||0)-dt;
@@ -323,7 +327,7 @@ function create(THREE,{vermesserSkin,karinTexture,onCatch,onScream,onAlert,speak
   if(rolledRoom===s.seed||!window.NovaBackroomEntities)return;rolledRoom=s.seed;
   const depth=s.path?.length||0,minutes=insideTime/60;
   for(const kind of ['flicker','suit']){
-   if(spawned.has(kind)||random()>=figureChance(kind,minutes,depth))continue;
+   if(random()>=figureChance(kind,minutes,depth))continue;
    if(spawnFigure(kind,s,player))break; // at most one new figure per room
   }
  }
@@ -332,13 +336,18 @@ function create(THREE,{vermesserSkin,karinTexture,onCatch,onScream,onAlert,speak
   for(const port of ports)for(const distance of [3.6,4.5,2.8,2]){
    const x=port.x-port.nx*distance,z=port.z-port.nz*distance,y=N().floorAt(s,x,z);
    if(y===null||Math.abs(y-port.y)>.2||N().blocked(s,x,z,.34)||Math.hypot(x-player.x,z-player.z)<5)continue;
-   const seed=N().hash('house-figure-v105:'+kind,s.seed),r=record({id:'figure:'+kind,seed,kind,corridor:port.id,x,z,y,yaw:Math.atan2(port.nx,port.nz)});
-   r.room=s.seed;r.spec=s;r.state='roam';spawned.add(kind);
+   // v107: a new figure each time, with its own model. Over the cap, the oldest one of that kind
+   // that is not in the player's room leaves the house.
+   const same=[...records.values()].filter(q=>q.kind===kind).sort((a,b)=>a.born-b.born);
+   if(same.length>=FIGURE_CAP){const old=same.find(q=>q.room!==s.seed);if(!old)return false;retire(old);}
+   const n=++figureCount,seed=N().hash('house-figure-v107:'+kind+':'+n,s.seed),r=record({id:'figure:'+kind+':'+n,seed,kind,corridor:port.id,x,z,y,yaw:Math.atan2(port.nx,port.nz)});
+   r.room=s.seed;r.spec=s;r.state='roam';r.born=n;r.model=figureTemplate(kind);spawned.add(kind);
    if(P(r).scream)onAlert?.();
    return true;
   }
   return false;
  }
+ function retire(r){records.delete(r.id);r.gone=true;for(const view of views)view.drop?.(r.id);}
  // v105: what the new figures sound like from where the player stands (current room only):
  // noise = the Anzugmann hunting (aggressive white noise), crackle = the Zitterer nearby.
  function figureSound(s,player){
@@ -365,11 +374,11 @@ function create(THREE,{vermesserSkin,karinTexture,onCatch,onScream,onAlert,speak
   for(const p of s.ports){const link=neighbor(s,p);if(!link?.toPort)continue;
    for(const r of records.values())if(r.kind==='vermesser'&&r.room===link.to.seed)rate(Math.hypot(player.x-p.x,player.z-p.z)+Math.hypot(r.x-link.toPort.x,r.z-link.toPort.z),0);}
   return best;}
- function reset(){karinMet=null;karinGone=false;insideTime=0;rolledRoom=null;spawned.clear();close();for(const view of [...views])view.dispose();records.clear();layouts=new WeakMap();}
+ function reset(){karinMet=null;karinGone=false;insideTime=0;rolledRoom=null;figureCount=0;spawned.clear();close();for(const view of [...views])view.dispose();records.clear();layouts=new WeakMap();}
  // v102: one copy of each figure, so their shaders can be compiled before the game starts
  // (night-house.js warmup) instead of in the frame they first appear.
  function samples(){return['karin','vermesser',...(window.NovaBackroomEntities?['suit','flicker']:[])].map(kind=>template(kind).group.clone(true));}
- return{mount,update,target,interact,presence,figureSound,close,reset,follow,samples,get figures(){return{insideTime,spawned:[...spawned],records:[...records.values()].filter(r=>KINDS[r.kind]&&r.kind!=='vermesser').map(r=>({kind:r.kind,room:r.room,state:r.state||'roam',x:r.x,z:r.z}))};},debugSpawn(kind,s,player){spawned.delete(kind);records.delete('figure:'+kind);return spawnFigure(kind,s,player);},snapshot:s=>s?actors(s).map(r=>({id:r.id,kind:r.kind,corridor:r.corridor,x:r.x,y:r.y,z:r.z,phase:r.phase,mode:r.mode})):[],get resources(){return{views:views.size,records:records.size,models:Object.keys(templates).length};}};
+ return{mount,update,target,interact,presence,figureSound,close,reset,follow,samples,get figures(){return{insideTime,spawned:[...spawned],records:[...records.values()].filter(r=>KINDS[r.kind]&&r.kind!=='vermesser').map(r=>({id:r.id,kind:r.kind,room:r.room,state:r.state||'roam',x:r.x,z:r.z}))};},debugSpawn(kind,s,player){return spawnFigure(kind,s,player);},snapshot:s=>s?actors(s).map(r=>({id:r.id,kind:r.kind,corridor:r.corridor,x:r.x,y:r.y,z:r.z,phase:r.phase,mode:r.mode})):[],get resources(){return{views:views.size,records:records.size,models:Object.keys(templates).length};}};
 }
-window.NovaHouseEncounters={plan,create,figureChance,KINDS};
+window.NovaHouseEncounters={plan,create,figureChance,KINDS,FIGURE_CAP};
 })();

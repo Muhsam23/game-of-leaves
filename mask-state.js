@@ -12,9 +12,10 @@ window.NovaMaskState=(()=>{
  // Ablauf nach dem Riss, getrennt für das Apartment und draußen. Jedes Ereignis kommt einmal.
  const OUT_DEPTH=1.3,PLAN={
   inside:{object:[104,134],bau:136,machine:216,flight:254,windows:[310,356],fractal:[318,350,378]},
-  outside:{ground:42,machine:110,flight:146,windows:[200,254],fractal:[210,242,280]}
+  // v107 (Spiel): WOHNBLOCK auch draußen, gleich nach dem Boden; alles danach 78 s später.
+  outside:{ground:42,bau:106,machine:188,flight:224,windows:[278,332],fractal:[288,320,358]}
  },FLIGHT=48;
- // Episode WOHNBLOCK (nur im Apartment, nach dem Blick aus der Lampe): der Zug zur Seite gewinnt, der Blick geht in
+ // Episode WOHNBLOCK (im Apartment nach dem Blick aus der Lampe; v107 im Spiel auch draußen nach dem Boden): der Zug zur Seite gewinnt, der Blick geht in
  // die Wand und wird der sowjetische Wohnblock aus dem Spiel. Zeiten in Sekunden seit Beginn der Episode.
  const BAU={total:78,wall:7.2,cavity:17,open:21.5,merge:[25,30],years:[36,53],night:[50,54.5],home:[55,61.2],lamp:61.5,cross:[62.2,69.6],back:70};
  // Uhr des Blocks: erst steht ein Morgen im Juni 1971, dann laufen Tage (bis zu einer in zwei Sekunden), dann Jahre
@@ -67,7 +68,7 @@ window.NovaMaskState=(()=>{
    const memFront=flight?(tf<20?16-18.5*smooth(3,10,tf):-2.5+18.5*smooth(37,43,tf)):99,memMix=flight&&!inFlight?(tf<20?smooth(8,10.3,tf):1-smooth(37.2,41.5,tf)):0;
    const flightP=flight?clamp((tf-10.5)/26.5):0;
    // Wohnblock: Zug in die Wand (noch im Apartment), dann die eigene Szene, am Ende zurück in den Kopf.
-   const tb=w-(PL.bau??1e9),bau=layers.wohnblock&&indoor&&rich&&tb>=0&&tb<BAU.total,bauWorld=bau&&tb>=BAU.wall&&tb<BAU.back,bauWall=bau&&tb<BAU.wall?smooth(.4,BAU.wall-.1,tb):0;
+   const tb=w-(PL.bau??1e9),bau=layers.wohnblock&&rich&&tb>=0&&tb<BAU.total,bauWorld=bau&&tb>=BAU.wall&&tb<BAU.back,bauWall=bau&&tb<BAU.wall?smooth(.4,BAU.wall-.1,tb):0;
    const bauOpen=bau?smooth(0,3,tb)*(1-smooth(BAU.total-4,BAU.total,tb)):0,bauCalm=bau?.85*smooth(0,4,tb)*(1-smooth(BAU.total-5,BAU.total,tb)):0,bauBody=bau?smooth(5,9,tb)*(1-smooth(BAU.back-1,BAU.back+3,tb)):0;
    const tunBau=layers.tunnel&&bau?.8*Math.max(smooth(2.5,5.5,tb)*(1-smooth(8.5,11.5,tb)),smooth(BAU.back-3.5,BAU.back-.5,tb)*(1-smooth(BAU.back+2,BAU.back+6,tb))):0;
    // Fenster: der Riss schließt sich für gut 20 Sekunden, die Kulissen klappen auf. Im ersten liegt dahinter die Wiese,

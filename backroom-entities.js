@@ -1,7 +1,7 @@
 // Drei neue Backroom-Entitäten: Modelle und Animation. Bewegung/Verhalten steuert entity-test.js.
 //  - Flimmerer: hohe Strichfigur mit Zylinder, besteht nur aus zitternden Kritzelstrichen.
 //  - Anzugmann: hagere Figur im dunklen Anzug, verzerrtes Gesicht (Bacon), kurzer Haarschnitt, Arme hängen.
-//  - Maulkopf: derselbe Körperbau, weißes Hemd, statt Kopf eine Knolle mit rundem Zahnmaul.
+//  - Maulkopf: derselbe Körperbau, weißes Hemd, statt Kopf eine Knolle mit rundem Zahnmaul hinter flimmerndem Schwarz mit schwarzen Blitzen.
 (() => {
 'use strict';
 function rng(seed){let s=(seed>>>0)||1;return()=>{s^=s<<13;s>>>=0;s^=s>>>17;s^=s<<5;s>>>=0;return s/4294967296;};}
@@ -291,6 +291,30 @@ function createMouthHead(THREE,seed=0x3b17){
   const pc=[];for(let k=0;k<pg.attributes.position.count;k++){const sp=random()<.18?.55:1;pc.push(.9*sp,.86*sp,.76*sp);}pg.setAttribute('color',new THREE.Float32BufferAttribute(pc,3));
   const pivot=new THREE.Group(),a=i/5*Math.PI*2+.3;pivot.position.set(Math.cos(a)*.19,Math.sin(a)*.19,0);pivot.rotation.z=a-Math.PI/2;mouth.add(pivot);
   const m=new THREE.Mesh(pg,petalMat);m.rotation.x=-Math.PI/2;m.position.y=.02;pivot.add(m);petals.push(pivot);}
+ // Schwarzes Flimmern vor dem Gesicht, nur schwarz: ein deckender schwarzer Kern über dem ganzen Gesicht,
+ // darum ein flimmernder Rand aus schwarzen Pixeln (20–35 Mal pro Sekunde neu gestreut). Alle 0,4–2,2 s
+ // ein kurzer schwarzer Blitz: Der Fleck schwillt für 1–3 Bilder an, gezackte schwarze Strahlen schießen heraus.
+ // Zeigt immer zur Kamera.
+ const NS=96,H2=NS/2,noiseCanvas=document.createElement('canvas');noiseCanvas.width=noiseCanvas.height=NS;
+ const ng=noiseCanvas.getContext('2d'),noiseImg=ng.createImageData(NS,NS),noiseTex=new THREE.CanvasTexture(noiseCanvas);
+ noiseTex.magFilter=noiseTex.minFilter=THREE.NearestFilter;noiseTex.generateMipmaps=false;
+ const noise=new THREE.Sprite(new THREE.SpriteMaterial({map:noiseTex,color:0x000000,transparent:true,alphaTest:.5,depthWrite:false,fog:false}));
+ noise.position.set(0,.01,.42);noise.renderOrder=5;head.add(noise);
+ function stir(strength,flash){
+  const d=noiseImg.data,core=flash?.33:.26,edge=flash?.52:.42;d.fill(0);
+  const dot=(x,y)=>{x|=0;y|=0;for(const [ox,oy] of [[0,0],[1,0],[0,1],[1,1]]){const X=x+ox,Y=y+oy;if(X>=0&&Y>=0&&X<NS&&Y<NS)d[(Y*NS+X)*4+3]=255;}};
+  for(let y=0;y<NS;y++){
+   const shift=random()<.1?(random()-.5)*12:0,band=random()<.06?(random()<.5?1.7:.2):1;
+   for(let x=0;x<NS;x++){
+    const r=Math.hypot(x-H2+.5+shift,y-H2+.5)/H2+(random()-.5)*.12;
+    if(r<core||random()<(r<edge?(1-(r-core)/(edge-core))*strength*band:.005))d[(y*NS+x)*4+3]=255;}}
+  if(flash)for(let k=2+Math.floor(random()*4);k>0;k--){ // gezackte Strahlen
+   let a=random()*Math.PI*2,x=H2,y=H2;
+   for(let seg=0;seg<8;seg++){a+=(random()-.5)*1.1;const len=4+random()*3,nx=x+Math.cos(a)*len,ny=y+Math.sin(a)*len;
+    for(let t=0;t<=1;t+=.2)dot(x+(nx-x)*t,y+(ny-y)*t);x=nx;y=ny;if(random()<.3)dot(x+(random()-.5)*6,y+(random()-.5)*6);}}
+  ng.putImageData(noiseImg,0,0);noiseTex.needsUpdate=true;
+ }
+ let noiseT=0,flashT=.8,flashFrames=0;
  let time=0,open=.6;
  // mouth: 0 geschlossen … 1 weit offen (Nähe zum Spieler / Angriff)
  function update(dt,{speed=0,walk=0,mouth:want=.5}={}){
@@ -299,6 +323,10 @@ function createMouthHead(THREE,seed=0x3b17){
   const s=.72+open*.42;mouth.scale.set(s,s,1);teeth.forEach((t,i)=>{t.rotation.x=-.2-open*.5+Math.sin(time*9+i)*.04*open;});
   petals.forEach((p,i)=>{p.children[0].rotation.x=-Math.PI/2-.2-open*.9+Math.sin(time*1.7+i)*.06;});
   head.rotation.z=.24+Math.sin(time*.8)*.06;head.rotation.x=-.18+Math.sin(time*1.3)*.04-open*.1;
+  noiseT-=dt;
+  flashT-=dt;if(flashT<=0){flashT=.4+random()*1.8;flashFrames=1+Math.floor(random()*3);noiseT=0;}
+  if(noiseT<=0){noiseT=1/(20+random()*15);const flash=flashFrames>0;if(flash)flashFrames--;stir(.75+open*.3,flash);
+   const k=(1.65+random()*.15+open*.22)*(flash?1.15+random()*.2:1);noise.scale.set(k*(.94+random()*.12),k,1);noise.position.x=(random()-.5)*.05;}
  }
  return{group:b.group,update,head,height:1.95,radius:.3};
 }

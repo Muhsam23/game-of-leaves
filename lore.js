@@ -46,11 +46,13 @@ add('RUIN_01',ruinX,T.height(ruinX,ruinZ),ruinZ,.93,{terrain:true});
 // v88: the six Rechenstelle sheets lie in six different rooms of the first factory
 // level (the room grammar is deterministic). Spots are free floor, reachable from
 // each room's entry and clear of machines; "Das Gesicht" lies in the wall-figure room.
-const mazeSheets={
- '1':[['BKR_01',-10.25,-9.5,.43]],'1/1':[['BKR_02',5,10.25,-1.71]],
- '2':[['BKR_03',-6.5,8,2.19]],'2/3':[['BKR_04',3.25,-2.75,-.31]],
- '0/3':[['BKR_05',.75,.75,1.03]],'1/1/2':[['BKR_06',-5,-7.5,-2.44]]
-};
+// v107: they left the backrooms (whose rooms now hold generated notes, paper-notes.js) and lie
+// in the moss forest around the factory, 20-30 m out, one on each side.
+const mazeSheets={};
+for(const [id,x,z,yaw]of [
+ ['BKR_01',-59,201,.43],['BKR_02',-128,254,-1.71],['BKR_03',-192,218,2.19],
+ ['BKR_04',-197,201,-.31],['BKR_05',-154,159,1.03],['BKR_06',-102,159,-2.44]
+])add(id,x,T.height(x,z),z,yaw,{terrain:true});
 const mazePaths=Object.keys(mazeSheets).map(k=>k.split('/').map(Number));
 function roomPlacements(path,s=B.spec(path)){
  const key=path.join('/');if(s.level!==0||!mazeSheets[key])return[];

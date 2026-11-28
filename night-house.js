@@ -92,6 +92,18 @@ function buildSpec(seed,path=[],toySeed=0){
 }
 // v90: extra side rooms along long corridors, each behind an arched passage. They are
 // placed only where their whole footprint (plus a margin) is still empty space.
+// v107: no beds any more. Where a bed stood, a Soviet road sign from the sign test station stands
+// now and then (SIGN_CHANCE); the rest of the time the spot stays empty. The rooms that held beds
+// are any size from narrow to absurdly large (bedRoomSize: log-uniform 3.6 to 110 m per side).
+// Each uses its own random stream, so the rest of the house is laid out as before.
+const SIGN_CHANCE=.15,SIGN_SETS=['parkverbot','kinder','fussweg','salnava','pasvalys','taxi','kurven','bushalt','tankstelle','tartu'];
+function bedRoomSize(q){const a=Math.log(3.6),b=Math.log(110);return Math.exp(a+q()*(b-a));}
+function bedSpot(s,x,z,key){
+ const q=random(hash('bed-sign-v107:'+key,s.seed));if(q()>=SIGN_CHANCE)return;
+ const set=SIGN_SETS[Math.floor(q()*SIGN_SETS.length)],yaw=q()*Math.PI*2;(s.signs||(s.signs=[])).push({x,z,yaw,set});
+ // One obstacle for pole and plates, never drawn.
+ s.furniture.push({x,z,w:set==='pasvalys'||set==='salnava'?1.6:.45,d:.3,h:2.4,y:1.2,material:'metal',solid:true,hidden:true,ry:yaw});
+}
 function extraRooms(s){
  const r=random(hash('extra-rooms-v90',s.seed)),S=window.NovaSettlements;let n=0;
  const empty=(x0,x1,z0,z1)=>{for(let x=x0-1;x<=x1+1;x+=.9)for(let z=z0-1;z<=z1+1;z+=.9)if(floorAt(s,x,z)!==null)return false;return true;};
@@ -102,9 +114,13 @@ function extraRooms(s){
    const doorX=b.side*(s.rx+(i+.5+r()*.6-.3+.2)*len/count),w=8+r()*9,d=7+r()*9,z1=b.z-HALF-2.6,z0=z1-d;
    const x0=doorX-w/2,x1=x0+w;
    if(Math.abs(doorX)>Math.abs(b.x)-2.6||!empty(x0,x1,z0,z1)||!passageFree(doorX,z1,b.z-HALF))continue;
-   const kind=r()<.55?'furnished':'hall',room={id:'xroom-'+(n++),kind,x0,x1,z0,z1,height:3+r()*1.6,door:{x:doorX,z:z1,hallZ:b.z-HALF,nx:0,nz:1,width:1.9}};
-   s.rooms.push(room);s.rects.push(rect(doorX-.95,doorX+.95,z1,b.z-HALF,0,{roomId:room.id+'-door'}));s.rects.push(rect(x0,x1,z0,z1,0,{height:room.height,roomId:room.id}));
-   if(kind==='furnished'&&S?.furniturePieces){s.furniture.push(...S.furniturePieces('bed',x0+2.1,z0+2.1));if(r()<.7)s.furniture.push(...S.furniturePieces('sofa',x1-2.1,z0+2.5));}
+   const kind=r()<.55?'furnished':'hall';let rx0=x0,rx1=x1,rz0=z0;
+   // v107: a former bedroom gets its own size; if that does not fit here, it keeps the old one.
+   if(kind==='furnished'){const q=random(hash('bed-room-size-v107:x'+n,s.seed)),nw=Math.max(3.6,bedRoomSize(q)),nd=Math.max(3.6,bedRoomSize(q)),nx0=doorX-Math.min(nw-1.4,Math.max(1.4,nw*q()))  ;
+    if(empty(nx0,nx0+nw,z1-nd,z1)){rx0=nx0;rx1=nx0+nw;rz0=z1-nd;}}
+   const room={id:'xroom-'+(n++),kind,x0:rx0,x1:rx1,z0:rz0,z1,height:Math.max(3+r()*1.6,Math.min(14,(rx1-rx0)*.12)),door:{x:doorX,z:z1,hallZ:b.z-HALF,nx:0,nz:1,width:1.9}};
+   s.rooms.push(room);s.rects.push(rect(doorX-.95,doorX+.95,z1,b.z-HALF,0,{roomId:room.id+'-door'}));s.rects.push(rect(rx0,rx1,rz0,z1,0,{height:room.height,roomId:room.id}));
+   if(kind==='furnished'&&S?.furniturePieces){const w=rx1-rx0,d=z1-rz0;bedSpot(s,w<4.4?(rx0+rx1)/2:rx0+2.1,d<4.4?(rz0+z1)/2:rz0+2.1,room.id);const sofa=r()<.7;if(sofa&&w>=6&&d>=5)s.furniture.push(...S.furniturePieces('sofa',rx1-2.1,rz0+2.5));}
   }
  }
 }
@@ -205,10 +221,13 @@ function furnishRooms(s){
  }
  for(const [i,b]of s.branches.entries()){
   const roll=r(),kind=roll<.22?'pool':roll<.39?'hall':roll<.56?'playroom':'furnished';
-  const huge=kind==='hall'||kind==='pool'&&r()<.36,w=huge?35+r()*60:9+r()*11,d=huge?30+r()*52:9+r()*13;
+  const huge=kind==='hall'||kind==='pool'&&r()<.36;let w=huge?35+r()*60:9+r()*11,d=huge?30+r()*52:9+r()*13;
+  // v107: the rooms that held beds (furnished, playroom) are any size from narrow to absurd.
+  const bedRoom=kind==='furnished'||kind==='playroom',bq=bedRoom?random(hash('bed-room-size-v107:'+i,s.seed)):null;if(bedRoom){w=bedRoomSize(bq);d=bedRoomSize(bq);}
+  const vast=bedRoom&&Math.max(w,d)>40;
   const branch=Math.abs(b.x)-.2,doorX=b.side*branch,z0=b.z+HALF+3.2;
   const x0=b.side>0?doorX-1.4:doorX-w+1.4,x1=x0+w,z1=z0+d;
-  const room={id:'room-'+i,kind,x0,x1,z0,z1,height:huge?7+r()*9:3.2+r()*1.5,door:{x:doorX,z:z0,hallZ:b.z+HALF,nx:0,nz:1,width:1.9}};
+  const room={id:'room-'+i,kind,x0,x1,z0,z1,height:huge?7+r()*9:vast?Math.max(3.2+r()*1.5,6+bq()*10):3.2+r()*1.5,door:{x:doorX,z:z0,hallZ:b.z+HALF,nx:0,nz:1,width:1.9}};
   s.rooms.push(room);
   s.rects.push(rect(doorX-.95,doorX+.95,b.z+HALF,z0,0,{roomId:room.id+'-door'}));
   s.rects.push(rect(x0,x1,z0,z1,0,{height:room.height,roomId:room.id}));
@@ -221,11 +240,13 @@ function furnishRooms(s){
     for(let j=1;j<=pool.steps;j++)s.cutsZ.push(pool.z0+pool.stairs*j/pool.steps);
    }
   }else if(kind==='furnished'){
-   addFurniture('bed',x0+2.1,z1-2.1);addFurniture('kitchen',(x0+x1)/2,z0+.9,Math.PI);
-   if(r()<.8)addFurniture('sofa',x1-2.1,z1-2.5);if(r()<.7)addFurniture('table',(x0+x1)/2,z1-3.4);
-   if(r()<.32){addFurniture('bath',x1-1.5,z0+3.2);addFurniture('toilet',x1-1.4,z0+5.2);}
+   // Narrow rooms keep only what fits; the random draws stay in the same order.
+   bedSpot(s,w<4.4?(x0+x1)/2:x0+2.1,d<4.4?(z0+z1)/2:z1-2.1,room.id);if(w>=3&&d>=3.4)addFurniture('kitchen',(x0+x1)/2,z0+.9,Math.PI);
+   const sofa=r()<.8,table=r()<.7,bath=r()<.32;
+   if(sofa&&w>=6&&d>=5)addFurniture('sofa',x1-2.1,z1-2.5);if(table&&w>=4&&d>=6)addFurniture('table',(x0+x1)/2,z1-3.4);
+   if(bath&&w>=5&&d>=7){addFurniture('bath',x1-1.5,z0+3.2);addFurniture('toilet',x1-1.4,z0+5.2);}
   }else if(kind==='playroom'){
-   addFurniture('bed',x1-1.5,z1-2.3);addFurniture('sideboard',(x0+x1)/2,z0+.8,Math.PI);
+   bedSpot(s,w<4?(x0+x1)/2:x1-1.5,d<4.4?(z0+z1)/2:z1-2.3,room.id);if(w>=2.6&&d>=3)addFurniture('sideboard',(x0+x1)/2,z0+.8,Math.PI);
   }
   // A radio is always reachable from the dry walkway and never fills a door.
   if(r()<.24)addRadio((x0+x1)/2,z1-1,room.id);
@@ -375,6 +396,17 @@ function noTile(material,name){
  material.customProgramCacheKey=()=>'nova-notile-v92-'+(material.userData.carpet?'carpet':'plain');
 }
 function create({THREE,textures,settlements,onExit,onEyeRoom,outsideView,furnitureMaterials={},encounters=null,floraModels=null,poolProps=null,toys=null}){
+ // v107: road signs (soviet-signs.js). The photos load on the first visit; until then (a fraction of a
+ // second) a sign spot simply stays empty. Built sets are cloned, so rooms share their geometry.
+ let signKit=null,signLoading=false;const signSets=new Map();
+ function roadSign(set){
+  const K=window.NovaSovietSigns;if(!K)return null;
+  if(!signKit){if(!signLoading){signLoading=true;K.loadTextures(THREE,path=>window.NOVA_ASSET_DATA?.[path]||path).then(t=>{signKit=K.create(THREE,t);}).catch(()=>{});}return null;}
+  if(!signSets.has(set))signSets.set(set,signKit.build(set));return signSets.get(set).clone(true);
+ }
+ // Start loading the sign photos with the game, so they are there before the first room is built
+ // (rooms are cached once built).
+ roadSign(SIGN_SETS[0]);
  const scene=new THREE.Scene(),inside=new THREE.Group(),outside=new THREE.Group();scene.add(inside,outside);
  const ambient=new THREE.HemisphereLight(0xe7e9dd,0x565d41,.85),sun=new THREE.DirectionalLight(0xfff4d2,.4);sun.position.set(-45,95,30);scene.add(ambient,sun);
  // v102: three.js compiles one shader program per material and per combination of lights,
@@ -530,9 +562,8 @@ function create({THREE,textures,settlements,onExit,onEyeRoom,outsideView,furnitu
    shadePanel('shadeWall',L(d0,u0,0),V(0,-w-u0,0),V(0,0,RH),steps(-w-u0),2,[-a.nx,0,-a.nz]);
    shadePanel('shadeWall',L(d0,w,0),V(0,u1-w,0),V(0,0,RH),steps(u1-w),2,[-a.nx,0,-a.nz]);
    shadePanel('shadeWall',L(d0,-w,H),V(0,2*w,0),V(0,0,RH-H),1,1,[-a.nx,0,-a.nz]);
-   // A wardrobe and a bed frame, barely readable in the dark.
+   // A wardrobe, barely readable in the dark (v107: the bed frame is gone).
    const c=L(d1-.35,room.off+room.w*.18,.95);box(group,c[0],c[1],c[2],a.nx?.6:1.1,1.9,a.nx?1.1:.6,'shadeWall');
-   const b=L(d0+room.d*.55,u0+.6,.25);box(group,b[0],b[1],b[2],a.nx?1.9:1,.5,a.nx?1:1.9,'shadeWall');
   }
   accum.shade=null;
  }
@@ -674,6 +705,8 @@ function create({THREE,textures,settlements,onExit,onEyeRoom,outsideView,furnitu
    const prop=poolProps.createObject(p.kind,p.seed,{shared:true});prop.position.set(p.x,p.y-(prop.userData.poolProp?.floatDepth||0),p.z);prop.rotation.y=p.yaw;group.add(prop);
   }
   toys?.addTo(group,s.toys||[],{shared:true});
+  // v107: road signs where beds stood. Added after the merge (like toys); their geometry is shared.
+  for(const sg of s.signs||[]){const o=roadSign(sg.set);if(o){o.position.set(sg.x,floorAt(s,sg.x,sg.z)??0,sg.z);o.rotation.y=sg.yaw;o.traverse(m=>{m.userData.keepGeometry=true;});group.add(o);}}
   const lamps=new THREE.Group();lamps.name='Night radio indicators';group.add(lamps);
   for(const r of s.radios){const lamp=box(lamps,r.x-r.end*.34,r.y+.092,r.z+r.end*.195,.038,.028,.018,'radioOff');lamp.userData.radioId=r.id;radioLamps.add(lamp);setRadioLamp(lamp);}
   group.traverse(o=>{if(o.geometry)o.userData.sharedRoom=true;});roomCache.set(cacheKey,{group:group.clone(true),refs:1});group.userData.roomCacheKey=cacheKey;fresh.push(cacheKey);
