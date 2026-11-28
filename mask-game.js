@@ -17,14 +17,18 @@ window.NovaMaskGame={create({THREE,scene,waterMaterial,settlements:S,textures,te
  const entryDoor=door(scene,entry,-Math.PI/2);
  // Join the initial asset barrier. Loading these on E used to restart loading
  // callbacks and force texture uploads during the first room visit.
- const maskTextures={...textures,wallpaper,vermesser:texture('vermesser-skin-v19.png',true),maskAtlas:texture('gasmask-gp5-atlas.jpg',true),maskInner:texture('gasmask-interior-clean.jpg',true),maskInterior:texture('gasmask-interior.jpg',true),memory:texture('erinnerung.jpg',true)};
+ const maskTextures={...textures,wallpaper,vermesser:texture('vermesser-skin-v19.png',true),maskAtlas:texture('gasmask-gp5-atlas.jpg',true),maskInner:texture('gasmask-interior-clean.jpg',true),maskInterior:texture('gasmask-interior.jpg',true),memory:texture('erinnerung.jpg',true),
+  // v106: the WOHNBLOCK episode from the Salviamaske test station (photos of Skrunda-1, the flats' walls, bark),
+  // and the masked figure from the closing credits (classic Karin model).
+  karin:textures.karinAtlasClassic||texture('karin-study-atlas-classic.png',true),birkenrinde:texture('bark/betula-pendula-r2.jpg'),kiefernrinde:texture('bark/pinus-sylvestris-r2.jpg'),
+  block:{fassade:texture('wohnblock/fassade.jpg',true),ziegel:texture('wohnblock/ziegel.jpg'),himmel:texture('wohnblock/himmel.jpg',true),gras:texture('wohnblock/gras.jpg'),platten:texture('wohnblock/platten.jpg'),innen:['01','03','10','13','15','16','19'].map(n=>texture('wohnblock/innen'+n+'.jpg'))}};
  let prepared=false;
  function ensure(){
   if(spaces)return spaces;
   spaces=NovaMaskWorld.create(THREE,maskTextures);effect=NovaMaskEffect.create(THREE);door(spaces.apartment,exit,-Math.PI/2);
   if(waterMaterial)effect.hookShader(waterMaterial,'vec4 mv=modelViewMatrix*vec4(p,1.0);','vec4 mv=viewMatrix*vec4(novaMaskWarp((modelMatrix*vec4(p,1.0)).xyz),1.0);');
   // Patterns also inhabit the mask's replacement rooms and memory meadow.
-  if(interference){interference.psilo.prepare(spaces.replacement,true);if(spaces.memory)interference.psilo.prepare(spaces.memory.scene,true);}
+  if(interference){interference.psilo.prepare(spaces.replacement,true);if(spaces.memory)interference.psilo.prepare(spaces.memory.scene,true);if(spaces.bau)interference.psilo.prepare(spaces.bau.scene,true);}
   const url=window.NOVA_ASSET_DATA?.['assets/gasmask-interior.jpg']||'assets/gasmask-interior.jpg';
   for(const image of document.querySelectorAll('[data-mask-photo="interior"]'))image.setAttribute('href',url);
   return spaces;
@@ -33,7 +37,7 @@ window.NovaMaskGame={create({THREE,scene,waterMaterial,settlements:S,textures,te
   ensure();if(prepared)return spaces;
   // Install both shader hooks before warming. In particular, returning to the
   // coast must not invalidate every outdoor material after first using M/E.
-  for(const world of [scene,spaces.apartment,spaces.replacement,spaces.memory?.scene])if(world){
+  for(const world of [scene,spaces.apartment,spaces.replacement,spaces.memory?.scene,spaces.bau?.scene])if(world){
    interference?.psilo.prepare(world,true);effect.prepare(world);
   }
   prepared=true;return spaces;
@@ -41,14 +45,19 @@ window.NovaMaskGame={create({THREE,scene,waterMaterial,settlements:S,textures,te
  function warmup(queue,renderer,camera){
   prepare();const eye=camera.clone();eye.position.set(2.95,1.68,2.25);eye.rotation.set(-.08,Math.PI/2,0,'YXZ');eye.updateMatrixWorld(true);
   spaces.update(controller.state,eye,true);
-  for(const world of [spaces.apartment,spaces.replacement,spaces.memory?.scene])if(world)queue.visit(world,eye);
+  for(const world of [spaces.apartment,spaces.replacement,spaces.memory?.scene,spaces.bau?.scene])if(world)queue.visit(world,eye);
   queue.draw(()=>{
    // A separate state exercises all compositor passes without acquiring the
    // mask, advancing the real timeline, playing sounds or moving the player.
-   const rehearsal=NovaMaskState.create(1);rehearsal.setIndoor(true);rehearsal.start();rehearsal.seek(290);rehearsal.tick(0);
-   const s={...rehearsal.state,memWorld:false,gapB:.2,memMix:1,fractal:1};
-   try{effect.render(renderer,spaces.apartment,eye,s,spaces,0,{indoor:true});}
-   finally{effect.reset();spaces.update(controller.state,eye,true);}
+   // v106: the timeline of the test station (WOHNBLOCK at 136 s, everything after it 78 s later):
+   // the fractal and every stage of the episode once.
+   const PLi=NovaMaskState.PLAN.inside,rehearsal=NovaMaskState.create(1);rehearsal.setIndoor(true);rehearsal.start();
+   try{
+    for(const t of [PLi.fractal[1]+18,...(PLi.bau!==undefined?[PLi.bau+10,PLi.bau+20,PLi.bau+40,PLi.bau+66]:[])]){
+     rehearsal.seek(t);rehearsal.tick(0);const s=t===PLi.fractal[1]+18?{...rehearsal.state,memWorld:false,gapB:.2,memMix:1,fractal:1}:rehearsal.state;
+     effect.render(renderer,spaces.apartment,eye,s,spaces,0,{indoor:true});
+    }
+   }finally{effect.reset();spaces.update(controller.state,eye,true);}
   });
  }
  function enter(player){ensure();returnPose={...player};inside=true;controller.setIndoor(true);Object.assign(player,{x:2.95,z:2.25,walkY:0,yaw:Math.PI/2,pitch:-.08,vx:0,vy:0,vz:0});return true;}
@@ -124,7 +133,7 @@ window.NovaMaskGame={create({THREE,scene,waterMaterial,settlements:S,textures,te
    }finally{if(density!==undefined)fog.density=density;if(waterFog)waterFog.value=waterDensity;}
   };
   if(interference)interference.render(renderer,source,camera,0,dt,playing,visual(),draw);else draw();
-  for(const ev of spaces.apparatus.drainEvents())if(playing)audio.event(ev,s);overlays(s,camera);return true;
+  for(const ev of spaces.apparatus.drainEvents())if(playing)audio.event(ev,s);if(spaces.bau)for(const ev of spaces.bau.drainEvents())if(playing)audio.event(ev,s);overlays(s,camera);return true;
  }
  function reset(){inside=owned=inBag=tableLift=false;returnPose=suspended=null;machineRig.parent?.remove(machineRig);rigWorld=null;if(spaces){spaces.apartment.add(spaces.apparatus.group);spaces.apparatus.group.visible=false;}controller.reset();effect?.reset();audio.update(controller.state,true,0);wasActive=false;style($('maskApproach'),approachStyle,'opacity','0');style($('maskOverlay'),overlayStyle,'opacity','0');}
  return{entry,entryDoor,prepare,warmup,enter,leave,suspend,resume,abandon,target,take,toggle,move,tick,render,reset,controller,activateAudio(){audio.setEnabled(true);if(controller.state.active)audio.activate();},mute(){audio.update(controller.state,true,0);},get inside(){return inside;},get owned(){return owned;},get inBag(){return inBag;},get active(){return controller.state.active;},get on(){return controller.state.maskOn;},get control(){return controller.state.active?controller.state.control:1;},get spaces(){return spaces;},get state(){return{inside,owned,inBag,initialized:!!spaces,...controller.state};}};

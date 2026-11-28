@@ -85,7 +85,17 @@ window.NovaMaskWorld=(()=>{
   const crowd=[0,1,2].map(()=>{const v=window.NovaVermesser.createModel(THREE,textures.vermesser);v.group.scale.setScalar(.72);v.group.visible=false;replacement.add(v.group);return v;});
   const vermesser=crowd[0],presence=vermesser.group;
   // Eigene Gestalt mit derselben GP-5 für den Blick aus der Lampe und ein gebückter Vermesser als Präsenz in der Rückkehr.
-  const self=new THREE.Group();self.name='Eigene Gestalt';self.visible=false;apartment.add(self);
+  // Die eigene Gestalt von außen: dieselbe Reisende, die im Abspann ins Auto steigt (klassisches Karin-Modell mit
+  // Körperanpassung, wie in escape-ending.js), nur mit der GP-5 über dem Kopf. Gesicht, Haar und Mütze liegen unter der Haube.
+  function maskedFigure(name){const self=new THREE.Group();self.name=name;
+  const K=window.NovaKarinModelClassic;
+  if(K&&textures.karin){
+   const model=K.create(textures.karin);if(window.NovaKarinBody)window.NovaKarinBody.apply(model);
+   const hidden=['portrait_face','ear','olive_knit_cap','cap_band','swept_hair','hair_bun','head_back'];model.group.traverse(o=>{if(hidden.includes(o.name))o.visible=false;});
+   const worn=window.NovaMaskModel.create(THREE,textures);worn.scale.setScalar(1.24);worn.position.set(0,.03,-.01);model.bones.head.add(worn);
+   self.add(model.group);self.userData.animate=t=>{K.animate(model,t,'idle');model.bones.head.rotation.y*=.4;};self.userData.model=model;
+   return self;
+  }
   {
    const coat=new THREE.MeshLambertMaterial({color:0x0d100c,transparent:true}),skin=new THREE.MeshLambertMaterial({color:0x161713,transparent:true});
    const part=(geo,mat,x,y,z,rx=0,rz=0,sc)=>{const m=new THREE.Mesh(geo,mat);m.position.set(x,y,z);m.rotation.set(rx,0,rz);if(sc)m.scale.set(...sc);self.add(m);return m;};
@@ -95,6 +105,12 @@ window.NovaMaskWorld=(()=>{
    part(new THREE.SphereGeometry(.12,16,12),skin,0,1.66,0,0,0,[.92,1.1,.95]);
    const worn=window.NovaMaskModel.create(THREE,textures);worn.scale.setScalar(1.42);worn.position.set(0,1.69,.0);self.add(worn);
   }
+  return self;}
+  const self=maskedFigure('Eigene Gestalt');self.visible=false;apartment.add(self);
+  // Wohnblock: der Hof, in den der Blick als Haus sieht. Gegenüber steht dieselbe Gestalt mit Maske am Fenster,
+  // im Hof nachts ein Vermesser.
+  const bau=window.NovaMaskWohnblock?window.NovaMaskWohnblock.create(THREE,textures):null;
+  if(bau){bau.setSelf(maskedFigure('Gestalt gegenüber'));if(window.NovaVermesser)bau.setFigure(window.NovaVermesser.createModel(THREE,textures.vermesser));}
   const selfMaterials=[];self.traverse(o=>{if(o.isMesh)for(const m of [].concat(o.material))if(!selfMaterials.includes(m)){m.transparent=true;selfMaterials.push(m);}});
   const visitor=window.NovaVermesser.createModel(THREE,textures.vermesser);visitor.group.scale.setScalar(.6);visitor.group.position.set(-3.05,0,-3.72);visitor.group.visible=false;apartment.add(visitor.group);
   const visitorMaterials=[];visitor.group.traverse(o=>{if(o.isMesh)for(const m of [].concat(o.material))if(!visitorMaterials.includes(m)){m.transparent=true;visitorMaterials.push(m);}});
@@ -127,7 +143,7 @@ window.NovaMaskWorld=(()=>{
   function update(s,camera=null,indoor=true){
    liftMask(s,camera);const t=s.time;apparatus.update(s,indoor);
    const selfOpacity=indoor&&camera?smooth(.25,.6,s.object):0;self.visible=selfOpacity>.01;
-   if(self.visible){self.position.set(camera.position.x,0,camera.position.z);self.rotation.y=camera.rotation.y+Math.PI;for(const m of selfMaterials)m.opacity=selfOpacity;}
+   if(self.visible){if(self.userData.animate)self.userData.animate(t);self.position.set(camera.position.x,0,camera.position.z);self.rotation.y=camera.rotation.y+Math.PI;for(const m of selfMaterials)m.opacity=selfOpacity;}
    // Im Apartment: zuerst nur im Augenwinkel in der Ecke, mit wachsender Tiefe kommt er näher und bleibt auch im direkten Blick.
    let visitorOpacity=0,stay=0;
    if(indoor&&camera){
@@ -154,7 +170,7 @@ window.NovaMaskWorld=(()=>{
    crowd.forEach((v,i)=>{const [da,dist]=CROWD[i],a=base+da+.06*Math.sin(s.time*.11+i),r=Math.max(1.8,dist-1.3*(s.depth||0));v.group.position.set(eye.position.x+Math.sin(a)*r,-.21,eye.position.z+Math.cos(a)*r);v.group.rotation.y=Math.atan2(eye.position.x-v.group.position.x,eye.position.z-v.group.position.z);});
   }
   function blocked(x,z){if(x< -3.36||x>3.36||z< -3.85||z>3.85)return true;const near=(cx,cz,w,d)=>Math.abs(x-cx)<w/2+.23&&Math.abs(z-cz)<d/2+.23;return near(.1,-1.05,1.36,.83)||near(-2.65,-2.16,1.22,2.65)||near(2.86,-2.63,.72,.73);}
-  return{lift:LIFT,liftScreen,picture,memory,apartment,replacement,root,mask,shared,pages,presence,vermesser,crowd,machines,apparatus,self,visitor,update,updatePresence,blocked,maskPosition:mask.position.clone()};
+  return{lift:LIFT,liftScreen,picture,memory,bau,apartment,replacement,root,mask,shared,pages,presence,vermesser,crowd,machines,apparatus,self,visitor,update,updatePresence,blocked,maskPosition:mask.position.clone()};
  }
  return{create};
 })();

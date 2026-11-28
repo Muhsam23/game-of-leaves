@@ -181,7 +181,9 @@ window.NovaMaskMemory=(()=>{
    if(figure){const show=s.memWorld&&s.layers&&s.layers.entitaeten!==false&&(s.entity||0)>.2;figure.group.visible=show;if(show)figure.pose(0,0,'warning',s.time);}
    return cam;
   }
-  return{scene,camera:cam,update,setFigure,ground,ASPECT_PICTURE,FOV0,get figure(){return figure&&figure.group;}};
+  // Tür des Hauses am Ende des Zaunwegs: dorthin richtet sich beim Flug der Tunnel aus.
+  const aim=new THREE.Vector3(0,ground(0,CHURCH_Z)+1.3,CHURCH_Z+.05);
+  return{scene,camera:cam,update,setFigure,ground,aim,ASPECT_PICTURE,FOV0,get figure(){return figure&&figure.group;}};
  }
  return{create};
 })();

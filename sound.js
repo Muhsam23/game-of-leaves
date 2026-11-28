@@ -14,10 +14,15 @@ const recordedRadioIds=['radio-ste-005','radio-ste-006','radio-ste-007','radio-s
 const streamedTracks=new Set([...slowTracks,'backroom-black-hole',forestMeltingId,...recordedRadioIds]);
 const natureTracks=new Set(['night-taiga','night-shore']);
 // v94: the recorded Vermesser scream (made by the player's author); since v104 the only one.
+// v105: a new recording (13.6 s, "vermesser screaming3.mp3"); the Zitterer uses it too.
 const screamPath='assets/audio/vermesser-scream.mp3';let screamBuf=null,screamVoice=null;
 const natureLevel=3.2*.35; // Preserve v45's default listening level on the WORLD bus.
 let backroomTracks=backroomPlaylists.main,backroomTrack=0,backroomWanted=0,backroomZone=null;
 let nightElapsed=0,nightActive=false,nightCoast=0,houseZone=null;
+// v105: seconds in the apartment backrooms on this visit (the roof keeps the count), the
+// fluorescent-tube hum there, and the new figures' sounds (white noise, crackle).
+let interiorTime=0,tube=null,figureNoise=null,figureWanted={noise:0,crackle:0,at:-1};
+const interiorScore={start:60,full:240}; // the house track fades in from 1:00 to 4:00
 
 const radioIds=['apartment-station','apartment-4625','apartment-catatonia',...recordedRadioIds];
 const scoreLevel=3.2; // +12 dB versus v11, only on the in-world soundtrack bus.
@@ -442,6 +447,9 @@ function update(state,dt){
  // These isolated spaces also override the outdoor mix during daytime.
  const nextHouseZone=['mask','paeikeselinn','field'].includes(state.nightHouse)?state.nightHouse:nightActive&&Object.hasOwn(houseTracks,state.nightHouse)?state.nightHouse:null;
  if(nextHouseZone!==houseZone){houseZone=nextHouseZone;updateBuses();}
+ if(houseZone==='interior'&&mode==='world')interiorTime+=dt;else if(houseZone!=='roof')interiorTime=0;
+ tuneTube(houseZone==='interior'&&mode==='world'?1:0,dt);
+ mixFigures();
  // Keep landmark cues exclusive. Both complete forest songs resume after detours or pauses.
  const radioAllowed=mode==='world'&&(!houseZone||houseZone==='interior')&&!state.factory?.labyrinth;
  const machineChannel=state.apartmentRadio?.channels?.find(c=>c.id==='radio-plane');
@@ -492,7 +500,8 @@ function update(state,dt){
  mixLayer('night-shore',houseZone?0:nightGain*coastal*.23*natureLevel,worldBus);
  // House and Sunny Town recordings start at their beginning on the MUSIC bus.
  // Zone changes fade the old layer down while the next one fades up.
- for(const [zone,id]of Object.entries(houseTracks))mixLayer(id,houseZone===zone&&mode==='world'?.20:0,scoreBus,2.8);
+ // v105: in the apartment backrooms the track waits a minute, then fades in over three.
+ for(const [zone,id]of Object.entries(houseTracks))mixLayer(id,houseZone===zone&&mode==='world'?.20*(zone==='interior'?smooth(interiorScore.start,interiorScore.full,interiorTime):1):0,scoreBus,2.8);
  syncStreamedLayers();
  mixLayer('radio-air',(nightWorld?0:m.radio)*(.62+.38*smooth(-.5,.8,Math.sin(clock*.13)+.35*Math.sin(clock*.41))),scoreBus);
  let fracture=0;
@@ -555,7 +564,7 @@ function update(state,dt){
 // Loaded only once a Vermesser is near (no download at start).
 let screamLoading=false,screamPending=null;
 function playScream(level){
- // One scream at a time (about 23 s): a hunt that starts meanwhile lets it run on.
+ // One scream at a time (13.6 s since v105): a hunt that starts meanwhile lets it run on.
  if(screamVoice||!screamBuf)return;const t=ac.currentTime;
  const source=src(screamBuf,false),gain=ac.createGain();gain.gain.value=clamp(level,0,1)*.8;source.connect(gain);gain.connect(sfxBus);source.start(t);
  const voice=screamVoice={source,gain};source.onended=()=>{try{gain.disconnect();}catch(e){}if(screamVoice===voice)screamVoice=null;};
@@ -571,6 +580,46 @@ function scream(level=1){
  if(!ready||!enabled||hidden||mode!=='world'||!sfxBus)return;
  if(screamBuf){playScream(level);return;}
  screamPending={level,at:ac.currentTime};prepareScream();
+}
+// v105: a fluorescent tube in the apartment backrooms. Mains buzz at 100 Hz with its
+// harmonics, a thin rattle of the choke above it, and the light's slow, uneven flutter.
+function ensureTube(){
+ if(tube||!ac||!sfxBus||!noiseBuf)return tube;
+ const out=ac.createGain();out.gain.value=0;out.connect(sfxBus);
+ const body=ac.createGain();body.gain.value=1;body.connect(out);
+ const low=ac.createBiquadFilter();low.type='lowpass';low.frequency.value=1800;low.Q.value=.4;low.connect(body);
+ const tones=[[100,'sawtooth',.34],[200,'sine',.22],[300,'square',.05],[120,'sine',.06]].map(([f,type,v])=>{const o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.value=f;if(o.detune)o.detune.value=(Math.random()-.5)*6;g.gain.value=v;o.connect(g);g.connect(low);o.start();return o;});
+ // The rattle: band-limited noise chopped at 100 Hz.
+ const rattle=src(noiseBuf,true),band=ac.createBiquadFilter(),chop=ac.createGain(),chopDepth=ac.createGain(),lfo=ac.createOscillator();
+ band.type='bandpass';band.frequency.value=3400;band.Q.value=1.6;chop.gain.value=.05;chopDepth.gain.value=.05;lfo.type='square';lfo.frequency.value=100;
+ lfo.connect(chopDepth);chopDepth.connect(chop.gain);rattle.connect(band);band.connect(chop);chop.connect(body);rattle.start(ac.currentTime+Math.random());lfo.start();
+ tube={out,body,tones,rattle,lfo,flutter:0};return tube;
+}
+function tuneTube(level,dt=1/60){
+ if(level<=0&&!tube)return;const t=ensureTube();if(!t)return;
+ target(t.out.gain,level*.05,level?.9:.25);
+ // Now and then the tube stutters for a moment.
+ t.flutter-=dt;if(level&&t.flutter<=0){t.flutter=1.5+Math.random()*9;const now=ac.currentTime;t.body.gain.cancelScheduledValues(now);t.body.gain.setValueAtTime(1,now);for(let i=0;i<2+Math.floor(Math.random()*4);i++){t.body.gain.setValueAtTime(.35+Math.random()*.5,now+i*.07);t.body.gain.setValueAtTime(1,now+i*.07+.035);}}
+}
+// v105: house-encounters.js / biosphere-figure.js report every frame how loud their figures are.
+// noise: the Anzugmann or the Mundmann hunting (aggressive white noise); crackle: the Zitterer near.
+function figures(values={}){figureWanted={noise:clamp(values.noise||0),crackle:clamp(values.crackle||0),at:clock};}
+function ensureFigureNoise(){
+ if(figureNoise||!ac||!sfxBus||!noiseBuf)return figureNoise;
+ const hiss=src(noiseBuf,true),high=ac.createBiquadFilter(),drive=ac.createWaveShaper?.()||ac.createGain(),noise=ac.createGain();
+ high.type='highpass';high.frequency.value=180;
+ if(ac.createWaveShaper){const curve=new Float32Array(1024);for(let i=0;i<curve.length;i++){const x=i/511.5-1;curve[i]=Math.tanh(x*3.2);}drive.curve=curve;}
+ noise.gain.value=0;hiss.connect(high);high.connect(drive);drive.connect(noise);noise.connect(sfxBus);hiss.start();
+ const tick=src(noiseBuf,true),tickHigh=ac.createBiquadFilter(),crackle=ac.createGain();tickHigh.type='highpass';tickHigh.frequency.value=2600;tickHigh.Q.value=.7;crackle.gain.value=0;
+ tick.connect(tickHigh);tickHigh.connect(crackle);crackle.connect(sfxBus);tick.start(ac.currentTime+Math.random());
+ figureNoise={noise,crackle,hiss,tick};return figureNoise;
+}
+function mixFigures(){
+ const fresh=clock-figureWanted.at<.3,n=fresh?figureWanted.noise:0,c=fresh?figureWanted.crackle:0;
+ if(!figureNoise&&n<=0&&c<=0)return;const f=ensureFigureNoise();if(!f)return;
+ // Harsh and unsteady: the level jumps every frame around its target.
+ target(f.noise.gain,n>0?n*.2*(.7+Math.random()*.55):0,n>0?.03:.4);
+ target(f.crackle.gain,c>0?c*(Math.random()<.45?.05+Math.random()*.3:.01):0,.008);
 }
 function startReception(){
  // Hiss, whistle and hum are mixed after the clipping stage so each keeps its own colour.
@@ -599,9 +648,9 @@ function tuneReception(channels,level){
  target(r.whistleGain.gain,level*((p.wl||0)+sweep*.05),sweep?.04:.4);
  target(r.humGain.gain,level*p.hum,.4);
 }
-function getState(){return{titleBlocked,machineRadio:machineReceiver?.getState()||null,missingNo:{intensity:missingNoStrength,initialized:!!missingNo},forestMusic:{track:forestTrack,active:worldTitleActive||meltingActive,wait:worldTitleWait,eligible:worldTitleEligible,time:forestTrack===forestMeltingId?(layers.get(forestMeltingId)?.media.currentTime||0):(mode==='menu'?worldTitleTime:title?.currentTime||0)},nightHouse:{zone:houseZone,track:houseTracks[houseZone]||null},night:{active:nightActive,elapsed:nightElapsed,coast:nightCoast},backroomZone,backroomPlaylist:[...backroomTracks],backroomTrack:backroomTracks[backroomTrack],ready,enabled,mode,hidden,context:ac?.state||'uninitialized',titleLoaded,titlePlaying:!!title&&!title.paused&&ac?.state==='running',titleTime:title?.currentTime||0,worldVolume,musicVolume,clock,worldTitle:{active:worldTitleActive,eligible:worldTitleEligible,wait:worldTitleWait,time:mode==='menu'?worldTitleTime:title?.currentTime||0},spatial:lastMix,failures:[...failures],layers:[...layers.values()].map(l=>({id:l.id,loaded:l.media?!l.pending:!!l.buffer,playing:!!l.source,target:l.wanted,streamed:!!l.media,category:natureTracks.has(l.id)||radioIds.includes(l.id)?'world':'music'}))};}
-function resetWorld(){machineReceiver?.update(null,false);resetMissingNo();clearTimeout(meltingTimer);meltingTimer=null;forestTrack='main-theme';meltingActive=false;forestCycleStarted=false;backroomTracks=backroomPlaylists.main;backroomZone=null;houseZone=null;nightElapsed=0;nightActive=false;nightCoast=0;backroomTrack=0;backroomWanted=0;worldTitleActive=false;worldTitleEligible=false;worldTitleWait=120;worldTitleTime=0;for(const l of layers.values()){l.wanted=0;stopLayer(l);if(l.media){l.media.src='';l.mediaNode.disconnect();}l.gain.disconnect();l.pan?.disconnect();}layers.clear();clock=0;lastMix=null;updateBuses();}
-return{init,resetWorld,startRadio,scream,prepareScream,speak,stopSpeech,setMissingNo,preloadTitle,setEnabled,setMode,setHidden,setVolumes,endingAudio,update,spatialMix,step,chirp,gull,getState,birdPresence:()=>lastMix?.birdPresence??1};
+function getState(){return{titleBlocked,machineRadio:machineReceiver?.getState()||null,missingNo:{intensity:missingNoStrength,initialized:!!missingNo},forestMusic:{track:forestTrack,active:worldTitleActive||meltingActive,wait:worldTitleWait,eligible:worldTitleEligible,time:forestTrack===forestMeltingId?(layers.get(forestMeltingId)?.media.currentTime||0):(mode==='menu'?worldTitleTime:title?.currentTime||0)},nightHouse:{zone:houseZone,track:houseTracks[houseZone]||null,interiorTime,scoreFade:houseZone==='interior'?smooth(interiorScore.start,interiorScore.full,interiorTime):null,tube:tube?tube.out.gain.value:0},figureSound:{...figureWanted,noiseGain:figureNoise?figureNoise.noise.gain.value:0},night:{active:nightActive,elapsed:nightElapsed,coast:nightCoast},backroomZone,backroomPlaylist:[...backroomTracks],backroomTrack:backroomTracks[backroomTrack],ready,enabled,mode,hidden,context:ac?.state||'uninitialized',titleLoaded,titlePlaying:!!title&&!title.paused&&ac?.state==='running',titleTime:title?.currentTime||0,worldVolume,musicVolume,clock,worldTitle:{active:worldTitleActive,eligible:worldTitleEligible,wait:worldTitleWait,time:mode==='menu'?worldTitleTime:title?.currentTime||0},spatial:lastMix,failures:[...failures],layers:[...layers.values()].map(l=>({id:l.id,loaded:l.media?!l.pending:!!l.buffer,playing:!!l.source,target:l.wanted,streamed:!!l.media,category:natureTracks.has(l.id)||radioIds.includes(l.id)?'world':'music'}))};}
+function resetWorld(){machineReceiver?.update(null,false);resetMissingNo();clearTimeout(meltingTimer);meltingTimer=null;forestTrack='main-theme';meltingActive=false;forestCycleStarted=false;backroomTracks=backroomPlaylists.main;backroomZone=null;houseZone=null;interiorTime=0;figureWanted={noise:0,crackle:0,at:-1};nightElapsed=0;nightActive=false;nightCoast=0;backroomTrack=0;backroomWanted=0;worldTitleActive=false;worldTitleEligible=false;worldTitleWait=120;worldTitleTime=0;for(const l of layers.values()){l.wanted=0;stopLayer(l);if(l.media){l.media.src='';l.mediaNode.disconnect();}l.gain.disconnect();l.pan?.disconnect();}layers.clear();clock=0;lastMix=null;updateBuses();}
+return{init,resetWorld,startRadio,scream,prepareScream,figures,speak,stopSpeech,setMissingNo,preloadTitle,setEnabled,setMode,setHidden,setVolumes,endingAudio,update,spatialMix,step,chirp,gull,getState,birdPresence:()=>lastMix?.birdPresence??1};
 })();
 // This file is the first script in the page, before any world asset requests.
 window.CoastalSound.preloadTitle();

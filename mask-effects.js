@@ -97,7 +97,7 @@ window.NovaMaskEffect=(()=>{
  varying vec2 vUv;
  uniform sampler2D tWorld,tDepth,tOther,tPrev,tMem;
  uniform vec2 pixelSize;uniform mat3 portalH;uniform float portal,droste,hinge,hingePh,dark,memFront,memMix,behindMem;
- uniform float clock,aspect,nearZ,farZ,depthScale,dir,pull,flatAmt,mis,gapB,seam,drum,offset,scatter,otherShare,grain,feedback,fabOff,tanH,fovH,tearVis,wear,seal,tunnel,tunnelBreak,contour;
+ uniform float clock,aspect,nearZ,farZ,depthScale,dir,pull,flatAmt,mis,gapB,seam,drum,offset,scatter,otherShare,grain,feedback,fabOff,tanH,fovH,tearVis,wear,seal,tunnel,tunnelBreak,contour,tunnelAlign;uniform vec2 tunnelAim;
  float h11(float n){return fract(sin(n*127.1+311.7)*43758.5453);}
  float h21(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
  float n11(float x){float i=floor(x),f=fract(x);f=f*f*(3.-2.*f);return mix(h11(i),h11(i+1.),f);}
@@ -218,11 +218,14 @@ window.NovaMaskEffect=(()=>{
    if(w<.001){inner=-1e4;continue;}
    float far=clamp(k/3.,0.,1.),kd=clamp(k/DEEP,0.,1.),front=exp(-.2*max(k-.6,0.)),edgeK=exp(-.085*max(k,0.));
    vec2 cb=mix(vec2(.5),c0,clamp(k/2.,0.,1.))+bend*kd*kd;
+   // Flug: der Tunnel richtet sich auf das Haus aus. Jede Membran ist das Bild, um den Punkt zwischen den Zäunen verkleinert,
+   // ohne Drehung und ohne Versatz; die Zäune laufen so durch alle Membranen in denselben Fluchtpunkt.
+   cb=mix(cb,mix(tunnelAim,vec2(.5),scale),tunnelAlign);
    // Weit außerhalb dieser Membran und ihres Schattens: nichts zu tun.
    if(length((vUv-cb)*vec2(aspect,1.))>.5*scale*length(vec2(aspect,1.))+.035+50.*pixelSize.y){inner=-1e4;continue;}
    vec3 id=vn3(base+float(i));
-   vec2 cc=cb+(id.xy-.5)*vec2(.03,.022)*min(1.,2.*scale)*clamp(k/2.,0.,1.);
-   float a=dir*.045*max(k,0.)*tunnel+(.02*sin(clock*.2+id.x*6.))*far;
+   vec2 cc=cb+(id.xy-.5)*vec2(.03,.022)*min(1.,2.*scale)*clamp(k/2.,0.,1.)*(1.-tunnelAlign);
+   float a=(dir*.045*max(k,0.)*tunnel+(.02*sin(clock*.2+id.x*6.))*far)*(1.-tunnelAlign);
    mat2 rot=mat2(cos(a),sin(a),-sin(a),cos(a));
    vec2 q=rot*((vUv-cc)*vec2(aspect,1.))/scale;
    q+=.006*vec2(sin(q.y*9.+clock*1.3+id.y*6.),cos(q.x*7.-clock*1.1+id.x*6.));
@@ -383,12 +386,12 @@ window.NovaMaskEffect=(()=>{
   let F=new THREE.WebGLRenderTarget(8,8,compositeOpts());
   const fracUniforms={tSrc:{value:null},tWorld:{value:A.texture},pixelSize:{value:new THREE.Vector2()},amount:{value:0},spread:{value:0},aspect:{value:1},clock:{value:0}};
   const fracMaterial=new THREE.ShaderMaterial({vertexShader:VERT,fragmentShader:FRACTAL,uniforms:fracUniforms,depthTest:false,depthWrite:false});fracMaterial.extensions.shaderTextureLOD=true;
-  const names=['clock','aspect','nearZ','farZ','depthScale','dir','pull','flatAmt','mis','gapB','seam','drum','offset','scatter','otherShare','grain','feedback','fabOff','tanH','fovH','tearVis','wear','seal','tunnel','tunnelBreak','contour'];
-  const uniforms={tWorld:{value:A.texture},tDepth:{value:A.depthTexture},tOther:{value:B.texture},tPrev:{value:composites[1].texture},tMem:{value:C.texture},portalH:{value:new THREE.Matrix3()},portal:{value:0},droste:{value:0},hinge:{value:0},hingePh:{value:0},dark:{value:0},memFront:{value:99},memMix:{value:0},behindMem:{value:0},pixelSize:{value:new THREE.Vector2()}};
+  const names=['clock','aspect','nearZ','farZ','depthScale','dir','pull','flatAmt','mis','gapB','seam','drum','offset','scatter','otherShare','grain','feedback','fabOff','tanH','fovH','tearVis','wear','seal','tunnel','tunnelBreak','contour','tunnelAlign'];
+  const uniforms={tWorld:{value:A.texture},tDepth:{value:A.depthTexture},tOther:{value:B.texture},tPrev:{value:composites[1].texture},tMem:{value:C.texture},portalH:{value:new THREE.Matrix3()},portal:{value:0},droste:{value:0},hinge:{value:0},hingePh:{value:0},dark:{value:0},memFront:{value:99},memMix:{value:0},behindMem:{value:0},pixelSize:{value:new THREE.Vector2()},tunnelAim:{value:new THREE.Vector2(.5,.5)}};
   for(const n of names)uniforms[n]={value:0};uniforms.depthScale.value=1;uniforms.dir.value=1;uniforms.aspect.value=1;
   const material=new THREE.ShaderMaterial({vertexShader:VERT,fragmentShader:FRAG,uniforms,depthTest:false,depthWrite:false});material.extensions.shaderTextureLOD=true;
   const quadScene=new THREE.Scene();quadScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2),material));quadScene.children[0].frustumCulled=false;const quadCam=new THREE.OrthographicCamera(-1,1,1,-1,0,1);
-  const eye=new THREE.PerspectiveCamera(),otherEye=new THREE.PerspectiveCamera(),targetEye=new THREE.PerspectiveCamera(),lampEye=new THREE.PerspectiveCamera(),direction=new THREE.Vector3(),right=new THREE.Vector3(),size=new THREE.Vector2(),headQ=new THREE.Quaternion();let w=0,h=0,tick=0,checked=false;
+  const eye=new THREE.PerspectiveCamera(),otherEye=new THREE.PerspectiveCamera(),targetEye=new THREE.PerspectiveCamera(),lampEye=new THREE.PerspectiveCamera(),wallEye=new THREE.Object3D(),aimP=new THREE.Vector3(),direction=new THREE.Vector3(),right=new THREE.Vector3(),size=new THREE.Vector2(),headQ=new THREE.Quaternion();let w=0,h=0,tick=0,checked=false;
   const LAMP=new THREE.Vector3(0,2.6,.2);
   let composing=false,fresh=0;
   // Bild an der Wand: Ecken wie im Vertex-Shader verbogen, damit Bild und Inhalt deckungsgleich bleiben.
@@ -419,7 +422,7 @@ window.NovaMaskEffect=(()=>{
   function render(renderer,world,base,s,spaces,dt=0,o={}){
    if(!checked){checked=true;if(!renderer.capabilities.isWebGL2){depthType=THREE.UnsignedShortType;attachDepth(8,8);floatType=renderer.extensions.has('OES_texture_half_float')?THREE.HalfFloatType:THREE.UnsignedByteType;composites.forEach(c=>c.dispose());composites=[new THREE.WebGLRenderTarget(8,8,compositeOpts()),new THREE.WebGLRenderTarget(8,8,compositeOpts())];F.dispose();F=new THREE.WebGLRenderTarget(8,8,compositeOpts());}}
    if(++tick%40===1){prepare(world);prepare(spaces.replacement);}
-   const calm=s.calm||0,mem=spaces.memory||null,inMem=!!(mem&&s.memWorld),pic=o.indoor?spaces.picture:null;
+   const calm=s.calm||0,mem=spaces.memory||null,inMem=!!(mem&&s.memWorld),bau=spaces.bau||null,inBau=!inMem&&!!(bau&&o.indoor&&s.bauWorld),pic=o.indoor?spaces.picture:null;
    U.uMaskPull.value=s.pull*.55*(1-calm);U.uMaskSplit.value=s.flat*.3;U.uMaskStretch.value=s.stretch||0;U.uMaskCurl.value=o.indoor?0:s.curl||0;U.uMaskFlow.value=s.flow||0;U.uMaskTime.value=s.time;U.uMaskOrigin.value.copy(base.position);
    base.getWorldDirection(direction);direction.y=0;direction.normalize();right.crossVectors(direction,base.up).normalize();U.uMaskRight.value.copy(right);U.uMaskForward.value.copy(direction);
    {const c=Math.cos(s.driftYaw||0),n=Math.sin(s.driftYaw||0),F=U.uMaskFoldF.value,R=U.uMaskFoldR.value;F.set(direction.x*c+direction.z*n,0,direction.z*c-direction.x*n);R.crossVectors(F,base.up).normalize();}
@@ -429,6 +432,8 @@ window.NovaMaskEffect=(()=>{
    // Seitlicher Zug: Gierdrift, Versatz zur Seite und Neigung; die Basiskamera bleibt unberührt.
    let scene=world,depthScale=o.indoor?1:4;
    if(inMem){eye.copy(mem.update(s,base,w/h,false));scene=mem.scene;depthScale=6;}
+   // Wohnblock: eigene Szene mit eigener Kamera; solange die Fenster einzeln sehen, wird in Ausschnitten gerechnet.
+   else if(inBau){eye.copy(bau.update(s,base,w/h));scene=bau.scene;depthScale=6;}
    else{
     eye.copy(base);eye.rotation.set(Math.min(1.45,base.rotation.x+(o.indoor?0:s.tilt||0)),base.rotation.y+s.driftYaw+(s.sweep||0),s.roll,'YXZ');eye.position.addScaledVector(right,s.driftSide);
     if(o.indoor&&s.object>0){
@@ -438,22 +443,27 @@ window.NovaMaskEffect=(()=>{
     }
     // Sog: der Blick fliegt auf das Bild zu, bis es das ganze Bild füllt.
     if(pic&&s.fly>0){const f=s.fly,e=f*f*(3-2*f);pictureTarget(pic,eye,w/h);eye.position.lerp(flyPos,e);eye.quaternion.slerp(flyQ,e);}
+    // Zug in die Wand: der Blick gleitet zur Seite, dreht sich zur Wand und bleibt eine Handbreit davor, bis sie ihn nimmt.
+    if(o.indoor&&(s.bauWall||0)>0){const e=s.bauWall,side=s.dir<0?-1:1;wallEye.position.set(side*3.455,1.56,-.6);wallEye.rotation.set(0,-side*Math.PI/2,0,'YXZ');eye.position.lerp(wallEye.position,e);eye.quaternion.slerp(wallEye.quaternion,e);}
    }
    eye.updateMatrixWorld(true);
+   // Fluchtpunkt des Tunnels beim Flug: die Tür des Hauses, wie sie die Kamera der Wiese gerade sieht.
+   let align=s.tunnelAlign||0;
+   if(align>.001&&mem&&mem.aim){const mc=inMem?eye:mem.update(s,base,w/h,false);aimP.copy(mem.aim).applyMatrix4(mc.matrixWorldInverse);if(aimP.z<-mc.near){aimP.applyMatrix4(mc.projectionMatrix);uniforms.tunnelAim.value.set(Math.max(.15,Math.min(.85,aimP.x*.5+.5)),Math.max(.15,Math.min(.85,aimP.y*.5+.5)));}else align=0;}else align=0;
    const pictureOn=!inMem&&pic&&(s.portal>.001||s.droste>.001)&&pictureQuad(pic,eye);
    otherEye.copy(base);otherEye.aspect=base.aspect;otherEye.near=.04;otherEye.far=140;otherEye.fov=base.fov*(1-.22*s.object+.15*s.wheel);otherEye.position.set(.14*Math.sin(s.time*.21),1.60+.06*Math.sin(s.time*.16),1.7-(s.time%5.4)*.11*s.replace);otherEye.rotation.set(-.055,-.10*Math.sin(s.time*.13),-.05*s.split,'YXZ');
    targetEye.position.set(.70,.86,-.96);targetEye.up.set(0,1,0);targetEye.lookAt(.5*s.wheel,1.55+3.65*s.wheel,1.7+10.3*s.wheel);targetEye.rotateZ(.42-.27*s.wheel);
    otherEye.position.lerp(targetEye.position,s.object);otherEye.quaternion.slerp(targetEye.quaternion,s.object);otherEye.updateProjectionMatrix();otherEye.updateMatrixWorld(true);spaces.updatePresence(otherEye,s);
    const previous=renderer.getRenderTarget(),out=composites[current],prev=composites[1-current];
    try{
-    renderer.setRenderTarget(A);renderer.render(scene,eye);
+    renderer.setRenderTarget(A);if(inBau&&bau.paned)bau.renderPanes(renderer,A,w,h);else renderer.render(scene,eye);
     const memSide=!inMem&&mem&&((s.memMix||0)>.001||(s.memFront??99)<17||(s.behindMem||0)>.001);
     if(pictureOn&&mem&&s.portal>.001){renderer.setRenderTarget(C);renderer.render(mem.scene,mem.update(s,base,w/h,true));}
     else if(memSide){renderer.setRenderTarget(C);renderer.render(mem.scene,mem.update(s,base,w/h,false));}
     if(!composing){composing=true;for(const c of composites){renderer.setRenderTarget(c);renderer.clear();}}
     if(s.gapB>.001||s.seam>0||s.drum>0){U.uMaskPull.value=U.uMaskSplit.value=U.uMaskCurl.value=0;renderer.setRenderTarget(B);renderer.render(spaces.replacement,otherEye);U.uMaskCurl.value=o.indoor?0:s.curl||0;}
     const fovH=2*Math.atan(Math.tan(eye.fov*Math.PI/360)*eye.aspect);
-    const v={clock:s.time,aspect:w/h,nearZ:eye.near,farZ:eye.far,depthScale,dir:s.dir,pull:s.pull,flatAmt:s.flat,mis:s.mis,gapB:s.gapB,seam:s.seam,drum:s.drum,offset:s.drumOff,scatter:s.scatter,otherShare:s.otherShare,grain:s.grain,feedback:s.feedback,fabOff:s.fabOff,tanH:Math.tan(fovH/2),fovH,tearVis:s.tearVis,wear:s.wear*(s.rimFade??1),seal:s.seal,tunnel:s.tunnel,tunnelBreak:s.tunnelBreak,contour:s.contour*(1-calm)};
+    const v={clock:s.time,aspect:w/h,nearZ:eye.near,farZ:eye.far,depthScale,dir:s.dir,pull:s.pull,flatAmt:s.flat,mis:s.mis,gapB:s.gapB,seam:s.seam,drum:s.drum,offset:s.drumOff,scatter:s.scatter,otherShare:s.otherShare,grain:s.grain,feedback:s.feedback,fabOff:s.fabOff,tanH:Math.tan(fovH/2),fovH,tearVis:s.tearVis,wear:s.wear*(s.rimFade??1),seal:s.seal,tunnel:s.tunnel,tunnelBreak:s.tunnelBreak,contour:s.contour*(1-calm),tunnelAlign:align};
     for(const n of names)uniforms[n].value=v[n];if(fresh>0){fresh--;uniforms.feedback.value=0;}
     uniforms.tDepth.value=A.depthTexture;uniforms.tPrev.value=prev.texture;
     uniforms.portal.value=pictureOn?s.portal:0;uniforms.droste.value=pictureOn&&fresh===0?s.droste:0;uniforms.hinge.value=s.hinge||0;uniforms.hingePh.value=s.hingePh||0;uniforms.dark.value=s.dark||0;uniforms.memFront.value=memSide?s.memFront:99;uniforms.memMix.value=memSide?s.memMix:0;uniforms.behindMem.value=memSide?s.behindMem||0:0;

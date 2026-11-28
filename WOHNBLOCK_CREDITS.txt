@@ -1,0 +1,46 @@
+SALVIAMASKE, TESTSTATION · FOTOS DER EPISODE WOHNBLOCK
+
+FASSADE, ZIEGEL, HIMMEL, GRAS, BETONPLATTEN
+Autor: ---=XEON=---
+Titel: Skrunda 1 - House Nr 4 - panoramio.jpg
+Quelle: https://commons.wikimedia.org/wiki/File:Skrunda_1_-_House_Nr_4_-_panoramio.jpg
+Titel: Skrunda 1 - House Nr 9 - panoramio.jpg
+Quelle: https://commons.wikimedia.org/wiki/File:Skrunda_1_-_House_Nr_9_-_panoramio.jpg
+Lizenz: Creative Commons Namensnennung 3.0 Unported (CC BY 3.0)
+https://creativecommons.org/licenses/by/3.0
+Aufgenommen am 20. Juni 2007 in der verlassenen sowjetischen Militärsiedlung Skrunda-1 (Lettland),
+ursprünglich auf Panoramio veröffentlicht. Abgerufen von Wikimedia Commons am 2026-11-28.
+Originale (4320 x 3240): textur/skrunda-house-4.jpg, textur/skrunda-house-9.jpg, unverändert.
+Abgeleitet mit textur/wohnblock_texturen.py:
+  assets/wohnblock/fassade.jpg  Haus 4, die oberen drei Geschosse, perspektivisch entzerrt. Im Modell
+                                gespiegelt fortgesetzt auf 112 m; ein Fenster ist eine echte Öffnung.
+  assets/wohnblock/ziegel.jpg   Haus 4, fensterloses Stück Silikatziegel, entzerrt.
+  assets/wohnblock/himmel.jpg   Haus 4, Himmel über der Dachkante; unten der Waldrand aus dem Turmfoto.
+  assets/wohnblock/gras.jpg     Haus 9, Ausschnitt Gras (derzeit nicht verwendet).
+  assets/wohnblock/platten.jpg  Haus 9, Betonplatten des Hofwegs, entzerrt.
+Im Spiel werden die Bilder nach Tageszeit und Jahr getönt. Keine Billigung durch den Autor.
+
+WALDRAND IM RUNDBILD
+textur/skrunda-turm.jpg: vom Projektautor bereitgestellt (Skrunda_soviet_tower.jpg, im Spiel
+assets/night-house/skrunda-reference.jpg). Verwendet wird nur der Streifen mit dem Waldrand links und
+rechts vom Turm. Herkunft und Rechte vor einer Veröffentlichung prüfen.
+
+WÄNDE DER ZIMMER UND RÜCKSEITEN IM MAUERWERK
+textur/Soviet-Innerness_01, 03, 10, 13, 15, 16, 19.jpg: unverändert aus dem Spiel
+(assets/day-apartment, dort aus Tag_Apartment_Texturtest_v01; Sammlung Soviet Innerness / Bird in Flight).
+Abgeleitet: assets/wohnblock/innen01 bis innen19.jpg, auf 512 x 512 verkleinert.
+Herkunft und Rechte vor einer Veröffentlichung prüfen.
+
+DIE GESTALT MIT DER MASKE
+Dieselbe Figur, die im Abspann des Spiels ins Auto steigt: karin-model-classic.js und karin-body.js mit
+assets/karin-study-atlas-classic.png, alle drei unverändert aus dem Spiel (v105). Gesicht, Haar und Mütze
+sind ausgeblendet, darüber sitzt die GP-5 aus dem Gasmasken Labor. Herkunft der Vorlagen des Atlas:
+KARIN_TEST_CREDITS.md im Spiel.
+
+AUS DEM SPIEL UNVERÄNDERT
+Äste (pine-bough.png, birch-bough.png), Rinden (bark/betula-pendula-r2.jpg, bark/pinus-sylvestris-r2.jpg,
+siehe BARK_CREDITS.txt), Boden (moss.webp), Holz (wood.webp), Rost (rust.webp).
+GP-5 aus dem Gasmasken Labor (MASK_CREDITS.txt). Vermesser: vermesser-skin-v19.png.
+
+Es werden keine KI-erzeugten Texturen für den Block, den Hof oder die Zimmer verwendet. Gezeichnet sind nur
+zwei weiche Lichtflecken (Verlauf) für den Schein der Fenster im Hof.

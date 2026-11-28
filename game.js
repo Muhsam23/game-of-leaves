@@ -130,6 +130,10 @@ textures.barks=window.NovaBark.createMaterials(THREE,manager,Math.min(8,renderer
 const smokingTextures=Object.fromEntries(['pipe_bowl','pipe_shank','pipe_stem','pipe_char','match_paper','match_label','tin_edge','tin_lid'].map(k=>[k,texture('smoking/'+k+'.jpg',true)]));
 
 const biosphere=window.NovaBiosphere.create({THREE,world:scene,texture,terrain:T});
+// v105: the Mundmann, met at most once per game in the biosphere backrooms.
+// v106: rare doors in all three backrooms (backroom-doors.js), true chance.
+const backroomDoors=window.NovaBackroomDoors.create(THREE);let doorBusy=false;
+const biosphereFigure=window.NovaBiosphereFigure.create(THREE,{biosphere,onCatch(){endGame('Der Mundmann hat dich erreicht.');}});
 const outsideWalkHeight=L.walkHeight;L.walkHeight=(x,z)=>biosphere.walkHeight(x,z,outsideWalkHeight(x,z));
 
 const floraModels=F.createModels(THREE,id=>texture('flora/'+id+'.webp',true),textures,windTime),population=F.createPopulation();
@@ -292,7 +296,7 @@ const wildlifeTextures=Object.fromEntries(['deer','bear','fox','hare'].map(kind=
 const wildlife=window.NovaWildlife.create(THREE,scene,wildlifeTextures,{blocked,ground:T.height,habitat:(x,z)=>{const e=T.env(x,z);return e.d>95&&e.wet<.64&&!T.inRuin(x,z,4)&&!C.contains(x,z)&&!N.near(x,z,10);}});
 const animalNames={deer:'Reh',bear:'Braunbär',fox:'Fuchs',hare:'Hase'},animalCounts={};
 $('animalTarget').replaceChildren();for(const [i,a]of wildlife.animals.entries()){const option=document.createElement('option');option.value=String(i);const n=animalCounts[a.kind]=(animalCounts[a.kind]||0)+1;option.textContent=animalNames[a.kind]+(['deer','hare'].includes(a.kind)?' '+n:'');$('animalTarget').appendChild(option);}
-const houseEncounters=window.NovaHouseEncounters.create(THREE,{vermesserSkin:vermesserModel.hips.children[0].material.map,karinTexture:textures.karinAtlas,onScream(level){Sound?.scream?.(level);},onAlert(){Sound?.prepareScream?.();},onCatch(){apartmentEvents.close();endGame('Der Vermesser hat dich erreicht.');},speak:()=>{apartmentEvents.interact({kind:'karin'},showNotice);karinSpeaks(true);},closeSpeech:()=>apartmentEvents.close(),isSpeechOpen:()=>apartmentEvents.dialogue});
+const houseEncounters=window.NovaHouseEncounters.create(THREE,{vermesserSkin:vermesserModel.hips.children[0].material.map,karinTexture:textures.karinAtlas,onScream(level){Sound?.scream?.(level);},onAlert(){Sound?.prepareScream?.();},onCatch(kind){apartmentEvents.close();endGame(kind==='suit'?'Der Anzugmann hat dich erreicht.':kind==='flicker'?'Der Zitterer hat dich erreicht.':'Der Vermesser hat dich erreicht.');},speak:()=>{apartmentEvents.interact({kind:'karin'},showNotice);karinSpeaks(true);},closeSpeech:()=>apartmentEvents.close(),isSpeechOpen:()=>apartmentEvents.dialogue});
 const nightHouse=window.NovaNightHouse.create({THREE,textures,toys:apartmentToys,floraModels:floraModels.models,poolProps:window.NovaPoolProps.create(THREE,path=>texture(path,true)),encounters:houseEncounters,settlements:S,furnitureMaterials:settlementVisuals.materials,outsideView:{scene,beforeRender(){this.ambient=ambient.intensity;this.sun=sun.intensity;this.fog=scene.fog.density;ambient.intensity=.12;sun.intensity=.035;scene.fog.density=.038;},afterRender(){ambient.intensity=this.ambient;sun.intensity=this.sun;scene.fog.density=this.fog;}},onEyeRoom:enterHouseEyeRoom,onExit(){interference.reset();nearest=gatherTarget=null;}});
 
 const maskRoom=window.NovaMaskGame.create({THREE,scene,waterMaterial:water.material,settlements:S,textures,texture,wallpaper:settlementVisuals.dayMaterials.photo15.map,interference,visual:()=>inventory.visual});
@@ -386,6 +390,67 @@ function pickVermesserSpawn(minD=58,maxD=145){
  for(let z=100;z<T.WORLD.zmax-15;z+=15)for(let x=T.WORLD.xmin+15;x<T.WORLD.xmax-15;x+=15)if(Math.hypot(x-player.x,z-player.z)>=exclusion&&!vermesserPointBlocked(x,z)&&T.env(x,z).wet<.72)return{x,z,yaw:0};
  throw new Error('No traversable entity spawn found.');
 }
+// v106: the rare backroom doors. Which room the player is in, how to look for a wall there, and
+// what happens when he steps through. Coordinates: factory rooms are room-local (+ origin),
+// apartment and biosphere rooms use their own scene coordinates.
+function doorContext(){
+ if(factoryTravel.active){const s=factoryTravel.current,O=window.NovaBackrooms.origin,foot=C.floor+(factoryTravel.level?factoryTravel.rise:0);
+  if(!s.depth||s.kind>=9)return{key:'f:'+factoryTravel.level+':'+s.seed,eligible:false};
+  return{key:'f:'+factoryTravel.level+':'+s.seed,context:'factory',scene:factoryVisuals.maze.scene,offset:O,local:{x:player.x-O.x,z:player.z-O.z},
+   place:{center:{x:0,z:0},extent:Math.max(3,Math.min(s.rx,s.rz)),walkable:(x,z)=>!factoryTravel.blocked(O.x+x,O.z+z,.05,foot)&&factoryTravel.walkHeight(O.x+x,O.z+z,foot)!==null,floor:(x,z)=>factoryTravel.heightAt(O.x+x,O.z+z),ceiling:()=>foot+s.height,avoid:spot=>s.windowPort>=0&&spot.nx===-window.NovaBackrooms.dirs[s.windowPort][0]&&spot.nz===-window.NovaBackrooms.dirs[s.windowPort][1]}};}
+ if(nightHouse.active&&nightHouse.mode==='interior'){const s=nightHouse.current,H=window.NovaNightHouse;if(!s||nightHouse.levelLoading)return null;
+  if(s.type!=='apartment'||!s.path.length)return{key:'a:'+s.seed,eligible:false};const q=s.rects[0];
+  return{key:'a:'+s.seed,context:'apartment',scene:nightHouse.scene,offset:{x:0,z:0},local:player,
+   place:{center:{x:(q.x0+q.x1)/2,z:(q.z0+q.z1)/2},extent:Math.max(2,Math.min(q.x1-q.x0,q.z1-q.z0)/2),walkable:(x,z)=>{const y=H.floorAt(s,x,z);return y!==null&&y>-.05&&!H.blocked(s,x,z,.05);},floor:(x,z)=>H.floorAt(s,x,z),ceiling:(x,z)=>H.ceilingAt(s,x,z),
+    avoid:spot=>s.windows.some(w=>Math.hypot(spot.x-w.x,spot.z-w.z)<w.width/2+.8)||(s.paintings||[]).some(p=>Math.hypot(spot.x-p.x,spot.z-p.z)<p.w/2+.8)}};}
+ if(biosphere.active&&biosphere.current){const z=biosphere.current,W=window.BiosWorld,key='b:'+z.cx+','+z.cz;
+  if(W.entranceRoom(z))return{key,eligible:false};
+  // In the big rooms the door stands on the wall the player came in by, near his corridor.
+  const side=Math.abs(player.z)>z.d/2?['z',Math.sign(player.z)]:Math.abs(player.x)>z.w/2?['x',Math.sign(player.x)]:Math.abs(player.z)/z.d>Math.abs(player.x)/z.w?['z',Math.sign(player.z)||1]:['x',Math.sign(player.x)||1];
+  const center=side[0]==='z'?{x:0,z:side[1]*(z.d/2-2.5)}:{x:side[1]*(z.w/2-2.5),z:0},dirs=[side[0]==='z'?[0,side[1]]:[side[1],0]];
+  return{key,context:'biosphere',scene:biosphere.scene,offset:{x:0,z:0},local:player,
+   place:{center,dirs,extent:Math.min(14,Math.min(z.w,z.d)/2-1),walkable:(x,y)=>W.insideRoom(x,y,z,0),floor:(x,y)=>W.height(x,y,z),ceiling:()=>z.height,avoid:spot=>Math.abs(spot.x*spot.tx+spot.z*spot.tz)<3}};}
+ return null;
+}
+function updateBackroomDoors(dt){
+ const c=doorContext();if(!c||c.eligible===false||spectator){backroomDoors.hide();return;}
+ const door=backroomDoors.room(c.key,c.context,c.place);backroomDoors.show(door,c.scene,c.offset);
+ if(backroomDoors.update(door,dt,c.local,playing&&!gameOver&&!doorBusy)==='enter')throughDoor(door.destination);
+}
+// Black for a moment, then the other side of the passage.
+const doorFade=(()=>{const el=document.createElement('div');el.id='doorFade';el.style.cssText='position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;z-index:40;transition:opacity .28s ease-in';document.body.appendChild(el);return el;})();
+function throughDoor(destination){
+ if(doorBusy)return;doorBusy=true;doorFade.style.transition='opacity .28s ease-in';doorFade.style.opacity='1';
+ setTimeout(()=>{try{doorTravel(destination);}finally{doorFade.style.transition='opacity 1.1s ease-out';doorFade.style.opacity='0';setTimeout(()=>{doorBusy=false;},900);}},300);
+}
+function doorTravel(destination){
+ if(gameOver)return;const random=window.NovaBackroomDoors.trueRandom;
+ backroomDoors.hide();apartmentEvents.close();
+ if(factoryTravel.active){factoryTravel.leave(player);mazeEncounter.reset();beginNight();}
+ else if(nightHouse.active)nightHouse.leave(player);
+ else if(biosphere.active)biosphere.reset(player);
+ if(destination==='factory'){
+  const O=window.NovaBackrooms.origin;factoryTravel.restore({active:true,path:[],visits:0,level:0,upperSeed:0,levelRise:0,lowerPath:[]});
+  Object.assign(player,{x:O.x,z:O.z,walkY:C.floor,yaw:-Math.PI/2,pitch:0});mazeEncounter.transition({x:player.x,z:player.z},player,false);
+ }else if(destination==='apartment'){
+  beginNight();const core=S.cores[0],seed=window.NovaNightHouse.hash(core.x,0x504c4154),H=window.NovaNightHouse,path=[];
+  // One to three rooms deep, along real openings.
+  for(let k=0,n=1+Math.floor(random()*3);k<n;k++){const s=H.spec(seed,path,apartmentToys?.seed||0),options=s.ports.filter(q=>!['back','f','d'].includes(q.id)&&!(q.id==='u'&&s.steps>=s.roofAt));if(!options.length)break;path.push(options[Math.floor(random()*options.length)].id);}
+  nightHouse.debugEnter(player,{...player,x:core.x,z:core.z-11.8,walkY:core.base,yaw:0,pitch:0},seed,path);
+ }else if(destination==='biosphere'){
+  // A room one to four rooms away from the entrance, entered from a random side.
+  let cx=0,cz=0;while(!cx&&!cz){const depth=1+Math.floor(random()*4),a=Math.floor(random()*(depth+1));cx=(random()<.5?-1:1)*a;cz=(random()<.5?-1:1)*(depth-a);}
+  biosphere.enterRoom(player,cx,cz,['south','north','west','east'][Math.floor(random()*4)]);
+ }else{
+  // Somewhere in the moss forest, away from houses, water and the factory.
+  let spot=null;for(let i=0;i<600&&!spot;i++){const x=T.WORLD.xmin+20+random()*(T.WORLD.width-40),z=20+random()*(T.WORLD.zmax-40);
+   if(T.area(x,z)==='MOSS FOREST'&&T.env(x,z).wet<.6&&!T.inSettlement(x,z,8)&&!C.contains(x,z)&&!blocked(x,z))spot={x,z};}
+  spot=spot||{x:views.forest.x,z:views.forest.z};
+  Object.assign(player,{x:spot.x,z:spot.z,walkY:L.walkHeight(spot.x,spot.z),yaw:random()*Math.PI*2,pitch:0});
+  flora.refresh(player.x,player.z,0,true);forage.refresh(player.x,player.z,true);relocateVermesser();
+ }
+ walkCameraY=player.walkY+1.68;interference.reset();visions.reset();nearest=gatherTarget=null;updateCamera();
+}
 function relocateVermesser(minD=58,maxD=145){const p=pickVermesserSpawn(minD,maxD);vermesser.x=p.x;vermesser.z=p.z;vermesser.yaw=p.yaw;vermesser.speed=vermesser.angularVelocity=vermesser.walk=vermesser.gaze=0;vermesser.dying=false;vermesser.brainOut=null;vermesser.group.visible=vermesser.visible=true;vermesser.brain.reset(p.yaw);vermesserController.reset();vermesser.encounter={phase:'roam',fx:0};vermesser.group.position.set(p.x,L.walkHeight(p.x,p.z),p.z);vermesser.group.rotation.y=p.yaw;vermesserFx.classList.remove('fatal');vermesserFx.style.opacity=0;}
 function maintainEntityPresence(){
  if(!inventory.psiloActive){psiloNearby=false;return;}
@@ -433,7 +498,7 @@ $('endingAudioRetry').addEventListener('click',()=>{audioStart();Sound?.setMode(
 
 function restartGame(toMenu=false){maskRoom.reset();paeikeselinn.reset();missingno.reset();
  escapeEnding?.reset();document.body.classList.remove('escape-ending');$('endingActions').hidden=true;$('endingAudioRetry').hidden=true;plantReturn=false;closeEyeRoom();
- Object.assign(journey,{night:false,crossing:false,escaped:false});nightEntities.reset();nightHouse.reset();biosphere.reset(player);houseCameraReturn=null;$('debugNight').textContent='AUF NACHT UMSCHALTEN';$('debugNight').disabled=false;
+ Object.assign(journey,{night:false,crossing:false,escaped:false});nightEntities.reset();nightHouse.reset();biosphere.reset(player);biosphereFigure.reset();backroomDoors.reset();houseCameraReturn=null;$('debugNight').textContent='AUF NACHT UMSCHALTEN';$('debugNight').disabled=false;
  inaDialogue.reset();ina.reset();gameOver=false;ending=false;endingTime=0;psiloNearby=false;mazeEncounter.reset();wildlife.reset();visions.reset();interference.reset();$('gameOver').classList.remove('poison-ending');vermesser.dying=false;found.clear();inventory.reset();apartmentPickups.reset();apartmentEvents.reset();flashlight.reset();updateFlashlightUi();kopffuessler.reset();inventorySelection=null;inventoryNearby=null;inventoryOpen=false;forage.refresh(player.x,player.z,true);$('discovered').textContent=`FIELD NOTES   0 / ${taxa.length}`;
  $('gameOver').hidden=true;document.body.classList.remove('game-over');S.resetRadios();apartmentToys.resetDay(S,apartmentPickups.records);Sound?.resetWorld?.();placeView('bridge');if(toMenu===true)pause();else start();
 }
@@ -474,7 +539,7 @@ function moveBiosphere(dt){
  if(!biosphere.active){walkCameraY=player.walkY+1.68;flora.refresh(player.x,player.z,0,true);interference.reset();visions.reset();}return distance;
 }
 function renderBiosphere(dt,distance){
- positionCamera(dt);biosphere.update(dt,player,camera,touch);updateSound(dt,distance);findTarget();vermesserFx.style.opacity=0;hudText('area','');hudText('flightHeight','');
+ positionCamera(dt);biosphere.update(dt,player,camera,touch);biosphereFigure.update(playing?dt:0,player,playing&&!spectator&&!gameOver);Sound?.figures?.({noise:playing&&!spectator&&!gameOver?biosphereFigure.noise():0});updateSound(dt,distance);findTarget();vermesserFx.style.opacity=0;hudText('area','');hudText('flightHeight','');
  const heading=((player.yaw*180/Math.PI)%360+360)%360;hudText('compass',['N','NW','W','SW','S','SE','E','NE'][Math.round(heading/45)%8]);
  flashlight.update(biosphere.scene,camera,playing&&!gameOver);if(flashlight.light.visible)refreshTorchShadow();
  renderer.setRenderTarget(null);if(!maskRoom.render(renderer,biosphere.scene,camera,dt,playing,spectator))interference.render(renderer,biosphere.scene,camera,gameOver?0:inventory.fx,dt,playing&&!gameOver,inventory.visual);fieldKit.afterRender(canvas);
@@ -488,7 +553,9 @@ function moveNightHouse(dt){
  const walked=nightHouse.move(player,limited.x-player.x,limited.z-player.z);player.bob+=walked*2.1;houseStride=walked;return walked;
 }
 function renderNightHouse(dt,distance){
- positionCamera(dt);applyWorldPhase();nightHouse.updateEncounters(dt,player,playing&&!spectator&&!gameOver,flashlight.state);updateSound(dt,distance);findTarget();
+ positionCamera(dt);applyWorldPhase();nightHouse.updateEncounters(dt,player,playing&&!spectator&&!gameOver,flashlight.state);
+ // v105: the Anzugmann's white noise and the Zitterer's crackle (apartment backrooms only).
+ Sound?.figures?.(playing&&!spectator&&!gameOver&&nightHouse.mode==='interior'?houseEncounters.figureSound(nightHouse.current,player):{});updateSound(dt,distance);findTarget();
  // v102: near the Vermesser the picture breaks up as it does in the forest.
  const houseFx=playing&&!spectator&&!gameOver?nightHouse.encounterPresence(player)?.fx||0:0;
  vermesserFx.style.opacity=String(houseFx*.6);vermesserFx.style.setProperty('--vermesser-shift',(Math.sin(elapsed*9)*houseFx*7).toFixed(2)+'px');
@@ -852,7 +919,7 @@ const fieldKit=window.NovaFieldKit.create({
  onClose(){start();}
 });
 const roomLoading=$('roomLoading');
-function animate(){requestAnimationFrame(animate);if(quitScreenShown())return;roomLoading.classList.toggle('on',!!(ready&&nightHouse.active&&nightHouse.loading));document.body.classList.toggle('world-playing',playing&&!gameOver);const rawDt=clock.getDelta(),dt=Math.min(rawDt,.05);if(!ready)return;if(detailedResolution!==(!!escapeEnding?.active||nightHouse.active&&nightHouse.mode==='roof'))resize();if(escapeEnding?.active){escapeEnding.update(document.hidden?0:rawDt);return;}elapsed+=dt;NovaPerformance.sample(rawDt,renderer);maskRoom.tick(dt,{playing:playing&&!gameOver,enabled:soundEnabled,volume:Number($('worldVolume').value)/100,hidden:document.hidden,spectator});lookControls.update(rawDt);if(playing&&!spectator){inventory.tick(dt);if(inventory.state.dead)endGame(inventory.death.reason,true);}if(ending&&!document.hidden)endingTime+=dt;missingno.sync(dt,{travel:factoryTravel,mazeScene:factoryVisuals.maze.scene,house:nightHouse,player,eligible:!maskRoom.inside&&!paeikeselinn.active&&!biosphere.active&&!eyeRooms?.active&&!spectator,enabled:playing&&!gameOver&&!document.hidden&&!spectator});const missingRevision=factoryTravel.revision+':'+nightHouse.revision+':'+paeikeselinn.active;const distance=playing?move(dt):0;if(missingRevision!==factoryTravel.revision+':'+nightHouse.revision+':'+paeikeselinn.active)missingno.sync(0,{travel:factoryTravel,mazeScene:factoryVisuals.maze.scene,house:nightHouse,player,eligible:!maskRoom.inside&&!paeikeselinn.active&&!biosphere.active&&!eyeRooms?.active&&!spectator,enabled:false});updateJump(dt);if(escapeEnding?.active){resize();escapeEnding.update(0);return;}if(maskRoom.inside){renderMaskRoom(dt,distance);return;}if(paeikeselinn.active){renderPaeikeselinn(dt,distance);return;}if(biosphere.active){renderBiosphere(dt,distance);return;}if(nightHouse.active){renderNightHouse(dt,distance);return;}if(eyeRooms?.active){renderEyeRoom(dt,distance);return;}apartmentEvents.update(dt,player,playing&&!factoryTravel.active&&!gameOver,spectator);kopffuessler.update(dt,player,{playing:playing&&!spectator&&!gameOver,mazeActive:factoryTravel.active,travel:factoryTravel,worldBlocked:(x,z)=>blocked(x,z),mazeBlocked:(x,z)=>factoryTravel.entityBlocked(x,z,.48),worldGround:L.walkHeight,mazeGround:()=>C.floor,onCatch:reason=>endGame(reason)});updateVermesser(dt);wildlife.update(dt,player,playing&&!factoryTravel.active&&!gameOver,spectator,[journey.night?nightEntities.headling.state:null,kopffuessler.state.zone==='world'?kopffuessler.state:null]);ina.update(dt,player,playing&&!factoryTravel.active&&!gameOver,inaDialogue.isOpen&&inaDialogue.state.speaker==='ina'&&!document.hidden,camera.position,spectator);updateCamera(dt);nightEntities.update(dt,{night:journey.night,playing:playing&&!gameOver,mazeActive:factoryTravel.active,spectator,player,camera,flashlight:flashlight.state,wildlife,onCatch:reason=>endGame(reason)});if(towerTravel.active)findTarget();updateSound(dt,distance);updatePlantBreathing();
+function animate(){requestAnimationFrame(animate);if(quitScreenShown())return;roomLoading.classList.toggle('on',!!(ready&&nightHouse.active&&nightHouse.loading));document.body.classList.toggle('world-playing',playing&&!gameOver);const rawDt=clock.getDelta(),dt=Math.min(rawDt,.05);if(!ready)return;if(detailedResolution!==(!!escapeEnding?.active||nightHouse.active&&nightHouse.mode==='roof'))resize();if(escapeEnding?.active){escapeEnding.update(document.hidden?0:rawDt);return;}elapsed+=dt;NovaPerformance.sample(rawDt,renderer);maskRoom.tick(dt,{playing:playing&&!gameOver,enabled:soundEnabled,volume:Number($('worldVolume').value)/100,hidden:document.hidden,spectator});lookControls.update(rawDt);if(playing&&!spectator){inventory.tick(dt);if(inventory.state.dead)endGame(inventory.death.reason,true);}if(ending&&!document.hidden)endingTime+=dt;missingno.sync(dt,{travel:factoryTravel,mazeScene:factoryVisuals.maze.scene,house:nightHouse,player,eligible:!maskRoom.inside&&!paeikeselinn.active&&!biosphere.active&&!eyeRooms?.active&&!spectator,enabled:playing&&!gameOver&&!document.hidden&&!spectator});const missingRevision=factoryTravel.revision+':'+nightHouse.revision+':'+paeikeselinn.active;const distance=playing?move(dt):0;if(missingRevision!==factoryTravel.revision+':'+nightHouse.revision+':'+paeikeselinn.active)missingno.sync(0,{travel:factoryTravel,mazeScene:factoryVisuals.maze.scene,house:nightHouse,player,eligible:!maskRoom.inside&&!paeikeselinn.active&&!biosphere.active&&!eyeRooms?.active&&!spectator,enabled:false});updateBackroomDoors(dt);updateJump(dt);if(escapeEnding?.active){resize();escapeEnding.update(0);return;}if(maskRoom.inside){renderMaskRoom(dt,distance);return;}if(paeikeselinn.active){renderPaeikeselinn(dt,distance);return;}if(biosphere.active){renderBiosphere(dt,distance);return;}if(nightHouse.active){renderNightHouse(dt,distance);return;}if(eyeRooms?.active){renderEyeRoom(dt,distance);return;}apartmentEvents.update(dt,player,playing&&!factoryTravel.active&&!gameOver,spectator);kopffuessler.update(dt,player,{playing:playing&&!spectator&&!gameOver,mazeActive:factoryTravel.active,travel:factoryTravel,worldBlocked:(x,z)=>blocked(x,z),mazeBlocked:(x,z)=>factoryTravel.entityBlocked(x,z,.48),worldGround:L.walkHeight,mazeGround:()=>C.floor,onCatch:reason=>endGame(reason)});updateVermesser(dt);wildlife.update(dt,player,playing&&!factoryTravel.active&&!gameOver,spectator,[journey.night?nightEntities.headling.state:null,kopffuessler.state.zone==='world'?kopffuessler.state:null]);ina.update(dt,player,playing&&!factoryTravel.active&&!gameOver,inaDialogue.isOpen&&inaDialogue.state.speaker==='ina'&&!document.hidden,camera.position,spectator);updateCamera(dt);nightEntities.update(dt,{night:journey.night,playing:playing&&!gameOver,mazeActive:factoryTravel.active,spectator,player,camera,flashlight:flashlight.state,wildlife,onCatch:reason=>endGame(reason)});if(towerTravel.active)findTarget();updateSound(dt,distance);updatePlantBreathing();
  const focusAnimal=inaSpectator?npcPose():wildlife.animals[animalSpectator],focusX=focusAnimal?focusAnimal.x:flySpectator||ending?vermesser.x:player.x,focusZ=focusAnimal?focusAnimal.z:flySpectator||ending?vermesser.z:player.z;
  if(frame++%6===0){if(!factoryTravel.active||ending)flora.refresh(focusX,focusZ,spectator||ending||towerTravel.active?camera.position.y:0);if(!factoryTravel.active)forage.refresh(focusX,focusZ);findTarget();hudText('area',factoryTravel.active?(factoryTravel.level<0?'UNTERGESCHOSS':factoryTravel.level>0?'KINDERETAGE':'UNREGISTERED FACTORY WING'):N.near(focusX,focusZ,15)?'OVERGROWN LIGHTHOUSE':C.contains(focusX,focusZ)?'COMPUTER FACTORY':Math.hypot(focusX-L.tower.x,focusZ-L.tower.z)<24?'OLD RADIO TOWER':T.area(focusX,focusZ));const heading=(((flySpectator?vermesser.yaw:player.yaw)*180/Math.PI)%360+360)%360;hudText('compass',['N','NW','W','SW','S','SE','E','NE'][Math.round(heading/45)%8]);hudText('flightHeight',inaSpectator?(npcTargets.get(npcSpectator)?.name||'NPC')+' · KAMERA':flySpectator?'FLY CAM · AUTO FOLLOW':spectator?Math.round(camera.position.y)+' m · FLIGHT':'');}
  biosphere.update(dt,player,camera,touch);coastalVisuals.update(focusX,focusZ);settlementVisuals.update(focusX,focusZ,performanceSettings.distance);apartmentToys.root.visible=settlementVisuals.groups.get('housing').visible&&!journey.night;apartmentPickups.root.visible=settlementVisuals.groups.get('housing').visible&&!journey.night;loreWorld.update();forestMotes.update(dt,camera,renderer,!journey.night&&!factoryTravel.active&&!ending);
@@ -882,6 +949,12 @@ const api={viewIna:(side=-1)=>{if(!ready||gameOver)return null;placeView('forest
  teleport:(x,z,yaw=player.yaw,pitch=0,y=null)=>{if(!ready||gameOver)throw new Error('The world is not ready.');if(![x,z,yaw,pitch].every(Number.isFinite))throw new Error('x, z, yaw and pitch must be numbers');player.x=x;player.z=z;player.yaw=yaw;player.pitch=pitch;player.walkY=Number.isFinite(y)?y:L.walkHeight(x,z);player.flyY=player.walkY+1.68;walkCameraY=player.walkY+1.68;clearMovement();updateCamera();return api.getState();},
  restart:()=>{restartGame();return api.getState();},startAt:name=>{if(!Object.hasOwn(views,name))throw new Error('Choose a starting point from the menu.');if(!ready)throw new Error('The world is still loading.');placeView(name);start(false);return api.getState();},pause:()=>{pause();return api.getState();},setSpectator:on=>{if(typeof on!=='boolean')throw new Error('enabled must be a boolean');setSpectator(on);return api.getState();},setFlySpectator:on=>{if(typeof on!=='boolean')throw new Error('enabled must be a boolean');setFlySpectator(on);return api.getState();},inspect:()=>{findTarget();if(!nearest||!playing||spectator)throw new Error('Look at a nearby plant while walking.');const id=nearest.id;inspect();return{species:id,observed:[...found]};},openInventory:()=>{openInventory();return api.getState();},collect:()=>{findTarget();return collectNearby();},getFlora:()=>({counts:{...population.counts},anchors:{...population.anchors}})};
 window.nova=api;
+// v105: handles for checking the new figures from the console.
+api.figures={house:houseEncounters,biosphere:biosphereFigure,biosphereRooms:biosphere,nightHouse};
+// v106: the salvia mask room (nova.maskRoom.controller.toBau() jumps to the WOHNBLOCK episode).
+api.maskRoom=maskRoom;
+// v106: the rare doors (force one into the current room: nova.doors.force()).
+api.doors={state:()=>backroomDoors.state,context:()=>{const c=doorContext();return c&&{key:c.key,context:c.context,eligible:c.eligible!==false};},force(destination=null){const c=doorContext();if(!c||c.eligible===false)return null;return backroomDoors.force(c.key,c.context,c.place,destination)?.spot||null;},travel:d=>doorTravel(d)};
 function registerTools(){const context=document.modelContext;if(!context?.registerTool)return;const lifecycle=new AbortController();const defs=[
  {name:'get_world_state',description:'Read location, flight mode, world size and observed species.',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true},execute:()=>api.getState()},
  {name:'start_exploration',description:'Start at a viewpoint from the game menu.',inputSchema:{type:'object',properties:{view:{type:'string',enum:Object.keys(views)}},required:['view'],additionalProperties:false},execute:i=>api.startAt(i?.view)},

@@ -391,6 +391,13 @@ function refreshPlants(){let records=[];const backroom=zone.kind==='backroom',li
   yaw=p.yaw-Math.PI/2;pitch=p.pitch;buildRoom(0,0,'stairs');px=q.x-W.stair.exitX;pz=q.z-zone.d/2-W.stair.exitZ;
   active=true;transitionUntil=elapsed+.3;syncPlayer(p);return true;
  }
+ // v106: arrive straight in a backroom room (a rare door elsewhere led here). entry: the side
+ // the player comes from, as when walking over from the neighbouring room.
+ function enterRoom(p,cx,cz,entry='south'){
+  if(!prepared)prepare();if(active)return false;
+  px=0;pz=0;yaw={south:Math.PI,north:0,west:-Math.PI/2,east:Math.PI/2}[entry]??Math.PI;pitch=0;
+  buildRoom(cx,cz,entry);active=true;transitionUntil=elapsed+1;syncPlayer(p);return true;
+ }
  function leaveAtStairs(p){const q=toWorld(px+W.stair.exitX,pz+zone.d/2+W.stair.exitZ);p.x=q.x;p.z=q.z;p.walkY=worldHeight(q.x,q.z,terrain.height(q.x,q.z));p.yaw=yaw+Math.PI/2;p.pitch=pitch;active=false;clearRoom();}
  function clearRoom(){if(zoneGroup){zoneGroup.parent?.remove(zoneGroup);zoneGroup.traverse(o=>{if(o.userData.disposeMaterial)o.material.dispose();});}zoneGroup=null;tempGeometry.splice(0).forEach(g=>g.dispose());temporaryTextures.splice(0).forEach(t=>t.dispose());zone=null;collision=[];clouds=[];tiles.clear();pending.clear();fallback=[];roomVersion++;for(const p of pools)for(const m of [...p.near,...p.far])m.count=0;}
  function canWalk(x,z){return !!zone&&W.insideRoom(x,z,zone,.29)&&!W.blocked(x,z,collision,.26);}
@@ -414,7 +421,7 @@ function refreshPlants(){let records=[];const backroom=zone.kind==='backroom',li
  function suspend(p){if(!active)return;suspended={...p};active=false;Object.assign(p,toWorld(0,-24),{walkY:exterior.position.y});}
  function resume(p){if(!suspended)return;Object.assign(p,suspended);suspended=null;active=true;}
  function reset(p){suspended=null;if(active&&p){const q=toWorld(0,-24);Object.assign(p,q,{walkY:exterior.position.y,yaw:Math.PI*1.5,pitch:0});}active=false;clearRoom();transitionUntil=0;}
- return{prepare,enterFromWorld,move,update,reset,suspend,resume,blocked:worldBlocked,walkHeight:worldHeight,local,toWorld,canWalk,scene,exterior,
+ return{prepare,enterFromWorld,enterRoom,move,update,reset,suspend,resume,blocked:worldBlocked,walkHeight:worldHeight,local,toWorld,canWalk,scene,exterior,
   near:(x,z)=>terrain.biosphereReserved(x,z,5),get active(){return active;},get current(){return zone;},get state(){return{active,version:'0.5',x:site.x,z:site.z,room:zone?{cx:zone.cx,cz:zone.cz,w:zone.w,d:zone.d}:null,plants:active?activePlants:exteriorPlantCount,tiles:tiles.size,worker:!!worker,prepared};}};
 }};
 })();

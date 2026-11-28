@@ -5,12 +5,13 @@ window.NovaMaskAudio=(()=>{
  'use strict';
  const clamp=x=>Math.max(0,Math.min(1,x)),smooth=(a,b,x)=>{const v=clamp((x-a)/(b-a));return v*v*(3-2*v);};
  function profile(s,paused=false,enabled=true){
+  const inBau=!!s.bauWorld,cav=inBau&&(s.bauT||0)<17;
   const worn=clamp(s.wear||0),L=clamp(s.amount||0),D=clamp(s.depth||0),t=s.time||0,curl=clamp(s.curl||0),motion=.88+.09*Math.sin(t*.67)+.03*Math.sin(t*7.2);
   const swell=Math.pow(.5+.5*Math.sin(t*.571-1.3),2.2),slow=Math.pow(.5+.5*Math.sin(t*.137+.4),3),grow=smooth(0,.45,L)*(.55+.45*D);
   const threat=grow*(.55+.45*swell)*(.8+.35*slow)+.25*clamp(s.entity||0)+.2*clamp(s.presence||0);
   return{master:enabled&&s.active&&!paused?.4:0,noise:.3*motion*(.25*worn+.75*grow)*(.7+.5*swell),
-   noiseCutoff:340+760*L*(.45+.55*swell)+260*D-220*(s.replace||0)+50*Math.sin(t*.17),
-   rumble:.2*Math.min(1.2,threat)*(s.memWorld?.35:1)*(1+.7*curl),wind:(s.memWorld||curl>.02)&&enabled?.2*(.55+.45*Math.pow(.5+.5*Math.sin(t*.37)*Math.sin(t*.11+1),2))*(s.memWorld?1:.75*curl):0,windCutoff:420+380*(.5+.5*Math.sin(t*.29))-140*curl,rumbleCutoff:70+55*swell+40*D-25*curl,drive:1.5+3*D,
+   noiseCutoff:(340+760*L*(.45+.55*swell)+260*D-220*(s.replace||0)+50*Math.sin(t*.17))*(cav?.42:inBau?.62:1),
+   rumble:.2*Math.min(1.2,threat)*(s.memWorld?.35:inBau?1.3:1)*(1+.7*curl),wind:(s.memWorld||inBau||curl>.02)&&enabled?.2*(.55+.45*Math.pow(.5+.5*Math.sin(t*.37)*Math.sin(t*.11+1),2))*(s.memWorld?1:inBau?(cav?.95:.4):.75*curl):0,windCutoff:cav?200+50*Math.sin(t*.9):420+380*(.5+.5*Math.sin(t*.29))-140*curl,rumbleCutoff:70+55*swell+40*D-25*curl,drive:1.5+3*D,
    pan:(s.dir||1)*.4*(s.pull||0)*(1-.5*(s.drum||0))+.22*Math.sin(t*.13)*L};
  }
  function noiseData(sampleRate,seconds=8){
@@ -50,6 +51,15 @@ window.NovaMaskAudio=(()=>{
    else if(name==='cog'){const m=s.machine||0;burst(190,.22*m,.09,-.35,3,.31);burst(1350,.07*m,.03,-.35,7,.52);}
    else if(name==='enter'){burst(300,.32,.7,0,.8,.2);burst(1700,.07,.35,0,2,.5);}
    else if(name==='exit'){burst(170,.4,.55,0,.9,.6);burst(900,.1,.3,0,2,.3);}
+   // Wohnblock: Schlag der Wand, Lider der Fenster, Haustür, Stufen, Lampe, Rückkehr in den Kopf
+   else if(name==='bauWall'){burst(70,.5,.6,(s.dir||1)*.5,.8,.3);burst(240,.2,.3,(s.dir||1)*.5,1.5,.9);}
+   else if(name==='bauEye'){burst(430+260*Math.random(),.12,.13,Math.random()*1.4-.7,2.5,Math.random());}
+   else if(name==='bauOne'){burst(170,.32,.9,0,.7,.4);}
+   else if(name==='bauDoor'){burst(110,.5,.3,-.3,1.2,.5);burst(900,.12,.05,-.3,4,.2);}
+   else if(name==='bauStep'){burst(140+30*Math.random(),.3,.12,-.25+.2*Math.random(),1.6,Math.random());}
+   else if(name==='bauLight'){burst(2300,.16,.03,-.3,7,.7);}
+   else if(name==='bauLamp'){burst(3000,.12,.025,-.2,8,.3);burst(400,.1,.2,-.2,2,.6);}
+   else if(name==='bauHead'){burst(200,.4,.5,0,.9,.2);}
    else if(name==='pass'){const m=s.machine||0;burst(85,.4*m,.45,0,1.4,1.1);burst(420,.12*m,.25,(s.dir||1)*.4,2,1.3);}
   }
   function update(s,paused=false,dt=0){if(!ctx)return;const t=ctx.currentTime,p=profile(s,paused,enabled);master.gain.setTargetAtTime(p.master*volume,t,.09);noiseGain.gain.setTargetAtTime(p.noise,t,.35);noiseFilter.frequency.setTargetAtTime(p.noiseCutoff,t,.4);if(pan.pan)pan.pan.setTargetAtTime(p.pan,t,.25);
